@@ -40,6 +40,11 @@ public class BulletController : MonoBehaviour
         {
             transform.position = hit.point;
 
+            if (hit.collider.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(currentPower);
+            }
+
             if (IsPenetrable(hit.collider.gameObject))
             {
                 transform.position += direction * 0.1f;

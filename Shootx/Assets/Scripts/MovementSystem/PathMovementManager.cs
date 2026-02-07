@@ -14,6 +14,8 @@ public class PathMovementManager : MonoBehaviour
     private Queue<int> movementQueue = new Queue<int>();
     private bool isProcessingQueue = false;
 
+    [HideInInspector] public MovementPoint CurrentPoint;
+
     void Start()
     {
         if (autoSetupPoints)
@@ -47,6 +49,7 @@ public class PathMovementManager : MonoBehaviour
                 Debug.LogError("PlayerMovement was not found!");
                 return;
             }
+            CurrentPoint = pathPoints[player.CurrentPointIndex];
         }
 
         if (pathPoints.Count == 0)
@@ -73,6 +76,7 @@ public class PathMovementManager : MonoBehaviour
         }
 
         int currentIndex = player.CurrentPointIndex;
+        CurrentPoint = pathPoints[currentIndex];
 
         if (currentIndex == targetIndex)
         {
@@ -149,6 +153,7 @@ public class PathMovementManager : MonoBehaviour
     void UpdatePointsLockState()
     {
         int currentIndex = player.CurrentPointIndex;
+        CurrentPoint = pathPoints[currentIndex];
 
         for (int i = 0; i < pathPoints.Count; i++)
         {
