@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] private Transform[] movementPoints;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float waitTimeAtPoint = 1f;
-    [SerializeField] private float rotationSpeed = 5f;
+    //[SerializeField] private float rotationSpeed = 5f;
 
     [Header("Health Settings")]
     [SerializeField] private float maxHealth = 100f;
