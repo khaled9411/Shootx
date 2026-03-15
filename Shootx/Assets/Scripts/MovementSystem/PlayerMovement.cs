@@ -63,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         StartMovement(duration);
+
+        CameraManager.Instance.OnPlayerStartMoving();
     }
 
     void StartMovement(float duration)

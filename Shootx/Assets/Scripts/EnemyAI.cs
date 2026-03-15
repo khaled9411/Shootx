@@ -228,6 +228,16 @@ public class EnemyAI : MonoBehaviour, IDamageable
         return isDead;
     }
 
+    public bool IsAlerted()
+    {
+        return isAlerted;
+    }
+
+    public bool IsWaiting()
+    {
+        return isWaiting;
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (isDead) return;

@@ -6,7 +6,7 @@ public class BulletController : MonoBehaviour
     private Vector3 direction;
     private float speed;
     private int bouncesLeft;
-    private float currentPower = 1f;
+    private float currentPower = 120f;
     private float bounceDecay;
     private float maxBounceAngle;
     private LayerMask shootableLayers;

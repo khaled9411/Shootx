@@ -104,6 +104,7 @@ public class MovementPoint : MonoBehaviour
     public void OnPlayerReached()
     {
         transform.DOPunchScale(Vector3.one * 0.5f, 0.4f, 8, 0.3f);
+        CameraManager.Instance.OnPlayerReachedPoint(this);
     }
 
     void OnDestroy()

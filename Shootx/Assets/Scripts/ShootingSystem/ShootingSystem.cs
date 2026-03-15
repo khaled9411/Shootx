@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine.EventSystems;
 
 public class ShootingSystem : MonoBehaviour
 {
@@ -10,14 +10,17 @@ public class ShootingSystem : MonoBehaviour
     [SerializeField] private Transform weaponFirePoint;
     [SerializeField] private Transform weaponPivot;
 
-    [Header("Rotation Settings")]
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float maxRotationAngle = 60f;
+    [Header("Aim Sensitivity")]
+    [SerializeField] private float aimSensitivity = 200f;
 
-    [Header("Weapon Angle Settings")]
-    [SerializeField] private float weaponAngleSpeed = 0.3f;
-    [SerializeField] private Ease weaponAngleEase = Ease.OutQuad;
-    [SerializeField] private LayerMask zoneLayers;
+    [Header("Horizontal Rotation Settings (Left/Right)")]
+    [SerializeField] private float horizontalRotationSpeed = 10f;
+    [SerializeField] private float maxHorizontalAngle = 60f;
+
+    [Header("Vertical Rotation Settings (Up/Down)")]
+    [SerializeField] private float verticalRotationSpeed = 10f;
+    [SerializeField] private float maxVerticalAngleUp = 45f;
+    [SerializeField] private float maxVerticalAngleDown = 30f;
 
     [Header("Ray Settings")]
     [SerializeField] private LineRenderer aimRay;
@@ -40,9 +43,6 @@ public class ShootingSystem : MonoBehaviour
     [SerializeField] private LayerMask shootableLayers;
     [SerializeField] private LayerMask penetrableLayers;
 
-    [Header("Cancel Settings")]
-    [SerializeField] private float cancelSwipeDistance = 100f;
-
     [Header("Conflict Prevention")]
     [SerializeField] private LayerMask movementPointLayer;
     private Camera mainCamera;
@@ -52,15 +52,14 @@ public class ShootingSystem : MonoBehaviour
     private bool canShoot = true;
     private Vector2 touchStartPos;
     private Vector2 currentTouchPos;
-    private float initialYRotation;
-    private float targetRotation = 0f;
-    private GameObject lastFiredBullet;
 
-    // Weapon angle variables
-    private float currentWeaponAngle = 90f;
-    private float targetWeaponAngle = 0f;
-    private Tween weaponAngleTween;
-    private WeaponAngleZone currentZone;
+    private float initialYRotation;
+    private float initialXRotation;
+
+    private float currentYRotation;
+    private float currentXRotation;
+
+    private GameObject lastFiredBullet;
 
     void Start()
     {
@@ -77,7 +76,11 @@ public class ShootingSystem : MonoBehaviour
     void InitializeSystem()
     {
         currentAmmo = maxAmmo;
-        initialYRotation = playerBody.eulerAngles.y;
+
+        initialYRotation = NormalizeAngle(playerBody.eulerAngles.y);
+
+        if (weaponPivot != null)
+            initialXRotation = NormalizeAngle(weaponPivot.localEulerAngles.x);
 
         if (aimRay == null)
         {
@@ -101,15 +104,21 @@ public class ShootingSystem : MonoBehaviour
 
         if (isAiming)
         {
-            DetectAndApplyWeaponAngle();
+            UpdateAimRotation();
             UpdateAimRay();
-            UpdatePlayerRotation();
         }
     }
 
     void HandleInput()
     {
-        // PC Input
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                return;
+            else if (Input.GetMouseButtonDown(0))
+                return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (IsClickingIgnoredObject(Input.mousePosition)) return;
@@ -121,14 +130,13 @@ public class ShootingSystem : MonoBehaviour
         }
         else if (Input.GetMouseButton(0) && isAiming)
         {
-            UpdateAiming(Input.mousePosition);
+            currentTouchPos = Input.mousePosition;
         }
         else if (Input.GetMouseButtonUp(0) && isAiming)
         {
             EndAiming();
         }
 
-        // Mobile Input
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -144,7 +152,7 @@ public class ShootingSystem : MonoBehaviour
             }
             else if (touch.phase == TouchPhase.Moved && isAiming)
             {
-                UpdateAiming(touch.position);
+                currentTouchPos = touch.position;
             }
             else if (touch.phase == TouchPhase.Ended && isAiming)
             {
@@ -162,7 +170,6 @@ public class ShootingSystem : MonoBehaviour
         {
             return true;
         }
-
         return false;
     }
 
@@ -172,18 +179,11 @@ public class ShootingSystem : MonoBehaviour
         touchStartPos = screenPos;
         currentTouchPos = screenPos;
         aimRay.enabled = true;
-    }
 
-    void UpdateAiming(Vector2 screenPos)
-    {
-        currentTouchPos = screenPos;
+        currentYRotation = initialYRotation;
+        currentXRotation = initialXRotation;
 
-        Vector2 swipeDelta = currentTouchPos - touchStartPos;
-
-        if (swipeDelta.y < -cancelSwipeDistance)
-        {
-            CancelShot();
-        }
+        CameraManager.Instance.OnPlayerStartAiming();
     }
 
     void EndAiming()
@@ -195,112 +195,67 @@ public class ShootingSystem : MonoBehaviour
             isAiming = false;
             aimRay.enabled = false;
 
-            ResetWeaponAngle();
+            ResetRotations();
+
+            CameraManager.Instance.OnPlayerStopAiming();
         }
     }
 
-    void CancelShot()
+    public void CancelShot()
     {
+        if (!isAiming) return;
+
         isAiming = false;
         aimRay.enabled = false;
 
-        playerBody.DORotate(new Vector3(0, initialYRotation, 0), 0.3f);
+        ResetRotations();
+        Debug.Log("Shot Cancelled via Button");
 
-        ResetWeaponAngle();
+        CameraManager.Instance.OnPlayerStopAiming();
     }
 
-    void UpdatePlayerRotation()
+    void UpdateAimRotation()
     {
-        float horizontalDelta = (currentTouchPos.x - touchStartPos.x) / Screen.width;
-        targetRotation = Mathf.Clamp(horizontalDelta * maxRotationAngle * 2f, -maxRotationAngle, maxRotationAngle);
+        Vector2 swipeDelta = currentTouchPos - touchStartPos;
 
-        float newRotation = Mathf.LerpAngle(
-            playerBody.eulerAngles.y,
-            initialYRotation + targetRotation,
-            rotationSpeed * Time.deltaTime
-        );
+        float horizontalDelta = swipeDelta.x / Screen.width;
+        float targetYOffset = Mathf.Clamp(horizontalDelta * aimSensitivity, -maxHorizontalAngle, maxHorizontalAngle);
+        float targetY = initialYRotation + targetYOffset;
 
-        playerBody.rotation = Quaternion.Euler(0, newRotation, 0);
-    }
+        currentYRotation = Mathf.Lerp(currentYRotation, targetY, horizontalRotationSpeed * Time.deltaTime);
+        playerBody.rotation = Quaternion.Euler(0, currentYRotation, 0);
 
-
-    void DetectAndApplyWeaponAngle()
-    {
-        List<WeaponAngleZone> detectedZones = new List<WeaponAngleZone>();
-
-        Vector3 rayOrigin = weaponFirePoint.position;
-        Vector3 rayDirection = playerBody.forward;
-
-        // Vector3 rayOrigin = new Vector3(weaponFirePoint.position.x, playerBody.position.y + 1.5f, weaponFirePoint.position.z);
-
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, maxRayDistance, zoneLayers);
-        foreach (RaycastHit hit in hits)
-        {
-            WeaponAngleZone zone = hit.collider.GetComponent<WeaponAngleZone>();
-            if (zone != null)
-            {
-                detectedZones.Add(zone);
-            }
-        }
-
-        if (detectedZones.Count == 0)
-        {
-            if (currentZone != null)
-            {
-                currentZone = null;
-                SetWeaponAngle(90f);
-            }
-            return;
-        }
-
-        WeaponAngleZone bestZone = detectedZones
-            .OrderByDescending(z => z.Priority)
-            .ThenByDescending(z => z.GetVisibilityScore(mainCamera))
-            .FirstOrDefault();
-
-        if (bestZone != currentZone)
-        {
-            currentZone = bestZone;
-            SetWeaponAngle(bestZone.TargetAngle);
-        }
-    }
-
-
-    void SetWeaponAngle(float angle)
-    {
-        targetWeaponAngle = angle;
-
-        weaponAngleTween?.Kill();
-
-        weaponAngleTween = DOTween.To(
-            () => currentWeaponAngle,
-            x => {
-                currentWeaponAngle = x;
-                ApplyWeaponRotation();
-            },
-            targetWeaponAngle,
-            weaponAngleSpeed
-        ).SetEase(weaponAngleEase);
-    }
-
-    void ApplyWeaponRotation()
-    {
         if (weaponPivot != null)
         {
-            weaponPivot.localRotation = Quaternion.Euler(currentWeaponAngle, 0, 0);
+            float verticalDelta = swipeDelta.y / Screen.height;
+            float targetXOffset = Mathf.Clamp(-verticalDelta * aimSensitivity, -maxVerticalAngleUp, maxVerticalAngleDown);
+            float targetX = initialXRotation + targetXOffset;
+
+            currentXRotation = Mathf.Lerp(currentXRotation, targetX, verticalRotationSpeed * Time.deltaTime);
+            weaponPivot.localRotation = Quaternion.Euler(currentXRotation, 0, 0);
         }
     }
 
-    void ResetWeaponAngle()
+    private float NormalizeAngle(float angle)
     {
-        currentZone = null;
-        SetWeaponAngle(90f);
+        angle %= 360f;
+        if (angle > 180f) angle -= 360f;
+        if (angle < -180f) angle += 360f;
+        return angle;
+    }
+
+    void ResetRotations()
+    {
+        playerBody.DORotate(new Vector3(0, initialYRotation, 0), 0.3f);
+        if (weaponPivot != null)
+        {
+            weaponPivot.DOLocalRotate(new Vector3(initialXRotation, 0, 0), 0.3f);
+        }
     }
 
     void UpdateAimRay()
     {
         Vector3[] rayPath = CalculateRayPath(weaponFirePoint.position, weaponFirePoint.forward);
-
         aimRay.positionCount = rayPath.Length;
         aimRay.SetPositions(rayPath);
     }
@@ -308,7 +263,6 @@ public class ShootingSystem : MonoBehaviour
     Vector3[] CalculateRayPath(Vector3 origin, Vector3 direction)
     {
         List<Vector3> points = new List<Vector3>();
-
         points.Add(origin);
 
         Vector3 currentPos = origin + (direction.normalized * 0.1f);
@@ -329,13 +283,9 @@ public class ShootingSystem : MonoBehaviour
                 }
 
                 points.Add(hit.point);
-
                 float angle = Vector3.Angle(-currentDir, hit.normal);
 
-                if (angle > maxBounceAngle || bouncesLeft <= 0)
-                {
-                    break;
-                }
+                if (angle > maxBounceAngle || bouncesLeft <= 0) break;
 
                 currentDir = Vector3.Reflect(currentDir, hit.normal);
                 currentPos = hit.point + currentDir * 0.01f;
@@ -366,19 +316,21 @@ public class ShootingSystem : MonoBehaviour
         lastFiredBullet = bullet;
 
         BulletController bulletCtrl = bullet.GetComponent<BulletController>();
-        bulletCtrl.Initialize(
-            weaponFirePoint.forward,
-            bulletSpeed,
-            maxBounces,
-            bounceDecay,
-            maxBounceAngle,
-            shootableLayers,
-            penetrableLayers,
-            maxRayDistance
-        );
+        if (bulletCtrl != null)
+        {
+            bulletCtrl.Initialize(
+                weaponFirePoint.forward,
+                bulletSpeed,
+                maxBounces,
+                bounceDecay,
+                maxBounceAngle,
+                shootableLayers,
+                penetrableLayers,
+                maxRayDistance
+            );
+        }
 
         weaponFirePoint.DOPunchPosition(-weaponFirePoint.forward * 0.2f, 0.2f, 5);
-
         Debug.Log($"A shot has been fired! Remaining: {currentAmmo}");
     }
 
@@ -387,13 +339,11 @@ public class ShootingSystem : MonoBehaviour
         if (currentAmmo < maxAmmo)
         {
             currentAmmo++;
-
             if (lastFiredBullet != null)
             {
                 Destroy(lastFiredBullet);
                 lastFiredBullet = null;
             }
-
             Debug.Log($"The shot has been retrieved! Remaining: {currentAmmo}");
         }
     }
@@ -404,18 +354,6 @@ public class ShootingSystem : MonoBehaviour
         Debug.Log("It has been refilled!");
     }
 
-    public int GetCurrentAmmo()
-    {
-        return currentAmmo;
-    }
-
-    public int GetMaxAmmo()
-    {
-        return maxAmmo;
-    }
-
-    void OnDestroy()
-    {
-        weaponAngleTween?.Kill();
-    }
+    public int GetCurrentAmmo() => currentAmmo;
+    public int GetMaxAmmo() => maxAmmo;
 }
