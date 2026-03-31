@@ -852,6 +852,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 2.307928
       objectReference: {fileID: 0}
+    - target: {fileID: 4113911870844476002, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: detectionRange
+      value: 3.88
+      objectReference: {fileID: 0}
     - target: {fileID: 4696185717984190516, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_Name
       value: level prefaps
@@ -886,15 +890,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6276690810347990509, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.07
+      value: 4.8811474
       objectReference: {fileID: 0}
     - target: {fileID: 6276690810347990509, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.53
+      value: -2.2305608
+      objectReference: {fileID: 0}
+    - target: {fileID: 6276690810347990509, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 6276690810347990509, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 6276690810347990509, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: maxAmmo
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924966201192918938, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.1019961
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924966201192918938, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.5399995
       objectReference: {fileID: 0}
     - target: {fileID: 8224170578432451860, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
