@@ -196,7 +196,7 @@ public class UIManager : MonoBehaviour
     #region Game Result Screens
     // =================================================================
 
-    public void ShowWinScreen(int earnedMoney = 0)
+    public void ShowWinScreen(int earnedMoney = 50)
     {
         if (WinLosePauseUI.Instance != null)
             WinLosePauseUI.Instance.ShowWin(earnedMoney);

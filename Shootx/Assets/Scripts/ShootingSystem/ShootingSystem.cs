@@ -9,6 +9,8 @@ public class ShootingSystem : MonoBehaviour
     [Header("Player & Weapon Setup")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform weaponFirePoint;
+    [SerializeField] private AudioClip shootSound;
+    [SerializeField] private GameObject shootEfect;
 
     [Header("Aim Sensitivity")]
     [SerializeField] private float aimSensitivity = 200f;
@@ -344,6 +346,8 @@ public class ShootingSystem : MonoBehaviour
         currentAmmo--;
         if (animator != null) animator.CrossFade(shootHash, 0.02f);
 
+        AudioManager.Instance.PlaySFX(shootSound);
+        Instantiate(shootEfect, weaponFirePoint.position, Quaternion.LookRotation(weaponFirePoint.forward));
         GameObject bullet = Instantiate(bulletPrefab, weaponFirePoint.position, Quaternion.identity);
         lastFiredBullet = bullet;
 
@@ -402,4 +406,6 @@ public class ShootingSystem : MonoBehaviour
 
     public int GetCurrentAmmo() => currentAmmo;
     public int GetMaxAmmo() => maxAmmo;
+
+    public bool IsAiming() => isAiming;
 }

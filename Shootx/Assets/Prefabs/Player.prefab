@@ -23934,6 +23934,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootingSystem
   playerBody: {fileID: 8536855269959207963}
   weaponFirePoint: {fileID: 4462080450898408062}
+  shootSound: {fileID: 8300000, guid: e8121310a002ab2459bff04a97d90313, type: 3}
+  shootEfect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
   aimSensitivity: 200
   animator: {fileID: 4195028831988132913}
   horizontalRotationSpeed: 10
@@ -23952,7 +23954,7 @@ MonoBehaviour:
   maxBounces: 3
   bounceDecay: 1
   maxBounceAngle: 80
-  maxAmmo: 100
+  maxAmmo: 3
   shootableLayers:
     serializedVersion: 2
     m_Bits: 2880

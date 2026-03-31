@@ -12,6 +12,7 @@ public class WinLossManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float loseCheckDelay = 2.5f;
+    [SerializeField] private float winCheckDelay = 2.0f;
 
     #endregion
 
@@ -21,6 +22,7 @@ public class WinLossManager : MonoBehaviour
     private int _totalEnemies;
     private bool _isGameEnded = false;
     private bool _isCheckingLoss = false;
+    private bool _isCheckingWin = false;
 
     #endregion
 
@@ -75,7 +77,19 @@ public class WinLossManager : MonoBehaviour
         _totalEnemies--;
         Debug.Log($"[WinLossManager] Enemy killed. Remaining: {_totalEnemies}");
 
-        if (_totalEnemies <= 0)
+        if (_totalEnemies <= 0 && !_isCheckingWin)
+        {
+            StartCoroutine(CheckWinRoutine());
+        }
+    }
+
+    private IEnumerator CheckWinRoutine()
+    {
+        _isCheckingWin = true;
+
+        yield return new WaitForSeconds(winCheckDelay);
+
+        if (!_isGameEnded)
         {
             TriggerWin();
         }
@@ -113,6 +127,7 @@ public class WinLossManager : MonoBehaviour
     private void TriggerLose()
     {
         _isGameEnded = true;
+        StopAllCoroutines();
 
         if (levelLoader != null)
         {

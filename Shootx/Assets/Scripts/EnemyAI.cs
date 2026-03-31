@@ -74,6 +74,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
         {
             Debug.LogWarning("No movement points assigned to " + gameObject.name);
         }
+
+        OnPlayerDetected.AddListener(FindFirstObjectByType<LevelLoader>().OnLose);
     }
 
     private void Update()

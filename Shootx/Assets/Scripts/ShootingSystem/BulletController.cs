@@ -1,8 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
+using Ricimi;
 
 public class BulletController : MonoBehaviour
 {
+
+    [SerializeField] private AudioClip bulletHit;
+    [SerializeField] private GameObject hitEffect;
+
     private Vector3 direction;
     private float speed;
     private int bouncesLeft;
@@ -39,6 +44,9 @@ public class BulletController : MonoBehaviour
         if (Physics.Raycast(transform.position, direction, out hit, distance, shootableLayers))
         {
             transform.position = hit.point;
+
+            Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            AudioManager.Instance.PlaySFX(bulletHit);
 
             if (hit.collider.TryGetComponent(out IDamageable damageable))
             {
