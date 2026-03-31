@@ -2,16 +2,19 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEngine.Animations.Rigging;
 
 public class ShootingSystem : MonoBehaviour
 {
     [Header("Player & Weapon Setup")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform weaponFirePoint;
-    [SerializeField] private Transform weaponPivot;
 
     [Header("Aim Sensitivity")]
     [SerializeField] private float aimSensitivity = 200f;
+
+    [Header("Animation Settings")]
+    [SerializeField] private Animator animator;
 
     [Header("Horizontal Rotation Settings (Left/Right)")]
     [SerializeField] private float horizontalRotationSpeed = 10f;
@@ -22,11 +25,13 @@ public class ShootingSystem : MonoBehaviour
     [SerializeField] private float maxVerticalAngleUp = 45f;
     [SerializeField] private float maxVerticalAngleDown = 30f;
 
-    [Header("Ray Settings")]
+    [Header("Aim Settings")]
     [SerializeField] private LineRenderer aimRay;
     [SerializeField] private Color rayColor = Color.red;
     [SerializeField] private float rayWidth = 0.05f;
     [SerializeField] private float maxRayDistance = 100f;
+    [SerializeField] private Transform aimTarget;
+    [SerializeField] private Rig aimRig;
 
     [Header("Bullet Settings")]
     [SerializeField] private GameObject bulletPrefab;
@@ -61,15 +66,19 @@ public class ShootingSystem : MonoBehaviour
 
     private GameObject lastFiredBullet;
 
+    private readonly int idleHash = Animator.StringToHash("Idle");
+    private readonly int aimingHash = Animator.StringToHash("Aiming");
+    private readonly int shootHash = Animator.StringToHash("Shoot");
+    private readonly int reloadHash = Animator.StringToHash("Reload");
+
     void Start()
     {
         InitializeSystem();
         mainCamera = Camera.main;
 
-        if (weaponPivot == null)
+        if (weaponFirePoint == null)
         {
-            Debug.LogWarning("Weapon Pivot is not specified! WeaponFirePoint will be used.");
-            weaponPivot = weaponFirePoint;
+            Debug.LogWarning("weapon Fire Point Pivot is not specified! WeaponFirePoint will be used.");
         }
     }
 
@@ -79,8 +88,8 @@ public class ShootingSystem : MonoBehaviour
 
         initialYRotation = NormalizeAngle(playerBody.eulerAngles.y);
 
-        if (weaponPivot != null)
-            initialXRotation = NormalizeAngle(weaponPivot.localEulerAngles.x);
+        if (weaponFirePoint != null)
+            initialXRotation = NormalizeAngle(weaponFirePoint.localEulerAngles.x);
 
         if (aimRay == null)
         {
@@ -180,10 +189,20 @@ public class ShootingSystem : MonoBehaviour
         currentTouchPos = screenPos;
         aimRay.enabled = true;
 
-        currentYRotation = initialYRotation;
-        currentXRotation = initialXRotation;
+        Vector3 cameraForward = mainCamera.transform.forward;
+        cameraForward.y = 0;
+        playerBody.forward = cameraForward;
 
-        CameraManager.Instance.OnPlayerStartAiming();
+        initialYRotation = playerBody.eulerAngles.y;
+        currentYRotation = initialYRotation;
+
+        if (weaponFirePoint != null)
+            currentXRotation = weaponFirePoint.localEulerAngles.x;
+
+        if (aimRig != null) aimRig.weight = 1f;
+        if (animator != null) animator.CrossFade(aimingHash, 0.1f);
+
+        GameCameraController.Instance.OnPlayerStartAiming();
     }
 
     void EndAiming()
@@ -197,7 +216,11 @@ public class ShootingSystem : MonoBehaviour
 
             ResetRotations();
 
-            CameraManager.Instance.OnPlayerStopAiming();
+            if (aimRig != null) aimRig.weight = 0f;
+
+            if (animator != null) animator.CrossFade(idleHash, 0.1f);
+
+            GameCameraController.Instance.OnPlayerStopAiming();
         }
     }
 
@@ -211,7 +234,11 @@ public class ShootingSystem : MonoBehaviour
         ResetRotations();
         Debug.Log("Shot Cancelled via Button");
 
-        CameraManager.Instance.OnPlayerStopAiming();
+        if (aimRig != null) aimRig.weight = 0f;
+
+        if (animator != null) animator.CrossFade(idleHash, 0.1f);
+
+        GameCameraController.Instance.OnPlayerStopAiming();
     }
 
     void UpdateAimRotation()
@@ -225,31 +252,30 @@ public class ShootingSystem : MonoBehaviour
         currentYRotation = Mathf.Lerp(currentYRotation, targetY, horizontalRotationSpeed * Time.deltaTime);
         playerBody.rotation = Quaternion.Euler(0, currentYRotation, 0);
 
-        if (weaponPivot != null)
+        if (weaponFirePoint != null)
         {
             float verticalDelta = swipeDelta.y / Screen.height;
             float targetXOffset = Mathf.Clamp(-verticalDelta * aimSensitivity, -maxVerticalAngleUp, maxVerticalAngleDown);
             float targetX = initialXRotation + targetXOffset;
 
             currentXRotation = Mathf.Lerp(currentXRotation, targetX, verticalRotationSpeed * Time.deltaTime);
-            weaponPivot.localRotation = Quaternion.Euler(currentXRotation, 0, 0);
+            weaponFirePoint.localRotation = Quaternion.Euler(currentXRotation, 0, 0);
         }
     }
 
     private float NormalizeAngle(float angle)
     {
-        angle %= 360f;
-        if (angle > 180f) angle -= 360f;
-        if (angle < -180f) angle += 360f;
+        while (angle > 180) angle -= 360;
+        while (angle < -180) angle += 360;
         return angle;
     }
 
     void ResetRotations()
     {
         playerBody.DORotate(new Vector3(0, initialYRotation, 0), 0.3f);
-        if (weaponPivot != null)
+        if (weaponFirePoint != null)
         {
-            weaponPivot.DOLocalRotate(new Vector3(initialXRotation, 0, 0), 0.3f);
+            weaponFirePoint.DOLocalRotate(new Vector3(initialXRotation, 0, 0), 0.3f);
         }
     }
 
@@ -258,6 +284,11 @@ public class ShootingSystem : MonoBehaviour
         Vector3[] rayPath = CalculateRayPath(weaponFirePoint.position, weaponFirePoint.forward);
         aimRay.positionCount = rayPath.Length;
         aimRay.SetPositions(rayPath);
+
+        if (aimTarget != null && rayPath.Length > 1)
+        {
+            aimTarget.position = rayPath[1];
+        }
     }
 
     Vector3[] CalculateRayPath(Vector3 origin, Vector3 direction)
@@ -311,6 +342,7 @@ public class ShootingSystem : MonoBehaviour
         if (currentAmmo <= 0) return;
 
         currentAmmo--;
+        if (animator != null) animator.CrossFade(shootHash, 0.02f);
 
         GameObject bullet = Instantiate(bulletPrefab, weaponFirePoint.position, Quaternion.identity);
         lastFiredBullet = bullet;
@@ -332,6 +364,8 @@ public class ShootingSystem : MonoBehaviour
 
         weaponFirePoint.DOPunchPosition(-weaponFirePoint.forward * 0.2f, 0.2f, 5);
         Debug.Log($"A shot has been fired! Remaining: {currentAmmo}");
+
+        Invoke(nameof(ReturnToIdle), 1f);
     }
 
     public void ReturnLastBullet()
@@ -351,7 +385,17 @@ public class ShootingSystem : MonoBehaviour
     public void ReloadAmmo()
     {
         currentAmmo = maxAmmo;
+
+        if (animator != null) animator.CrossFade(reloadHash, 0.1f);
         Debug.Log("It has been refilled!");
+    }
+
+    private void ReturnToIdle()
+    {
+        if (!isAiming && animator != null)
+        {
+            animator.CrossFade(idleHash, 0.2f);
+        }
     }
 
     public int GetCurrentAmmo() => currentAmmo;

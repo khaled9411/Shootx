@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isMoving && animator == null)
+        if (isMoving /*&& animator == null*/)
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
             if (direction != Vector3.zero)
@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
         StartMovement(duration);
 
-        CameraManager.Instance.OnPlayerStartMoving();
+        GameCameraController.Instance.OnPlayerStartMoving();
     }
 
     void StartMovement(float duration)

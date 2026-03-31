@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup tapToPlayGroup;
     [SerializeField] private CanvasGroup progressGroup;
     [SerializeField] private CanvasGroup bottomButtonsGroup;
+    [SerializeField] private CanvasGroup desapperGroup;
+    [SerializeField] private CanvasGroup winCanvasGroup;
+    [SerializeField] private CanvasGroup loseCanvasGroup;
     [SerializeField] private Button playButton;
 
     [Header("=== Transition Settings ===")]
@@ -137,6 +140,7 @@ public class UIManager : MonoBehaviour
             progressGroup.alpha = 0;
             seq.AppendInterval(elementStaggerDelay);
             seq.Append(progressGroup.DOFade(1f, 0.35f));
+
         }
 
         if (tapToPlayGroup != null)
@@ -144,6 +148,7 @@ public class UIManager : MonoBehaviour
             tapToPlayGroup.alpha = 0;
             seq.AppendInterval(elementStaggerDelay);
             seq.Append(tapToPlayGroup.DOFade(1f, 0.4f));
+
         }
 
         if (bottomButtonsGroup != null)
@@ -154,6 +159,8 @@ public class UIManager : MonoBehaviour
             seq.Append(bottomButtonsGroup.DOFade(1f, 0.35f));
             seq.Join(bottomButtonsGroup.transform.DOLocalMoveY(
                 bottomButtonsGroup.transform.localPosition.y + 30f, 0.35f).SetEase(Ease.OutCubic));
+
+            
         }
 
         seq.Play();
@@ -163,7 +170,6 @@ public class UIManager : MonoBehaviour
 
     // ===================================================================
     #region Tap To Play
-    // ===================================================================
 
     private void TriggerTapToPlay()
     {
@@ -185,12 +191,41 @@ public class UIManager : MonoBehaviour
                 bottomButtonsGroup.transform.localPosition.y - 40f, 0.3f).SetEase(Ease.InCubic));
         }
 
+        if (desapperGroup != null)
+            seq.Join(desapperGroup.DOFade(0f, 0.3f));
+
+
+        mainMenuPanel.blocksRaycasts = false;
+        progressGroup.blocksRaycasts = false;
+        topBarGroup.blocksRaycasts = false;
+        bottomButtonsGroup.blocksRaycasts = false;
+        tapToPlayGroup.blocksRaycasts = false;
+
         seq.OnComplete(() =>
         {
             OnEnterGame?.Invoke();
         });
 
         seq.Play();
+    }
+
+    #endregion
+
+    // ===================================================================
+    #region Game UI
+
+    public void ShowWinScreen()
+    {
+        winCanvasGroup.DOFade(1f, 0.3f).SetUpdate(true);
+        winCanvasGroup.interactable = true;
+        winCanvasGroup.blocksRaycasts = true;
+    }
+
+    public void ShowLoseScreen()
+    {
+        loseCanvasGroup.DOFade(1f, 0.3f).SetUpdate(true);
+        loseCanvasGroup.interactable = true;
+        loseCanvasGroup.blocksRaycasts = true;
     }
 
     #endregion

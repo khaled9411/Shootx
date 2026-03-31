@@ -45,13 +45,15 @@ public class EnemyAnimationController : MonoBehaviour
         animator.SetBool("IsAlerted", enemyAI.IsAlerted());
     }
 
-    public void ActivateRagdoll()
+    public void ActivateRagdoll(Vector3 hitDirection, float force = 10f)
     {
         animator.enabled = false;
 
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = false;
+
+            rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
         }
 
         foreach (Collider col in ragdollColliders)
@@ -59,7 +61,11 @@ public class EnemyAnimationController : MonoBehaviour
             col.enabled = true;
         }
 
-        // GetComponent<Collider>().enabled = false; 
+        Collider parentCollider = GetComponentInParent<Collider>();
+        if (parentCollider != null)
+        {
+            parentCollider.enabled = false;
+        }
     }
 
     private void DeactivateRagdoll()

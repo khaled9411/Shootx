@@ -42,7 +42,28 @@ public class EnemyAI : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHealth = maxHealth;
-        pathManager = GetComponent<PathMovementManager>();
+
+        if (pathManager == null)
+        {
+            pathManager = FindFirstObjectByType<PathMovementManager>();
+            if (pathManager == null)
+            {
+                Debug.LogWarning("PathMovementManager not found in the scene.");
+            }
+        }
+
+        if (playerTransform == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning("Player Transform not assigned and no GameObject with tag 'Player' found.");
+            }
+        }
 
         if (movementPoints.Length > 0)
         {
@@ -167,32 +188,34 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
         foreach (Collider deadEnemy in deadEnemies)
         {
-            Vector3 directionToCorpse = deadEnemy.transform.position - transform.position;
-            float angleToCorpse = Vector3.Angle(transform.forward, directionToCorpse);
 
-            if (angleToCorpse <= detectionAngle / 2f)
-            {
-                if (pathManager != null && pathManager.CurrentPoint != null && playerTransform != null)
-                {
-                    Vector3 playerLastKnownPos = pathManager.CurrentPoint.transform.position;
-                    Vector3 directionToLastPos = playerLastKnownPos - transform.position;
+            OnPlayerDetected?.Invoke();
+            //Vector3 directionToCorpse = deadEnemy.transform.position - transform.position;
+            //float angleToCorpse = Vector3.Angle(transform.forward, directionToCorpse);
 
-                    if (Physics.Raycast(transform.position + Vector3.up, directionToLastPos.normalized,
-                        out RaycastHit hit, detectionRange))
-                    {
-                        if (hit.transform == playerTransform)
-                        {
-                            isAlerted = true;
-                            OnPlayerDetected?.Invoke();
-                            break;
-                        }
-                    }
-                }
-            }
+            //if (angleToCorpse <= detectionAngle / 2f)
+            //{
+            //    if (pathManager != null && pathManager.CurrentPoint != null && playerTransform != null)
+            //    {
+            //        Vector3 playerLastKnownPos = pathManager.CurrentPoint.transform.position;
+            //        Vector3 directionToLastPos = playerLastKnownPos - transform.position;
+
+            //        if (Physics.Raycast(transform.position + Vector3.up, directionToLastPos.normalized,
+            //            out RaycastHit hit, detectionRange))
+            //        {
+            //            if (hit.transform == playerTransform)
+            //            {
+            //                isAlerted = true;
+            //                OnPlayerDetected?.Invoke();
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 hitDirection)
     {
         if (isDead) return;
 
@@ -201,11 +224,11 @@ public class EnemyAI : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             FindFirstObjectByType<ShootingSystem>().ReturnLastBullet();
-            Die();
+            Die(hitDirection);
         }
     }
 
-    private void Die()
+    private void Die(Vector3 hitDirection)
     {
         isDead = true;
         currentMoveTween?.Kill();
@@ -215,7 +238,11 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
         gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
 
-        //GetComponent<Animator>().SetTrigger("Death");
+        EnemyAnimationController animController = GetComponentInChildren<EnemyAnimationController>();
+        if (animController != null)
+        {
+            animController.ActivateRagdoll(hitDirection, 10f);
+        }
     }
 
     public float GetCurrentHealth()

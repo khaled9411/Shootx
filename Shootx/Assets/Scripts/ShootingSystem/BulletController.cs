@@ -42,7 +42,7 @@ public class BulletController : MonoBehaviour
 
             if (hit.collider.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(currentPower);
+                damageable.TakeDamage(currentPower, direction);
             }
 
             if (IsPenetrable(hit.collider.gameObject))
