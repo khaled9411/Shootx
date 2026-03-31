@@ -4,15 +4,17 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-
 public class LevelLoader : MonoBehaviour
 {
     // ===================================================================
     #region Inspector
 
+    [Header("Testing")]
+    [SerializeField] private bool useTestLevel = false;
+    [SerializeField] private int testLevelNumber = 1;
+
     [Header("Loading Screen")]
     [SerializeField] private CanvasGroup loadingCanvasGroup;
-
     [SerializeField] private Slider progressBar;
 
     [Header("Level Spawn")]
@@ -23,7 +25,6 @@ public class LevelLoader : MonoBehaviour
 
     [Header("Timing")]
     [SerializeField] private float minLoadingDuration = 1.2f;
-
     [SerializeField] private float fadeDuration = 0.35f;
 
     #endregion
@@ -62,7 +63,15 @@ public class LevelLoader : MonoBehaviour
 
     private IEnumerator LoadLevelRoutine()
     {
-        _currentLevelNumber = LevelStateManager.GetLevelToLoad();
+        if (useTestLevel)
+        {
+            _currentLevelNumber = testLevelNumber;
+            Debug.Log($"<color=yellow>[LevelLoader] TEST MODE ON: Overriding level load to Level {_currentLevelNumber}</color>");
+        }
+        else
+        {
+            _currentLevelNumber = LevelStateManager.GetLevelToLoad();
+        }
 
         if (GameDataManager.Instance != null)
             GameDataManager.Instance.SetLevel(_currentLevelNumber);
@@ -70,7 +79,6 @@ public class LevelLoader : MonoBehaviour
         Debug.Log($"[LevelLoader] Starting load for level {_currentLevelNumber}");
 
         yield return FadeLoading(1f);
-
 
         SetProgress(0f);
 
@@ -113,7 +121,6 @@ public class LevelLoader : MonoBehaviour
         if (zoneProgressController != null)
             zoneProgressController.Refresh();
 
-
         Time.timeScale = 1f;
         Debug.Log("[LevelLoader] Game started — physics resumed.");
 
@@ -146,7 +153,6 @@ public class LevelLoader : MonoBehaviour
 
         _gameActive = false;
         Time.timeScale = 0f;
-
 
         if (GameDataManager.Instance != null)
             GameDataManager.Instance.AdvanceLevel();

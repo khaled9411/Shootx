@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -13,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup mainMenuPanel;
     [SerializeField] private CanvasGroup gunsPanel;
     [SerializeField] private CanvasGroup outfitsPanel;
+    [SerializeField] private CanvasGroup gamepanel;
 
     [Header("=== Popups ===")]
     [SerializeField] private CanvasGroup settingsPopup;
@@ -25,8 +25,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup progressGroup;
     [SerializeField] private CanvasGroup bottomButtonsGroup;
     [SerializeField] private CanvasGroup desapperGroup;
-    [SerializeField] private CanvasGroup winCanvasGroup;
-    [SerializeField] private CanvasGroup loseCanvasGroup;
     [SerializeField] private Button playButton;
 
     [Header("=== Transition Settings ===")]
@@ -43,7 +41,6 @@ public class UIManager : MonoBehaviour
     public static event Action OnEnterGame;
 
     private bool gameStarted = false;
-
 
     private void Awake()
     {
@@ -63,21 +60,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    if (!gameStarted && currentPanel == mainMenuPanel)
-    //    {
-    //        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-    //        {
-    //            TriggerTapToPlay();
-    //        }
-    //    }
-    //}
-
-
-    // ===================================================================
+    // =================================================================
     #region Initialization
-    // ===================================================================
+    // =================================================================
 
     private void InitializeAllPanels()
     {
@@ -88,19 +73,16 @@ public class UIManager : MonoBehaviour
         SetCanvasGroupState(missionsPopup, false, instant: true);
         SetCanvasGroupState(shopPopup, false, instant: true);
 
-        if (settingsPopup != null)
-            settingsPopup.transform.localScale = Vector3.zero;
-        if (missionsPopup != null)
-            missionsPopup.transform.localScale = Vector3.zero;
-        if (shopPopup != null)
-            shopPopup.transform.localScale = Vector3.zero;
+        if (settingsPopup != null) settingsPopup.transform.localScale = Vector3.zero;
+        if (missionsPopup != null) missionsPopup.transform.localScale = Vector3.zero;
+        if (shopPopup != null) shopPopup.transform.localScale = Vector3.zero;
     }
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Main Menu
-    // ===================================================================
+    // =================================================================
 
     public void ShowMainMenu(bool instant = false)
     {
@@ -140,7 +122,6 @@ public class UIManager : MonoBehaviour
             progressGroup.alpha = 0;
             seq.AppendInterval(elementStaggerDelay);
             seq.Append(progressGroup.DOFade(1f, 0.35f));
-
         }
 
         if (tapToPlayGroup != null)
@@ -148,7 +129,6 @@ public class UIManager : MonoBehaviour
             tapToPlayGroup.alpha = 0;
             seq.AppendInterval(elementStaggerDelay);
             seq.Append(tapToPlayGroup.DOFade(1f, 0.4f));
-
         }
 
         if (bottomButtonsGroup != null)
@@ -159,8 +139,6 @@ public class UIManager : MonoBehaviour
             seq.Append(bottomButtonsGroup.DOFade(1f, 0.35f));
             seq.Join(bottomButtonsGroup.transform.DOLocalMoveY(
                 bottomButtonsGroup.transform.localPosition.y + 30f, 0.35f).SetEase(Ease.OutCubic));
-
-            
         }
 
         seq.Play();
@@ -168,8 +146,9 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Tap To Play
+    // =================================================================
 
     private void TriggerTapToPlay()
     {
@@ -194,6 +173,12 @@ public class UIManager : MonoBehaviour
         if (desapperGroup != null)
             seq.Join(desapperGroup.DOFade(0f, 0.3f));
 
+        if(gamepanel != null)
+        {
+            gamepanel.alpha = 0f;
+            SetCanvasGroupState(gamepanel, true, instant: true);
+            seq.Join(gamepanel.DOFade(1f, 0.4f).SetEase(Ease.OutCubic));
+        }
 
         mainMenuPanel.blocksRaycasts = false;
         progressGroup.blocksRaycasts = false;
@@ -201,38 +186,33 @@ public class UIManager : MonoBehaviour
         bottomButtonsGroup.blocksRaycasts = false;
         tapToPlayGroup.blocksRaycasts = false;
 
-        seq.OnComplete(() =>
-        {
-            OnEnterGame?.Invoke();
-        });
-
+        seq.OnComplete(() => OnEnterGame?.Invoke());
         seq.Play();
     }
 
     #endregion
 
-    // ===================================================================
-    #region Game UI
+    // =================================================================
+    #region Game Result Screens
+    // =================================================================
 
-    public void ShowWinScreen()
+    public void ShowWinScreen(int earnedMoney = 0)
     {
-        winCanvasGroup.DOFade(1f, 0.3f).SetUpdate(true);
-        winCanvasGroup.interactable = true;
-        winCanvasGroup.blocksRaycasts = true;
+        if (WinLosePauseUI.Instance != null)
+            WinLosePauseUI.Instance.ShowWin(earnedMoney);
     }
 
     public void ShowLoseScreen()
     {
-        loseCanvasGroup.DOFade(1f, 0.3f).SetUpdate(true);
-        loseCanvasGroup.interactable = true;
-        loseCanvasGroup.blocksRaycasts = true;
+        if (WinLosePauseUI.Instance != null)
+            WinLosePauseUI.Instance.ShowLose();
     }
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Guns Panel
-    // ===================================================================
+    // =================================================================
 
     public void ShowGunsPanel()
     {
@@ -244,16 +224,13 @@ public class UIManager : MonoBehaviour
         });
     }
 
-    public void HideGunsPanel()
-    {
-        BackToPreviousPanel();
-    }
+    public void HideGunsPanel() => BackToPreviousPanel();
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Outfits Panel
-    // ===================================================================
+    // =================================================================
 
     public void ShowOutfitsPanel()
     {
@@ -265,64 +242,40 @@ public class UIManager : MonoBehaviour
         });
     }
 
-    public void HideOutfitsPanel()
-    {
-        BackToPreviousPanel();
-    }
+    public void HideOutfitsPanel() => BackToPreviousPanel();
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Settings Popup
-    // ===================================================================
+    // =================================================================
 
-    public void ShowSettingsPopup()
-    {
-        ShowPopup(settingsPopup);
-    }
-
-    public void HideSettingsPopup()
-    {
-        HidePopup(settingsPopup);
-    }
+    public void ShowSettingsPopup() => ShowPopup(settingsPopup);
+    public void HideSettingsPopup() => HidePopup(settingsPopup);
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Missions Popup
-    // ===================================================================
+    // =================================================================
 
-    public void ShowMissionsPopup()
-    {
-        ShowPopup(missionsPopup);
-    }
-
-    public void HideMissionsPopup()
-    {
-        HidePopup(missionsPopup);
-    }
+    public void ShowMissionsPopup() => ShowPopup(missionsPopup);
+    public void HideMissionsPopup() => HidePopup(missionsPopup);
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Shop Popup
-    // ===================================================================
+    // =================================================================
 
-    public void ShowShopPopup()
-    {
-        ShowPopup(shopPopup);
-    }
-
-    public void HideShopPopup()
-    {
-        HidePopup(shopPopup);
-    }
+    public void ShowShopPopup() => ShowPopup(shopPopup);
+    public void HideShopPopup() => HidePopup(shopPopup);
 
     #endregion
 
-    // ===================================================================
+    // =================================================================
     #region Core Transition Helpers
-    // ===================================================================
+    // =================================================================
 
     private void ShowPanelAnimated(CanvasGroup panel)
     {
