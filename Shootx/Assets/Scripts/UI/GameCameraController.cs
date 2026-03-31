@@ -38,6 +38,7 @@ public class GameCameraController : MonoBehaviour
     [SerializeField] private float bobDuration = 3.0f;
 
     [Header("=== Follow Settings ===")]
+    [SerializeField] public bool enableCameraFollow = true;
     [SerializeField] private float followSpeed = 5f;
     private Vector3 followOffset;
 
@@ -110,7 +111,7 @@ public class GameCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (transitioned && currentTarget != null)
+        if (transitioned && currentTarget != null && enableCameraFollow)
         {
             Vector3 targetPosition = currentTarget.position + followOffset;
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPosition, Time.deltaTime * followSpeed);
@@ -189,6 +190,11 @@ public class GameCameraController : MonoBehaviour
 
     // ===================================================================
     #region Gameplay Camera Mechanics (Replaced Cinemachine)
+
+    public void SetCameraFollow(bool state)
+    {
+        enableCameraFollow = state;
+    }
 
     public void OnPlayerStartMoving()
     {

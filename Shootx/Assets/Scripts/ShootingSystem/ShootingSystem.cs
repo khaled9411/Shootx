@@ -387,6 +387,8 @@ public class ShootingSystem : MonoBehaviour
         currentAmmo = maxAmmo;
 
         if (animator != null) animator.CrossFade(reloadHash, 0.1f);
+
+        AmmoUI.Instance?.OnReload();
         Debug.Log("It has been refilled!");
     }
 
