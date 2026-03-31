@@ -1665,7 +1665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &221905406
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10293,6 +10293,7 @@ GameObject:
   - component: {fileID: 1090203113}
   - component: {fileID: 1090203114}
   - component: {fileID: 1090203115}
+  - component: {fileID: 1090203116}
   m_Layer: 0
   m_Name: GameDataManager
   m_TagString: Untagged
@@ -10356,6 +10357,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc975d4fc86be4b4ca5ea9d6a475660a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReloadScene
+--- !u!114 &1090203116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090203112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdeb33a0b23a3024a8ef7fc3a44efc00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinLossManager
+  levelLoader: {fileID: 42844099}
+  shootingSystem: {fileID: 0}
+  loseCheckDelay: 1.5
 --- !u!1 &1096972057
 GameObject:
   m_ObjectHideFlags: 0
@@ -11226,7 +11242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1166362304
 RectTransform:
   m_ObjectHideFlags: 0
