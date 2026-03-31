@@ -23889,7 +23889,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5.92}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 924326389356584509}
@@ -23952,7 +23952,7 @@ MonoBehaviour:
   maxBounces: 3
   bounceDecay: 1
   maxBounceAngle: 80
-  maxAmmo: 3
+  maxAmmo: 100
   shootableLayers:
     serializedVersion: 2
     m_Bits: 2880
