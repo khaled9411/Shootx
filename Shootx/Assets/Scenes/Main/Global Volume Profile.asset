@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7893295128165547882
+--- !u!114 &-7492036632365516033
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11,29 +11,29 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.Bloom
   active: 1
   skipIterations:
-    m_OverrideState: 1
-    m_Value: 0
+    m_OverrideState: 0
+    m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.78
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 2
   scatter:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.7
   clamp:
     m_OverrideState: 0
     m_Value: 65472
   tint:
     m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 1, g: 0.7584934, b: 0, a: 1}
   highQualityFiltering:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0
   filter:
     m_OverrideState: 0
     m_Value: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
---- !u!114 &-3357603926938260329
+--- !u!114 &-5744678809057052348
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,25 +59,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
-  m_Name: Vignette
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.WhiteBalance
   active: 1
-  color:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
-  center:
-    m_OverrideState: 0
-    m_Value: {x: 0.5, y: 0.5}
-  intensity:
+  temperature:
     m_OverrideState: 1
-    m_Value: 0.2
-  smoothness:
-    m_OverrideState: 0
-    m_Value: 0.2
-  rounded:
+    m_Value: 6
+  tint:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-1847058396297811872
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ColorAdjustments
+  active: 1
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0.34
+  contrast:
+    m_OverrideState: 1
+    m_Value: 31
+  colorFilter:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 0.9512791, b: 0.91132075, a: 1}
+  hueShift:
+    m_OverrideState: 0
+    m_Value: 0
+  saturation:
+    m_OverrideState: 1
+    m_Value: 5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,14 +107,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: SampleSceneProfile
-  m_EditorClassIdentifier: 
+  m_Name: Global Volume Profile
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
   components:
-  - {fileID: 849379129802519247}
-  - {fileID: -7893295128165547882}
-  - {fileID: 7391319092446245454}
-  - {fileID: -3357603926938260329}
---- !u!114 &849379129802519247
+  - {fileID: 1659195259001303355}
+  - {fileID: -1847058396297811872}
+  - {fileID: 1715511627887866968}
+  - {fileID: -7492036632365516033}
+  - {fileID: -5744678809057052348}
+--- !u!114 &1659195259001303355
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,11 +126,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.Tonemapping
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -121,21 +141,21 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   detectPaperWhite:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   paperWhite:
-    m_OverrideState: 1
-    m_Value: 234
+    m_OverrideState: 0
+    m_Value: 300
   detectBrightnessLimits:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   minNits:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.005
   maxNits:
-    m_OverrideState: 1
-    m_Value: 647
---- !u!114 &7391319092446245454
+    m_OverrideState: 0
+    m_Value: 1000
+--- !u!114 &1715511627887866968
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,19 +164,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
-  m_Name: MotionBlur
-  m_EditorClassIdentifier: 
-  active: 0
-  mode:
-    m_OverrideState: 0
-    m_Value: 0
-  quality:
+  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.Vignette
+  active: 1
+  color:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    m_OverrideState: 1
+    m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.6
-  clamp:
-    m_OverrideState: 0
-    m_Value: 0.05
+    m_Value: 0.29
+  smoothness:
+    m_OverrideState: 1
+    m_Value: 0.244
+  rounded:
+    m_OverrideState: 1
+    m_Value: 0

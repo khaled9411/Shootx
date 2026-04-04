@@ -52,6 +52,11 @@ public class ShootingSystem : MonoBehaviour
 
     [Header("Conflict Prevention")]
     [SerializeField] private LayerMask movementPointLayer;
+
+    [Header("Aim Assist")]
+    [SerializeField] private bool aimAssistEnabled = true;
+    [SerializeField] private float aimAssistBlend = 0.6f;
+
     private Camera mainCamera;
 
     // Private variables
@@ -283,14 +288,32 @@ public class ShootingSystem : MonoBehaviour
 
     void UpdateAimRay()
     {
-        Vector3[] rayPath = CalculateRayPath(weaponFirePoint.position, weaponFirePoint.forward);
+        Vector3 fireOrigin = weaponFirePoint.position;
+        Vector3 fireDirection = weaponFirePoint.forward;
+
+        // ——— Aim Assist ———
+        if (aimAssistEnabled && AimAssist.Instance != null)
+        {
+            bool foundTarget = AimAssist.Instance.FindBestTarget(
+                weaponFirePoint,
+                shootableLayers,
+                out Vector3 assistDirection
+            );
+
+            if (foundTarget)
+            {
+                fireDirection = Vector3.Slerp(fireDirection, assistDirection, aimAssistBlend);
+
+                AimAssist.Instance.ApplyRotationPull(playerBody, weaponFirePoint);
+            }
+        }
+
+        Vector3[] rayPath = CalculateRayPath(fireOrigin, fireDirection);
         aimRay.positionCount = rayPath.Length;
         aimRay.SetPositions(rayPath);
 
         if (aimTarget != null && rayPath.Length > 1)
-        {
-            aimTarget.position = rayPath[1];
-        }
+            aimTarget.position = rayPath[0];
     }
 
     Vector3[] CalculateRayPath(Vector3 origin, Vector3 direction)
@@ -343,11 +366,18 @@ public class ShootingSystem : MonoBehaviour
     {
         if (currentAmmo <= 0) return;
 
+        Vector3 shootDirection = weaponFirePoint.forward;
+        if (aimAssistEnabled && AimAssist.Instance != null && AimAssist.Instance.HasTarget())
+        {
+            Vector3 toTarget = (AimAssist.Instance.GetCurrentTargetPoint() - weaponFirePoint.position).normalized;
+            shootDirection = Vector3.Slerp(weaponFirePoint.forward, toTarget, aimAssistBlend);
+        }
+
         currentAmmo--;
         if (animator != null) animator.CrossFade(shootHash, 0.02f);
 
         AudioManager.Instance.PlaySFX(shootSound);
-        Instantiate(shootEfect, weaponFirePoint.position, Quaternion.LookRotation(weaponFirePoint.forward));
+        Instantiate(shootEfect, weaponFirePoint.position, Quaternion.LookRotation(shootDirection));
         GameObject bullet = Instantiate(bulletPrefab, weaponFirePoint.position, Quaternion.identity);
         lastFiredBullet = bullet;
 
@@ -355,7 +385,7 @@ public class ShootingSystem : MonoBehaviour
         if (bulletCtrl != null)
         {
             bulletCtrl.Initialize(
-                weaponFirePoint.forward,
+                shootDirection,
                 bulletSpeed,
                 maxBounces,
                 bounceDecay,
@@ -368,7 +398,6 @@ public class ShootingSystem : MonoBehaviour
 
         weaponFirePoint.DOPunchPosition(-weaponFirePoint.forward * 0.2f, 0.2f, 5);
         Debug.Log($"A shot has been fired! Remaining: {currentAmmo}");
-
         Invoke(nameof(ReturnToIdle), 1f);
     }
 
