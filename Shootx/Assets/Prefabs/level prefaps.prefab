@@ -303,6 +303,14 @@ MonoBehaviour:
   moveFOV: 75
   aimFOV: 60
   zoomSpeed: 0.5
+  enableDynamicZoom: 1
+  dynamicMinFOV: 55
+  dynamicMaxFOV: 90
+  zoomStartDistance: 5
+  zoomMaxDistance: 30
+  fovPerExtraEnemy: 3
+  dynamicZoomSmoothSpeed: 2
+  enemyScanInterval: 0.3
   revealDuration: 2
   autoDetectRadius: 15
   enemyLayer:
@@ -786,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 6675012084460474473}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: bulletSpeed
-      value: 60
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: aimAssistBlend
