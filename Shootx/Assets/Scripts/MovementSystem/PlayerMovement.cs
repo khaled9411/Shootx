@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Visual Feedback")]
     [SerializeField] private bool useSquashStretch = true;
     [SerializeField] private float squashAmount = 0.2f;
+    [SerializeField] private ParticleSystem movementParticles;
 
     [Header("Path Settings")]
     [SerializeField] private float delayBetweenPoints = 0.2f;
@@ -76,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
             animator.Play(walkAnimationName);
         }
 
+        if(movementParticles != null)
+        {
+            movementParticles.Play();
+        }
+
         if (useSquashStretch)
         {
             transform.DOScaleY(1 - squashAmount, 0.1f)
@@ -96,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
         if (animator != null)
         {
             animator.Play(idleAnimationName);
+        }
+
+        if (movementParticles != null)
+        {
+             movementParticles.Stop();
         }
 
         if (useSquashStretch)

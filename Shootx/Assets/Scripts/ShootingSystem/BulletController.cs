@@ -4,7 +4,6 @@ using Ricimi;
 
 public class BulletController : MonoBehaviour
 {
-
     [SerializeField] private AudioClip bulletHit;
     [SerializeField] private GameObject hitEffect;
 
@@ -18,8 +17,11 @@ public class BulletController : MonoBehaviour
     private LayerMask penetrableLayers;
     private float maxDistance;
 
+    private bool causedFreeze = false;
+
     public void Initialize(Vector3 dir, float spd, int bounces, float decay, float maxAngle,
-                          LayerMask shootable, LayerMask penetrable, float maxDist)
+                           LayerMask shootable, LayerMask penetrable, float maxDist,
+                           bool freezeOnFlight = false)
     {
         direction = dir.normalized;
         speed = spd;
@@ -29,6 +31,7 @@ public class BulletController : MonoBehaviour
         shootableLayers = shootable;
         penetrableLayers = penetrable;
         maxDistance = maxDist;
+        causedFreeze = freezeOnFlight;
     }
 
     void Update()
@@ -38,13 +41,11 @@ public class BulletController : MonoBehaviour
 
     void MoveBullet()
     {
-        float distance = speed * Time.deltaTime;
-        RaycastHit hit;
+        float distance = speed * Time.unscaledDeltaTime;
 
-        if (Physics.Raycast(transform.position, direction, out hit, distance, shootableLayers))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, shootableLayers))
         {
             transform.position = hit.point;
-
             Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             AudioManager.Instance.PlaySFX(bulletHit);
 
@@ -60,15 +61,13 @@ public class BulletController : MonoBehaviour
             }
 
             float angle = Vector3.Angle(-direction, hit.normal);
-
             if (angle <= maxBounceAngle && bouncesLeft > 0)
             {
                 direction = Vector3.Reflect(direction, hit.normal);
                 bouncesLeft--;
                 currentPower *= bounceDecay;
                 speed *= bounceDecay;
-
-                transform.DOPunchScale(Vector3.one * 0.3f, 0.1f, 1);
+                transform.DOPunchScale(Vector3.one * 0.3f, 0.1f, 1).SetUpdate(true);
             }
             else
             {
@@ -80,22 +79,35 @@ public class BulletController : MonoBehaviour
             transform.position += direction * distance;
         }
 
-      
         if (Vector3.Distance(transform.position, Vector3.zero) > maxDistance * 2)
         {
+            ReleaseFreezeIfNeeded();
             Destroy(gameObject);
         }
     }
 
-    bool IsPenetrable(GameObject obj)
-    {
-        return ((1 << obj.layer) & penetrableLayers) != 0;
-    }
+    bool IsPenetrable(GameObject obj) => ((1 << obj.layer) & penetrableLayers) != 0;
 
     void OnBulletStopped(RaycastHit hit)
     {
         Debug.Log($"The bullet hit: {hit.collider.name}");
 
-        transform.DOScale(0, 0.2f).OnComplete(() => Destroy(gameObject));
+        ReleaseFreezeIfNeeded();
+
+        transform.DOScale(0, 0.2f).SetUpdate(true).OnComplete(() => Destroy(gameObject));
+    }
+
+    void ReleaseFreezeIfNeeded()
+    {
+        if (causedFreeze)
+        {
+            causedFreeze = false;
+            BulletTimeManager.Instance?.EndBulletFreeze();
+        }
+    }
+
+    void OnDestroy()
+    {
+        ReleaseFreezeIfNeeded();
     }
 }

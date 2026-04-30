@@ -344,6 +344,35 @@ public class ShootingSystem : MonoBehaviour
 
     bool IsPenetrable(GameObject obj) => ((1 << obj.layer) & penetrableLayers) != 0;
 
+    bool CheckEnemiesInRayPath(Vector3 origin, Vector3 initialDirection)
+    {
+        if (Physics.Raycast(origin, initialDirection, out RaycastHit directHit, maxRayDistance, shootableLayers))
+        {
+            if (directHit.collider.GetComponent<IDamageable>() != null)
+                return true;
+        }
+
+        Vector3[] path = CalculateRayPath(origin + initialDirection * 0.1f, initialDirection, out _);
+
+        for (int i = 0; i < path.Length - 1; i++)
+        {
+            Vector3 segmentDir = path[i + 1] - path[i];
+            float segmentLength = segmentDir.magnitude;
+
+            if (segmentLength < 0.01f) continue;
+
+            RaycastHit[] hits = Physics.RaycastAll(path[i], segmentDir.normalized, segmentLength, shootableLayers);
+            foreach (var hit in hits)
+            {
+                if (hit.collider.GetComponent<IDamageable>() != null)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+
     void FireBullet()
     {
         if (currentAmmo <= 0) return;
@@ -377,7 +406,14 @@ public class ShootingSystem : MonoBehaviour
         BulletController bulletCtrl = bullet.GetComponent<BulletController>();
         if (bulletCtrl != null)
         {
-            bulletCtrl.Initialize(shootDirection, bulletSpeed, maxBounces, bounceDecay, maxBounceAngle, shootableLayers, penetrableLayers, maxRayDistance);
+            bool enemyInPath = CheckEnemiesInRayPath(weaponFirePoint.position, shootDirection);
+
+            if (enemyInPath)
+                BulletTimeManager.Instance?.StartBulletFreeze();
+
+            bulletCtrl.Initialize(shootDirection, bulletSpeed, maxBounces, bounceDecay,
+                                   maxBounceAngle, shootableLayers, penetrableLayers, maxRayDistance,
+                                   freezeOnFlight: enemyInPath);
         }
 
         weaponFirePoint.DOPunchPosition(-weaponFirePoint.forward * 0.2f, 0.2f, 5).SetUpdate(true);
