@@ -238,13 +238,24 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
         OnEnemyDeath?.Invoke();
 
-        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
+        int deadLayer = LayerMask.NameToLayer("DeadEnemy");
+        gameObject.layer = deadLayer;
+
+        foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
+        {
+            child.gameObject.layer = deadLayer;
+        }
 
         EnemyAnimationController animController = GetComponentInChildren<EnemyAnimationController>();
         if (animController != null)
         {
             animController.ActivateRagdoll(hitDirection, 10f);
         }
+    }
+
+    public Transform[] GetMovementPoints()
+    {
+        return movementPoints;
     }
 
     public float GetCurrentHealth()

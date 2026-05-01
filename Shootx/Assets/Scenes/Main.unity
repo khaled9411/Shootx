@@ -9996,6 +9996,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &878839041 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881962535748607927, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+  m_PrefabInstance: {fileID: 1343633581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5629f84e29a904cac7cea529be8e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
 --- !u!1 &886741247
 GameObject:
   m_ObjectHideFlags: 0
@@ -11405,19 +11416,20 @@ MonoBehaviour:
   moveFOV: 75
   aimFOV: 40
   zoomSpeed: 0.5
-  enableDynamicZoom: 1
-  dynamicMinFOV: 55
-  dynamicMaxFOV: 90
-  zoomStartDistance: 5
-  zoomMaxDistance: 30
-  fovPerExtraEnemy: 3
-  dynamicZoomSmoothSpeed: 2
-  enemyScanInterval: 0.3
-  revealDuration: 2
+  revealMoveDuration: 1
+  revealMoveEase: 10
+  revealHoldDuration: 2
+  returnDuration: 0.8
+  returnEase: 10
   autoDetectRadius: 15
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  framingPadding: 2
+  cameraTiltAngle: 55
+  minRevealFOV: 35
+  maxRevealFOV: 85
+  playerRotationDuration: 0.35
   manualLinks: []
 --- !u!114 &1000705394
 MonoBehaviour:
@@ -15890,6 +15902,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312391792}
   m_CullTransparentMesh: 1
+--- !u!114 &1313252490 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6592924735465631296, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+  m_PrefabInstance: {fileID: 1343633581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a22a240d49f584418aca66b1349c324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementPoint
 --- !u!1 &1330176074
 GameObject:
   m_ObjectHideFlags: 0
@@ -16041,6 +16064,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: manualLinks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: manualLinks.Array.data[0].point
+      value: 
+      objectReference: {fileID: 1313252490}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: manualLinks.Array.data[1].point
+      value: 
+      objectReference: {fileID: 1528189205}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: manualLinks.Array.data[0].enemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: manualLinks.Array.data[1].enemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: 'manualLinks.Array.data[0].enemies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 878839041}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: 'manualLinks.Array.data[0].enemies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1769734512}
+    - target: {fileID: 5565990056547011976, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+      propertyPath: 'manualLinks.Array.data[1].enemies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1543283220}
     - target: {fileID: 7842677284208859939, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
       propertyPath: m_Name
       value: Level 21 (ver.1)
@@ -16640,7 +16695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.119842805, y: 0.2937947}
   m_AnchorMax: {x: 0.34484982, y: 0.78947026}
-  m_AnchoredPosition: {x: 15.2221, y: -4.491501}
+  m_AnchoredPosition: {x: 15.222115, y: -4.491501}
   m_SizeDelta: {x: -1.8276, y: 3.234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404781082
@@ -17898,6 +17953,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 658748917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1528189205 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9194908668332841455, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+  m_PrefabInstance: {fileID: 1343633581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a22a240d49f584418aca66b1349c324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementPoint
 --- !u!1 &1535475813
 GameObject:
   m_ObjectHideFlags: 0
@@ -18082,6 +18148,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 658102933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1543283220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2484751317997930723, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+  m_PrefabInstance: {fileID: 1343633581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5629f84e29a904cac7cea529be8e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
 --- !u!1 &1544240187
 GameObject:
   m_ObjectHideFlags: 0
@@ -20362,6 +20439,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1766617907}
   m_CullTransparentMesh: 1
+--- !u!114 &1769734512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6841229762827589615, guid: 93ae62c0acc0eb54fb08094d44f0b660, type: 3}
+  m_PrefabInstance: {fileID: 1343633581}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5629f84e29a904cac7cea529be8e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
 --- !u!1 &1770931075
 GameObject:
   m_ObjectHideFlags: 0

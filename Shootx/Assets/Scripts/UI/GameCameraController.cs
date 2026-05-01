@@ -8,7 +8,7 @@ using DG.Tweening;
 public struct PointEnemyLink
 {
     public MovementPoint point;
-    public EnemyAI targetEnemy;
+    public List<EnemyAI> enemies;
 }
 
 public class GameCameraController : MonoBehaviour
@@ -39,28 +39,30 @@ public class GameCameraController : MonoBehaviour
     [Header("=== Follow Settings ===")]
     [SerializeField] public bool enableCameraFollow = true;
     [SerializeField] private float followSpeed = 5f;
-    private Vector3 followOffset;
 
-    [Header("=== FOV Settings (Static Mode) ===")]
+    [Header("=== FOV Settings ===")]
     [SerializeField] private float idleFOV = 60f;
     [SerializeField] private float moveFOV = 75f;
     [SerializeField] private float aimFOV = 40f;
     [SerializeField] private float zoomSpeed = 0.5f;
 
-    [Header("=== Dynamic Zoom Settings ===")]
-    [SerializeField] private bool enableDynamicZoom = true;
-    [SerializeField] private float dynamicMinFOV = 55f;
-    [SerializeField] private float dynamicMaxFOV = 90f;
-    [SerializeField] private float zoomStartDistance = 5f;
-    [SerializeField] private float zoomMaxDistance = 30f;
-    [SerializeField] private float fovPerExtraEnemy = 3f;
-    [SerializeField] private float dynamicZoomSmoothSpeed = 2f;
-    [SerializeField] private float enemyScanInterval = 0.3f;
-
     [Header("=== Enemy Reveal Settings ===")]
-    [SerializeField] private float revealDuration = 2f;
+    [SerializeField] private float revealMoveDuration = 1.0f;
+    [SerializeField] private Ease revealMoveEase = Ease.InOutCubic;
+    [SerializeField] private float revealHoldDuration = 2.0f;
+    [SerializeField] private float returnDuration = 0.8f;
+    [SerializeField] private Ease returnEase = Ease.InOutCubic;
     [SerializeField] private float autoDetectRadius = 15f;
     [SerializeField] private LayerMask enemyLayer;
+
+    [Header("=== Framing Settings ===")]
+    [SerializeField] private float framingPadding = 2.5f;
+    [SerializeField] private float cameraTiltAngle = 55f;
+    [SerializeField] private float minRevealFOV = 35f;
+    [SerializeField] private float maxRevealFOV = 85f;
+
+    [Header("=== Player Rotation ===")]
+    [SerializeField] private float playerRotationDuration = 0.35f;
 
     [Header("=== Level Setup ===")]
     [SerializeField] private List<PointEnemyLink> manualLinks;
@@ -71,15 +73,16 @@ public class GameCameraController : MonoBehaviour
 
     private Vector3 menuPos;
     private Quaternion menuRot;
+    private Vector3 followOffset;
+
     private Tween bobTween;
     private Tween fovTween;
-    private bool transitioned = false;
-    private Transform currentTarget = null;
 
-    // Dynamic Zoom
-    private List<EnemyAI> activeEnemies = new List<EnemyAI>();
-    private float targetDynamicFOV = 60f;
-    private float scanTimer = 0f;
+    private bool transitioned = false;
+    private bool isRevealing = false;
+
+    private Transform currentFollowTarget;
+    private Coroutine revealCoroutine;
 
     #endregion
 
@@ -103,14 +106,16 @@ public class GameCameraController : MonoBehaviour
 
         menuPos = mainCamera.transform.position;
         menuRot = mainCamera.transform.rotation;
-
         mainCamera.fieldOfView = idleFOV;
-        targetDynamicFOV = idleFOV;
 
         if (enableMenuBob) StartMenuBob();
     }
 
-    private void OnEnable() => UIManager.OnTapToPlay += TransitionToGameCamera;
+    private void OnEnable()
+    {
+        UIManager.OnTapToPlay += TransitionToGameCamera;
+    }
+
     private void OnDisable()
     {
         UIManager.OnTapToPlay -= TransitionToGameCamera;
@@ -120,67 +125,15 @@ public class GameCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (transitioned && currentTarget != null && enableCameraFollow)
-        {
-            Vector3 targetPos = currentTarget.position + followOffset;
-            mainCamera.transform.position = Vector3.Lerp(
-                mainCamera.transform.position, targetPos, Time.deltaTime * followSpeed);
-        }
+        if (!transitioned || currentFollowTarget == null) return;
+        if (!enableCameraFollow || isRevealing) return;
 
-        if (transitioned && enableDynamicZoom && currentTarget == playerTransform)
-            UpdateDynamicZoom();
-    }
-
-    #endregion
-
-    #region Dynamic Zoom System
-
-    private void UpdateDynamicZoom()
-    {
-        scanTimer -= Time.deltaTime;
-        if (scanTimer <= 0f)
-        {
-            scanTimer = enemyScanInterval;
-            ScanActiveEnemies();
-        }
-
-        if (playerTransform == null) return;
-
-        float maxDist = 0f;
-        int aliveCount = 0;
-
-        foreach (EnemyAI enemy in activeEnemies)
-        {
-            if (enemy == null || enemy.IsDead()) continue;
-            float dist = Vector3.Distance(playerTransform.position, enemy.transform.position);
-            if (dist > maxDist) maxDist = dist;
-            aliveCount++;
-        }
-
-        float distFactor = Mathf.InverseLerp(zoomStartDistance, zoomMaxDistance, maxDist);
-        float baseFOV = Mathf.Lerp(dynamicMinFOV, dynamicMaxFOV, distFactor);
-
-        float extraFOV = Mathf.Max(0, aliveCount - 1) * fovPerExtraEnemy;
-
-        targetDynamicFOV = Mathf.Clamp(baseFOV + extraFOV, dynamicMinFOV, dynamicMaxFOV);
-
-        mainCamera.fieldOfView = Mathf.Lerp(
-            mainCamera.fieldOfView, targetDynamicFOV, Time.deltaTime * dynamicZoomSmoothSpeed);
-    }
-
-    private void ScanActiveEnemies()
-    {
-        activeEnemies.Clear();
-        foreach (EnemyAI e in FindObjectsByType<EnemyAI>(0))
-            if (e != null && !e.IsDead()) activeEnemies.Add(e);
-    }
-
-    public void SetEnemyList(List<EnemyAI> enemies) => activeEnemies = enemies;
-
-    public void SetDynamicZoom(bool state)
-    {
-        enableDynamicZoom = state;
-        if (!state) TweenFOV(idleFOV);
+        Vector3 targetPos = currentFollowTarget.position + followOffset;
+        mainCamera.transform.position = Vector3.Lerp(
+            mainCamera.transform.position,
+            targetPos,
+            Time.deltaTime * followSpeed
+        );
     }
 
     #endregion
@@ -190,9 +143,13 @@ public class GameCameraController : MonoBehaviour
     private void StartMenuBob()
     {
         bobTween?.Kill();
+
+        mainCamera.transform.position = menuPos;
+
         bobTween = mainCamera.transform
-            .DOMove(menuPos + Vector3.up * bobAmplitude, bobDuration)
-            .SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            .DOMoveY(menuPos.y + bobAmplitude, bobDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     public void TransitionToGameCamera()
@@ -214,20 +171,17 @@ public class GameCameraController : MonoBehaviour
         seq.Append(mainCamera.transform.DOMove(gameCameraAnchor.position, transitionDuration).SetEase(transitionEase));
         seq.Join(mainCamera.transform.DORotateQuaternion(gameCameraAnchor.rotation, transitionDuration).SetEase(transitionEase));
         seq.Join(mainCamera.DOFieldOfView(idleFOV, transitionDuration).SetEase(transitionEase));
-        seq.OnComplete(() =>
-        {
-            SetCameraTarget(playerTransform);
-            ScanActiveEnemies();
-        });
+        seq.OnComplete(() => SetFollowTarget(playerTransform));
         seq.Play();
     }
 
     public void ReturnToMenuCamera(Action onComplete = null)
     {
         transitioned = false;
-        currentTarget = null;
-        activeEnemies.Clear();
+        isRevealing = false;
+        currentFollowTarget = null;
 
+        if (revealCoroutine != null) StopCoroutine(revealCoroutine);
         DOTween.Kill(mainCamera.transform);
         fovTween?.Kill();
 
@@ -235,86 +189,46 @@ public class GameCameraController : MonoBehaviour
         seq.Append(mainCamera.transform.DOMove(menuPos, transitionDuration * 0.8f).SetEase(transitionEase));
         seq.Join(mainCamera.transform.DORotateQuaternion(menuRot, transitionDuration * 0.8f).SetEase(transitionEase));
         seq.Join(mainCamera.DOFieldOfView(idleFOV, transitionDuration * 0.8f).SetEase(transitionEase));
-        seq.OnComplete(() => { if (enableMenuBob) StartMenuBob(); onComplete?.Invoke(); });
+        seq.OnComplete(() =>
+        {
+            if (enableMenuBob) StartMenuBob();
+            onComplete?.Invoke();
+        });
         seq.Play();
     }
 
     #endregion
 
-    #region Gameplay Camera Mechanics
+    #region Gameplay: Follow & FOV
+
+    public void SetFollowTarget(Transform target)
+    {
+        currentFollowTarget = target;
+    }
 
     public void SetCameraFollow(bool state) => enableCameraFollow = state;
 
     public void OnPlayerStartMoving()
     {
-        StopAllCoroutines();
-        SetCameraTarget(playerTransform);
-        if (!enableDynamicZoom) TweenFOV(moveFOV);
+        if (isRevealing) return;
+        SetFollowTarget(playerTransform);
+        TweenFOV(moveFOV);
     }
 
     public void OnPlayerStartAiming()
     {
-        StopAllCoroutines();
-        SetCameraTarget(playerTransform);
-        SetDynamicZoom(false);
+        if (isRevealing) return;
+        SetFollowTarget(playerTransform);
         TweenFOV(aimFOV);
     }
 
-    public void OnPlayerStopAiming()
-    {
-        enableDynamicZoom = true;
-        SetIdle();
-    }
+    public void OnPlayerStopAiming() => SetIdle();
 
     public void SetIdle()
     {
-        SetCameraTarget(playerTransform);
-        if (!enableDynamicZoom) TweenFOV(idleFOV);
-    }
-
-    public void OnPlayerReachedPoint(MovementPoint point)
-    {
-        EnemyAI enemy = GetEnemyForPoint(point);
-        if (enemy != null && !enemy.IsDead()) StartCoroutine(RevealRoutine(enemy.transform));
-        else SetIdle();
-    }
-
-    private EnemyAI GetEnemyForPoint(MovementPoint point)
-    {
-        foreach (var link in manualLinks)
-            if (link.point == point && link.targetEnemy != null) return link.targetEnemy;
-
-        Collider[] hits = Physics.OverlapSphere(point.transform.position, autoDetectRadius, enemyLayer);
-        float closestDist = float.MaxValue;
-        EnemyAI closestEnemy = null;
-
-        foreach (var hit in hits)
-        {
-            EnemyAI e = hit.GetComponent<EnemyAI>();
-            if (e != null && !e.IsDead())
-            {
-                float dist = Vector3.Distance(point.transform.position, e.transform.position);
-                if (dist < closestDist) { closestDist = dist; closestEnemy = e; }
-            }
-        }
-        return closestEnemy;
-    }
-
-    private IEnumerator RevealRoutine(Transform enemyTransform)
-    {
-        SetDynamicZoom(false);
-        SetCameraTarget(enemyTransform);
+        if (isRevealing) return;
+        SetFollowTarget(playerTransform);
         TweenFOV(idleFOV);
-        yield return new WaitForSeconds(revealDuration);
-        enableDynamicZoom = true;
-        SetCameraTarget(playerTransform);
-    }
-
-    private void SetCameraTarget(Transform target)
-    {
-        currentTarget = target;
-        if (gameCameraAnchor != null && playerTransform != null)
-            followOffset = gameCameraAnchor.position - playerTransform.position;
     }
 
     private void TweenFOV(float targetFOV)
@@ -325,21 +239,181 @@ public class GameCameraController : MonoBehaviour
 
     #endregion
 
+    #region Enemy Reveal System
+
+    public void OnPlayerReachedPoint(MovementPoint point)
+    {
+        List<EnemyAI> enemies = GetAliveEnemiesForPoint(point);
+
+        if (enemies.Count == 0)
+        {
+            SetIdle();
+            return;
+        }
+
+        if (revealCoroutine != null) StopCoroutine(revealCoroutine);
+        revealCoroutine = StartCoroutine(RevealEnemiesRoutine(enemies));
+    }
+
+    private List<EnemyAI> GetAliveEnemiesForPoint(MovementPoint point)
+    {
+        List<EnemyAI> result = new List<EnemyAI>();
+
+        foreach (var link in manualLinks)
+        {
+            if (link.point != point) continue;
+            if (link.enemies == null) continue;
+            foreach (var e in link.enemies)
+                if (e != null && !e.IsDead()) result.Add(e);
+        }
+
+        if (result.Count == 0)
+        {
+            Collider[] hits = Physics.OverlapSphere(
+                point.transform.position, autoDetectRadius, enemyLayer);
+            foreach (var hit in hits)
+            {
+                EnemyAI enemy = hit.GetComponent<EnemyAI>();
+                if (enemy != null && !enemy.IsDead())
+                    result.Add(enemy);
+            }
+        }
+
+        return result;
+    }
+
+    private IEnumerator RevealEnemiesRoutine(List<EnemyAI> enemies)
+    {
+        isRevealing = true;
+        enableCameraFollow = false;
+
+        Vector3 playerPos = playerTransform.position;
+        Vector3 enemyCentroid = CalculateCentroid(enemies);
+
+        Vector3 toEnemies = enemyCentroid - playerPos;
+        toEnemies.y = 0f;
+        if (toEnemies.sqrMagnitude < 0.001f) toEnemies = playerTransform.forward;
+        Vector3 dirToEnemies = toEnemies.normalized;
+
+        Quaternion playerTargetRot = Quaternion.LookRotation(dirToEnemies, Vector3.up);
+        playerTransform.DORotateQuaternion(playerTargetRot, playerRotationDuration)
+                       .SetEase(Ease.OutCubic);
+
+        List<Vector3> allPositions = new List<Vector3> { playerPos };
+        foreach (var e in enemies)
+        {
+            Transform[] patrolPoints = e.GetMovementPoints();
+
+            if (patrolPoints != null && patrolPoints.Length > 0)
+            {
+                foreach (Transform pt in patrolPoints)
+                {
+                    if (pt != null)
+                    {
+                        allPositions.Add(pt.position);
+                    }
+                }
+            }
+            else
+            {
+                allPositions.Add(e.transform.position);
+            }
+        }
+
+        Bounds subjectBounds = CalculateBounds(allPositions);
+
+        float requiredFOV;
+        Vector3 targetCamPos = CalculateCameraPosition(subjectBounds, dirToEnemies, out requiredFOV);
+        Quaternion targetCamRot = CalculateCameraRotation(dirToEnemies);
+
+        float clampedFOV = Mathf.Clamp(requiredFOV, minRevealFOV, maxRevealFOV);
+
+        Sequence revealSeq = DOTween.Sequence();
+        revealSeq.Append(
+            mainCamera.transform.DOMove(targetCamPos, revealMoveDuration).SetEase(revealMoveEase));
+        revealSeq.Join(
+            mainCamera.transform.DORotateQuaternion(targetCamRot, revealMoveDuration).SetEase(revealMoveEase));
+        revealSeq.Join(
+            mainCamera.DOFieldOfView(clampedFOV, revealMoveDuration).SetEase(Ease.InOutQuad));
+        revealSeq.Play();
+
+        yield return new WaitForSeconds(revealMoveDuration + revealHoldDuration);
+
+        Vector3 returnPos = playerTransform.position + followOffset;
+        Quaternion returnRot = gameCameraAnchor != null
+                               ? gameCameraAnchor.rotation
+                               : mainCamera.transform.rotation;
+
+        Sequence returnSeq = DOTween.Sequence();
+        returnSeq.Append(
+            mainCamera.transform.DOMove(returnPos, returnDuration).SetEase(returnEase));
+        returnSeq.Join(
+            mainCamera.transform.DORotateQuaternion(returnRot, returnDuration).SetEase(returnEase));
+        returnSeq.Join(
+            mainCamera.DOFieldOfView(idleFOV, returnDuration).SetEase(Ease.InOutQuad));
+        returnSeq.OnComplete(() =>
+        {
+            isRevealing = false;
+            enableCameraFollow = true;
+            SetFollowTarget(playerTransform);
+        });
+        returnSeq.Play();
+    }
+
+    #endregion
+
+    #region Math Helpers
+
+    private Vector3 CalculateCentroid(List<EnemyAI> enemies)
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (var e in enemies) sum += e.transform.position;
+        return sum / enemies.Count;
+    }
+
+    private Bounds CalculateBounds(List<Vector3> positions)
+    {
+        Bounds b = new Bounds(positions[0], Vector3.zero);
+        for (int i = 1; i < positions.Count; i++) b.Encapsulate(positions[i]);
+        return b;
+    }
+
+    private Vector3 CalculateCameraPosition(Bounds bounds, Vector3 dirToEnemies, out float requiredFOV)
+    {
+        float boundsRadius = bounds.extents.magnitude + framingPadding;
+
+        float halfFOVRad = idleFOV * 0.5f * Mathf.Deg2Rad;
+        float requiredDist = boundsRadius / Mathf.Tan(halfFOVRad);
+        requiredFOV = 2f * Mathf.Atan2(boundsRadius, requiredDist) * Mathf.Rad2Deg;
+
+        float pitchRad = cameraTiltAngle * Mathf.Deg2Rad;
+        float horizontalDist = requiredDist * Mathf.Cos(pitchRad);
+        float verticalDist = requiredDist * Mathf.Sin(pitchRad);
+
+        Vector3 cameraHorizDir = -dirToEnemies;
+        Vector3 centroid = bounds.center;
+
+        return centroid + cameraHorizDir * horizontalDist + Vector3.up * verticalDist;
+    }
+
+    private Quaternion CalculateCameraRotation(Vector3 dirToEnemies)
+    {
+        Vector3 right = Vector3.Cross(Vector3.up, dirToEnemies).normalized;
+        Vector3 tiltedForward = Quaternion.AngleAxis(cameraTiltAngle, right) * dirToEnemies;
+        return Quaternion.LookRotation(tiltedForward, Vector3.up);
+    }
+
+    #endregion
+
     #region Gizmos
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0f, 1f, 0f, 0.2f);
-        Gizmos.DrawSphere(transform.position, autoDetectRadius);
-
-        if (playerTransform != null)
-        {
-            Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
-            Gizmos.DrawWireSphere(playerTransform.position, zoomStartDistance);
-
-            Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
-            Gizmos.DrawWireSphere(playerTransform.position, zoomMaxDistance);
-        }
+        Gizmos.color = new Color(0f, 1f, 0f, 0.15f);
+        Vector3 gizmoCenter = Application.isPlaying && playerTransform != null
+                              ? playerTransform.position
+                              : transform.position;
+        Gizmos.DrawSphere(gizmoCenter, autoDetectRadius);
     }
 
     #endregion
