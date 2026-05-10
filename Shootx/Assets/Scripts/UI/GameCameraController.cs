@@ -100,6 +100,7 @@ public class GameCameraController : MonoBehaviour
 
         if (menuCameraAnchor != null)
         {
+            Debug.Log("[GameCamera] Positioned at menu anchor.");
             mainCamera.transform.position = menuCameraAnchor.position;
             mainCamera.transform.rotation = menuCameraAnchor.rotation;
         }
@@ -134,6 +135,7 @@ public class GameCameraController : MonoBehaviour
             targetPos,
             Time.deltaTime * followSpeed
         );
+        Debug.Log($"[GameCamera] Following target at {targetPos}");
     }
 
     #endregion
@@ -144,6 +146,7 @@ public class GameCameraController : MonoBehaviour
     {
         bobTween?.Kill();
 
+        Debug.Log("[GameCamera] Starting menu bobbing.");
         mainCamera.transform.position = menuPos;
 
         bobTween = mainCamera.transform
@@ -167,6 +170,7 @@ public class GameCameraController : MonoBehaviour
         if (playerTransform != null)
             followOffset = gameCameraAnchor.position - playerTransform.position;
 
+        Debug.Log("[GameCamera] Transitioning to gameplay camera.");
         Sequence seq = DOTween.Sequence();
         seq.Append(mainCamera.transform.DOMove(gameCameraAnchor.position, transitionDuration).SetEase(transitionEase));
         seq.Join(mainCamera.transform.DORotateQuaternion(gameCameraAnchor.rotation, transitionDuration).SetEase(transitionEase));
@@ -210,14 +214,14 @@ public class GameCameraController : MonoBehaviour
 
     public void OnPlayerStartMoving()
     {
-        if (isRevealing) return;
+        if (!transitioned || isRevealing) return;
         SetFollowTarget(playerTransform);
         TweenFOV(moveFOV);
     }
 
     public void OnPlayerStartAiming()
     {
-        if (isRevealing) return;
+        if (!transitioned || isRevealing) return;
         SetFollowTarget(playerTransform);
         TweenFOV(aimFOV);
     }
@@ -226,7 +230,7 @@ public class GameCameraController : MonoBehaviour
 
     public void SetIdle()
     {
-        if (isRevealing) return;
+        if (!transitioned || isRevealing) return;
         SetFollowTarget(playerTransform);
         TweenFOV(idleFOV);
     }
@@ -234,6 +238,7 @@ public class GameCameraController : MonoBehaviour
     private void TweenFOV(float targetFOV)
     {
         fovTween?.Kill();
+        Debug.Log($"[GameCamera] Tweening FOV to {targetFOV}");
         fovTween = mainCamera.DOFieldOfView(targetFOV, zoomSpeed).SetEase(Ease.InOutQuad);
     }
 
@@ -243,6 +248,9 @@ public class GameCameraController : MonoBehaviour
 
     public void OnPlayerReachedPoint(MovementPoint point)
     {
+
+        if (!transitioned) return;
+
         List<EnemyAI> enemies = GetAliveEnemiesForPoint(point);
 
         if (enemies.Count == 0)
@@ -328,6 +336,7 @@ public class GameCameraController : MonoBehaviour
 
         float clampedFOV = Mathf.Clamp(requiredFOV, minRevealFOV, maxRevealFOV);
 
+        Debug.Log($"[GameCamera] Revealing enemies. TargetPos: {targetCamPos}, TargetRot: {targetCamRot.eulerAngles}, RequiredFOV: {requiredFOV}");
         Sequence revealSeq = DOTween.Sequence();
         revealSeq.Append(
             mainCamera.transform.DOMove(targetCamPos, revealMoveDuration).SetEase(revealMoveEase));
