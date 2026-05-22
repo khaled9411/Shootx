@@ -35,6 +35,7 @@ public class LevelLoader : MonoBehaviour
     private GameObject _currentLevelInstance;
     private int _currentLevelNumber;
     private bool _gameActive;
+    private int _errorCount;
 
     #endregion
 
@@ -94,12 +95,28 @@ public class LevelLoader : MonoBehaviour
         }
 
         SetProgress(0.85f);
-
+        
         if (req.asset == null)
         {
+            _errorCount++;
             Debug.LogError($"[LevelLoader] Prefab Not found in: Resources/{path}");
+            LevelStateManager.ReturnToFirstLevel();
+            
+            if(_errorCount <= 3)
+            {
+                Debug.LogWarning($"[LevelLoader] Attempting to load fallback level. Attempt {_errorCount} of 3.");
+                StartCoroutine(LoadLevelRoutine());
+            }
+            else
+            {
+                Debug.LogError($"[LevelLoader] Multiple load errors detected. Please check your Resources folder and ensure Level{_currentLevelNumber} prefab exists.");
+                yield break;
+            }
+
             yield break;
         }
+
+        _errorCount = 0;
 
         if (_currentLevelInstance != null)
             Destroy(_currentLevelInstance);

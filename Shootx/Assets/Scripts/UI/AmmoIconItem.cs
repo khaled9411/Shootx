@@ -50,7 +50,7 @@ public class AmmoIconItem : MonoBehaviour
             .OnComplete(() =>
             {
                 iconImage.color = consumedColor;
-                canvasGroup.alpha = 0.25f;
+                canvasGroup.alpha = 0.5f;
                 transform.localScale = new Vector3(0.7f, 0.7f, 1f);
             });
     }

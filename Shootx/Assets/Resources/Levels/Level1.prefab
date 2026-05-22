@@ -17509,6 +17509,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -9.612999
       objectReference: {fileID: 0}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 45fd42a78aa90f940b4ed78300c15728, type: 3}
     - target: {fileID: 8361268907892528415, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.833832
@@ -17537,7 +17541,8 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.061559904
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4919396062510683159, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3233058028133131034, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
     m_AddedGameObjects: []

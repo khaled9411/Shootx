@@ -37,6 +37,14 @@ public static class LevelStateManager
         return PlayerPrefs.GetInt(KEY_LEVEL_TO_LOAD, 1);
     }
 
+    public static int ReturnToFirstLevel()
+    {
+        PlayerPrefs.SetInt(KEY_LEVEL_TO_LOAD, 1);
+        PlayerPrefs.Save();
+        Debug.Log($"[LevelStateManager] Returning to first level.");
+        return 1;
+    }
+
     public static void ClearResult()
     {
         PlayerPrefs.SetInt(KEY_LAST_RESULT, (int)GameResult.None);
