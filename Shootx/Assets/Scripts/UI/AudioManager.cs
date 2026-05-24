@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class AudioManager : MonoBehaviour
 {
@@ -9,9 +10,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    [Header("Common Audio Clips")]
-    public AudioClip backgroundMusic;
+    [Header("Music Clips")]
+    public AudioClip mainMenuMusic;
+    public AudioClip gameplayMusic;
+
+    [Header("SFX")]
     public AudioClip buttonClickSound;
+
+    [Header("Transition Settings")]
+    [SerializeField] private float fadeDuration = 1.5f;
 
     private void Awake()
     {
@@ -21,53 +28,84 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (backgroundMusic != null)
+        if (mainMenuMusic != null)
         {
-            PlayMusic(backgroundMusic);
+            musicSource.clip = mainMenuMusic;
+            musicSource.loop = true;
+            musicSource.volume = 0.3f;
+            musicSource.Play();
         }
 
         AttachSoundToAllButtons();
+
+        UIManager.OnTapToPlay += OnGameStarted;
     }
 
-    public void PlayMusic(AudioClip clip)
+    private void OnDestroy()
     {
-        musicSource.clip = clip;
-        musicSource.loop = true;
-        musicSource.Play();
+        UIManager.OnTapToPlay -= OnGameStarted;
+    }
+
+    private void OnGameStarted()
+    {
+        CrossFadeMusic(gameplayMusic);
+    }
+
+    public void OnReturnToMainMenu()
+    {
+        CrossFadeMusic(mainMenuMusic);
+    }
+
+    private void CrossFadeMusic(AudioClip newClip)
+    {
+        if (newClip == null) return;
+        if (musicSource.clip == newClip && musicSource.isPlaying) return;
+
+        musicSource.DOKill();
+
+        musicSource.DOFade(0f, fadeDuration * 0.5f)
+            .OnComplete(() =>
+            {
+                musicSource.Stop();
+                musicSource.clip = newClip;
+                musicSource.loop = true;
+                musicSource.volume = 0f;
+                musicSource.Play();
+
+                musicSource.DOFade(0.3f, fadeDuration * 0.5f);
+            });
     }
 
     public void PlaySFX(AudioClip clip)
     {
-        sfxSource.PlayOneShot(clip);
+        if (clip != null)
+            sfxSource.PlayOneShot(clip);
     }
 
     private void AttachSoundToAllButtons()
     {
         Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
-
         foreach (Button btn in allButtons)
         {
-            if (btn.gameObject.scene.name != null)
+            if (btn.gameObject.scene.IsValid())
             {
                 btn.onClick.AddListener(() => PlaySFX(buttonClickSound));
             }
         }
     }
 
-    public void SetHaptic(bool enabled)
-    {
-        Debug.Log($"[Audio] Haptic: {enabled}");
-    }
-
     public void SetSounds(bool enabled)
     {
-        Debug.Log($"[Audio] Sounds: {enabled}");
-        AudioListener.volume = enabled ? 1f : 0f;
+        sfxSource.mute = !enabled;
     }
 
     public void SetMusic(bool enabled)
     {
-        Debug.Log($"[Audio] Music: {enabled}");
+        musicSource.mute = !enabled;
     }
 
+    public void SetHaptic(bool enabled)
+    {
+        Debug.Log($"[Audio] Haptic: {enabled}");
+    }
 }

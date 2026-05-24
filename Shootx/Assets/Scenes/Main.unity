@@ -1482,14 +1482,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.100766, g: 0.0090494715, b: 0.15471691, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7a59e94c497bf8c4e8ab1dbd1a09344a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6023,22 +6023,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WinLosePauseUI
   winPanel: {fileID: 886741251}
-  winBackground: {fileID: 356351179}
+  winHeader: {fileID: 356351179}
   winTitleText: {fileID: 1110330451}
+  rewardLabelText: {fileID: 2067463965}
   moneyAmountText: {fileID: 292176622}
-  moneyIcon: {fileID: 2084857081}
+  moneyRewardGroup: {fileID: 1205015869}
   doubleMoneyButton: {fileID: 2015755300}
   nextButton: {fileID: 851032624}
   losePanel: {fileID: 2057941782}
-  loseBackground: {fileID: 693987793}
+  loseHeader: {fileID: 693987793}
   loseTitleText: {fileID: 1221520686}
-  homeButton: {fileID: 1860184807}
+  retryButton: {fileID: 1860184807}
+  skipLevelButton: {fileID: 1363555189}
   pausePanel: {fileID: 1024213539}
-  pauseBackground: {fileID: 99747264}
+  pauseHeader: {fileID: 99747264}
+  pauseTitleText: {fileID: 1345308949}
   pauseButton: {fileID: 1748368914}
-  restartButton: {fileID: 1591348013}
-  continueButton: {fileID: 184286826}
-  skipButton: {fileID: 1120596669}
+  resumeButton: {fileID: 184286826}
+  retryPauseButton: {fileID: 1591348013}
+  skipLevelPauseButton: {fileID: 1120596669}
   bgFadeDuration: 0.4
   elementDelay: 0.08
   popInDuration: 0.5
@@ -6771,8 +6774,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 2059580440}
   sfxSource: {fileID: 1540948935}
-  backgroundMusic: {fileID: 8300000, guid: 592def5be8ed2de4697eb274c98e787c, type: 3}
+  mainMenuMusic: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 4854e3acd31364b4883875c066cbe1a7, type: 3}
   buttonClickSound: {fileID: 8300000, guid: eb3ceee3da22a4368a284a670b2fd99b, type: 3}
+  fadeDuration: 1.5
 --- !u!81 &658102935
 AudioListener:
   m_ObjectHideFlags: 0
@@ -16581,7 +16586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a0168815d564f35499520df76b9390cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e4ed69db4f92014f874d9f283f44b11, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18771,13 +18776,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1560591142}
+  - {fileID: 697334197}
+  - {fileID: 1279317856}
+  - {fileID: 463033858}
   - {fileID: 886741248}
   - {fileID: 2057941785}
   - {fileID: 1024213536}
-  - {fileID: 1560591142}
-  - {fileID: 1279317856}
-  - {fileID: 697334197}
-  - {fileID: 463033858}
   m_Father: {fileID: 566614606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -25021,7 +25026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a0168815d564f35499520df76b9390cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e4ed69db4f92014f874d9f283f44b11, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
