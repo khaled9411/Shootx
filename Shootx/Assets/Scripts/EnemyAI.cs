@@ -155,33 +155,33 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     private void CheckForPlayer()
     {
-        if (playerTransform == null) return;
+        //if (playerTransform == null) return;
 
-        Vector3 directionToPlayer = playerTransform.position - transform.position;
-        float distanceToPlayer = directionToPlayer.magnitude;
+        //Vector3 directionToPlayer = playerTransform.position - transform.position;
+        //float distanceToPlayer = directionToPlayer.magnitude;
 
-        if (distanceToPlayer <= detectionRange)
-        {
-            float heightDifference = Mathf.Abs(playerTransform.position.y - transform.position.y);
+        //if (distanceToPlayer <= detectionRange)
+        //{
+        //    float heightDifference = Mathf.Abs(playerTransform.position.y - transform.position.y);
 
-            if (heightDifference <= detectionHeight)
-            {
-                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+        //    if (heightDifference <= detectionHeight)
+        //    {
+        //        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
 
-                if (angleToPlayer <= detectionAngle / 2f)
-                {
-                    if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized,
-                        out RaycastHit hit, distanceToPlayer))
-                    {
-                        if (hit.transform == playerTransform)
-                        {
-                            Debug.Log(gameObject.name + " detected the player!");
-                            OnPlayerDetected?.Invoke();
-                        }
-                    }
-                }
-            }
-        }
+        //        if (angleToPlayer <= detectionAngle / 2f)
+        //        {
+        //            if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized,
+        //                out RaycastHit hit, distanceToPlayer))
+        //            {
+        //                if (hit.transform == playerTransform)
+        //                {
+        //                    Debug.Log(gameObject.name + " detected the player!");
+        //                    OnPlayerDetected?.Invoke();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     private void CheckForDeadEnemies()
@@ -191,7 +191,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         foreach (Collider deadEnemy in deadEnemies)
         {
 
-            OnPlayerDetected?.Invoke();
+            //OnPlayerDetected?.Invoke();
             //Vector3 directionToCorpse = deadEnemy.transform.position - transform.position;
             //float angleToCorpse = Vector3.Angle(transform.forward, directionToCorpse);
 
