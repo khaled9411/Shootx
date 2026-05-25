@@ -196,6 +196,9 @@ public class GameCameraController : MonoBehaviour
         transitionSeq.Join(mainCamera.transform.DORotateQuaternion(gameCameraAnchor.rotation, transitionDuration).SetEase(transitionEase));
         transitionSeq.Join(mainCamera.DOFieldOfView(idleFOV, transitionDuration).SetEase(transitionEase));
         transitionSeq.Play();
+
+        //* Simulate player reaching the first point immediately after transition for demo purposes.
+        OnPlayerReachedPoint(FindFirstObjectByType<PathMovementManager>().CurrentPoint);
     }
 
     public void ReturnToMenuCamera(Action onComplete = null)
