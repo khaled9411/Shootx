@@ -11,23 +11,17 @@ public class PathMovementManager : MonoBehaviour
     [Header("Path Settings")]
     [SerializeField] private bool autoSetupPoints = true;
 
-    private Queue<int> movementQueue = new Queue<int>();
-    private bool isProcessingQueue = false;
+    private bool isMoving = false;
 
     [HideInInspector] public MovementPoint CurrentPoint;
 
     void Start()
     {
         if (autoSetupPoints)
-        {
             SetupPointsAutomatically();
-        }
 
         ValidatePoints();
-
         InitializePlayerAtStart();
-
-        UpdatePointsLockState();
     }
 
     void SetupPointsAutomatically()
@@ -36,7 +30,7 @@ public class PathMovementManager : MonoBehaviour
         System.Array.Sort(allPoints, (a, b) => a.PointIndex.CompareTo(b.PointIndex));
         pathPoints.Clear();
         pathPoints.AddRange(allPoints);
-        Debug.Log($"{pathPoints.Count} point was found automatically");
+        Debug.Log($"{pathPoints.Count} points found automatically");
     }
 
     void ValidatePoints()
@@ -46,94 +40,70 @@ public class PathMovementManager : MonoBehaviour
             player = FindFirstObjectByType<PlayerMovement>();
             if (player == null)
             {
-                Debug.LogError("PlayerMovement was not found!");
+                Debug.LogError("PlayerMovement not found!");
                 return;
             }
         }
 
         if (pathPoints.Count == 0)
-        {
-            Debug.LogWarning("There are no points on the path!");
-            return;
-        }
+            Debug.LogWarning("No points on path!");
     }
 
     void InitializePlayerAtStart()
     {
         if (pathPoints.Count > 0 && player != null)
         {
-            MovementPoint startPoint = pathPoints[0];
-            CurrentPoint = startPoint;
-
-            //player.CurrentPointIndex = 0;
-
-            player.transform.position = startPoint.transform.position;
-
-            startPoint.OnPlayerReached();
+            CurrentPoint = pathPoints[0];
+            player.transform.position = CurrentPoint.transform.position;
+            CurrentPoint.OnPlayerReached();
         }
     }
 
-    public void MoveToPoint(int targetIndex)
+    public void MoveToNeighbor(MovementPoint targetPoint)
     {
-        if (targetIndex < 0 || targetIndex >= pathPoints.Count) return;
+        if (isMoving || targetPoint == null) return;
 
-        int currentIndex = player.CurrentPointIndex;
-        if (currentIndex == targetIndex) return;
-
-        movementQueue.Clear();
-        if (targetIndex > currentIndex)
+        if (!IsNeighborOfCurrent(targetPoint))
         {
-            for (int i = currentIndex + 1; i <= targetIndex; i++) movementQueue.Enqueue(i);
-        }
-        else
-        {
-            for (int i = currentIndex - 1; i >= targetIndex; i--) movementQueue.Enqueue(i);
-        }
-
-        if (!isProcessingQueue) ProcessNextPointInQueue();
-    }
-
-    void ProcessNextPointInQueue()
-    {
-        if (movementQueue.Count == 0)
-        {
-            isProcessingQueue = false;
-            UpdatePointsLockState();
+            Debug.LogWarning("Target is not a direct neighbor of current point!");
             return;
         }
 
-        isProcessingQueue = true;
-        int nextPointIndex = movementQueue.Dequeue();
-        MovementPoint nextPoint = pathPoints[nextPointIndex];
+        isMoving = true;
 
-        if (nextPoint != null)
-        {
-            player.MoveToPoint(nextPoint.transform.position, nextPointIndex);
-        }
+        CurrentPoint?.OnPlayerLeft();
+
+        int targetIndex = pathPoints.IndexOf(targetPoint);
+
+        player.MoveToPoint(targetPoint.transform.position, targetIndex);
+    }
+
+    bool IsNeighborOfCurrent(MovementPoint target)
+    {
+        if (CurrentPoint == null) return false;
+
+        return target == CurrentPoint.neighborUp ||
+               target == CurrentPoint.neighborDown ||
+               target == CurrentPoint.neighborLeft ||
+               target == CurrentPoint.neighborRight;
     }
 
     public void OnPointReached()
     {
-        UpdatePointsLockState();
+        isMoving = false;
 
-        if (pathPoints[player.CurrentPointIndex] != null)
-        {
-            pathPoints[player.CurrentPointIndex].OnPlayerReached();
-        }
-
-        if (movementQueue.Count > 0)
-        {
-            ProcessNextPointInQueue();
-        }
-        else
-        {
-            isProcessingQueue = false;
-        }
-    }
-
-    void UpdatePointsLockState()
-    {
         int currentIndex = player.CurrentPointIndex;
-        CurrentPoint = pathPoints[currentIndex];
+
+        if (currentIndex >= 0 && currentIndex < pathPoints.Count)
+        {
+            CurrentPoint = pathPoints[currentIndex];
+            CurrentPoint.OnPlayerReached();
+        }
     }
+
+
+    public MovementPoint GetNeighborUp() => CurrentPoint?.neighborUp;
+    public MovementPoint GetNeighborDown() => CurrentPoint?.neighborDown;
+    public MovementPoint GetNeighborLeft() => CurrentPoint?.neighborLeft;
+    public MovementPoint GetNeighborRight() => CurrentPoint?.neighborRight;
 }

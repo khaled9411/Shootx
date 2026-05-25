@@ -55,7 +55,7 @@ public class DirectionButtonsUI : MonoBehaviour
 
         PathMovementManager manager = FindFirstObjectByType<PathMovementManager>();
         if (manager != null)
-            manager.MoveToPoint(neighbor.PointIndex);
+            manager.MoveToNeighbor(neighbor);
     }
 
     public void HideAll()
