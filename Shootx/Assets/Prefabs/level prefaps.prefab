@@ -303,19 +303,19 @@ MonoBehaviour:
   moveFOV: 75
   aimFOV: 60
   zoomSpeed: 0.5
-  enableDynamicZoom: 1
-  dynamicMinFOV: 55
-  dynamicMaxFOV: 90
-  zoomStartDistance: 5
-  zoomMaxDistance: 30
-  fovPerExtraEnemy: 3
-  dynamicZoomSmoothSpeed: 2
-  enemyScanInterval: 0.3
-  revealDuration: 2
+  revealMoveDuration: 1
+  revealMoveEase: 10
+  returnDuration: 0.8
+  returnEase: 10
   autoDetectRadius: 15
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  framingPadding: 2.5
+  cameraTiltAngle: 55
+  minRevealFOV: 35
+  maxRevealFOV: 85
+  playerRotationDuration: 0.35
   manualLinks: []
 --- !u!1 &1759006556043788139
 GameObject:
@@ -772,6 +772,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2049626384093535547}
     m_Modifications:
+    - target: {fileID: 793458846058264182, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
+      propertyPath: m_RigLayers.Array.data[0].m_Active
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1360082451043015217, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
