@@ -2,54 +2,64 @@ using UnityEngine;
 
 public static class LevelStateManager
 {
-    private const string KEY_LAST_RESULT = "LastGameResult";
-    private const string KEY_LEVEL_TO_LOAD = "LevelToLoad";
+    private const string KEY_DISPLAY_LEVEL = "CurrentDisplayLevel";
+    private const string KEY_RESULT = "LevelResult";
 
-    public enum GameResult { None = 0, Win = 1, Lose = 2 }
-
-
-    public static void SaveWin(int currentLevel)
+    public static int GetCurrentDisplayLevel()
     {
-        PlayerPrefs.SetInt(KEY_LAST_RESULT, (int)GameResult.Win);
-        PlayerPrefs.SetInt(KEY_LEVEL_TO_LOAD, currentLevel + 1);
-        PlayerPrefs.Save();
-        Debug.Log($"[LevelStateManager] Win saved > next level = {currentLevel + 1}");
+        return PlayerPrefs.GetInt(KEY_DISPLAY_LEVEL, 1);
     }
-
-    public static void SaveLose(int currentLevel)
-    {
-        PlayerPrefs.SetInt(KEY_LAST_RESULT, (int)GameResult.Lose);
-        PlayerPrefs.SetInt(KEY_LEVEL_TO_LOAD, currentLevel);
-        PlayerPrefs.Save();
-        Debug.Log($"[LevelStateManager] Lose saved > retry level = {currentLevel}");
-    }
-
-    public static GameResult GetLastResult()
-        => (GameResult)PlayerPrefs.GetInt(KEY_LAST_RESULT, (int)GameResult.None);
 
     public static int GetLevelToLoad()
     {
-        if (!PlayerPrefs.HasKey(KEY_LEVEL_TO_LOAD))
-            return GameDataManager.Instance != null
-                ? GameDataManager.Instance.CurrentLevel
-                : 1;
+        int displayLevel = GetCurrentDisplayLevel();
 
-        return PlayerPrefs.GetInt(KEY_LEVEL_TO_LOAD, 1);
+        if (LevelVariantConfig.Instance == null)
+        {
+            Debug.LogWarning("[LevelStateManager] LevelVariantConfig.Instance = null — Loading Level1 as fallback.");
+            return 1;
+        }
+
+        return LevelVariantConfig.Instance.GetBaseLevelForDisplayLevel(displayLevel);
     }
 
-    public static int ReturnToFirstLevel()
+
+    public static void SaveWin(int displayLevel)
     {
-        PlayerPrefs.SetInt(KEY_LEVEL_TO_LOAD, 1);
+        PlayerPrefs.SetString(KEY_RESULT, "Win");
+        PlayerPrefs.SetInt(KEY_DISPLAY_LEVEL, displayLevel + 1);
         PlayerPrefs.Save();
-        Debug.Log($"[LevelStateManager] Returning to first level.");
-        return 1;
+    }
+
+    public static void SaveLose(int displayLevel)
+    {
+        PlayerPrefs.SetString(KEY_RESULT, "Lose");
+        PlayerPrefs.Save();
     }
 
     public static void ClearResult()
     {
-        PlayerPrefs.SetInt(KEY_LAST_RESULT, (int)GameResult.None);
-        PlayerPrefs.DeleteKey(KEY_LEVEL_TO_LOAD);
+        PlayerPrefs.DeleteKey(KEY_RESULT);
+    }
+
+    public static string GetLastResult()
+    {
+        return PlayerPrefs.GetString(KEY_RESULT, "");
+    }
+
+    public static void ReturnToFirstLevel()
+    {
+        PlayerPrefs.SetInt(KEY_DISPLAY_LEVEL, 1);
         PlayerPrefs.Save();
     }
 
+    public static void PrintCurrentState()
+    {
+        int display = GetCurrentDisplayLevel();
+        int baseLevel = LevelVariantConfig.Instance != null
+            ? LevelVariantConfig.Instance.GetBaseLevelForDisplayLevel(display)
+            : -1;
+
+        Debug.Log($"[LevelStateManager] Display Level: {display} | Base Level (to load): {baseLevel}");
+    }
 }

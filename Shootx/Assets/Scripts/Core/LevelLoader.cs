@@ -1,17 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
 
 public class LevelLoader : MonoBehaviour
 {
-    // ===================================================================
     #region Inspector
 
     [Header("Testing")]
     [SerializeField] private bool useTestLevel = false;
-    [SerializeField] private int testLevelNumber = 1;
+    [SerializeField] private int testDisplayLevel = 1;
 
     [Header("Loading Screen")]
     [SerializeField] private CanvasGroup loadingCanvasGroup;
@@ -29,11 +27,10 @@ public class LevelLoader : MonoBehaviour
 
     #endregion
 
-    // ===================================================================
     #region Private State
 
     private GameObject _currentLevelInstance;
-    private int _currentLevelNumber;
+    private int _currentDisplayLevel;
     private bool _gameActive;
     private int _errorCount;
 
@@ -43,7 +40,6 @@ public class LevelLoader : MonoBehaviour
     {
         Time.timeScale = 0f;
         _gameActive = false;
-
         InitLoadingScreen();
     }
 
@@ -59,33 +55,33 @@ public class LevelLoader : MonoBehaviour
         DOTween.Kill(this);
     }
 
-    // ===================================================================
-    #region Loading Routine
 
     private IEnumerator LoadLevelRoutine()
     {
         if (useTestLevel)
         {
-            _currentLevelNumber = testLevelNumber;
-            Debug.Log($"<color=yellow>[LevelLoader] TEST MODE ON: Overriding level load to Level {_currentLevelNumber}</color>");
+            _currentDisplayLevel = testDisplayLevel;
+            Debug.Log($"<color=yellow>[LevelLoader] TEST MODE: Display Level {_currentDisplayLevel}</color>");
         }
         else
         {
-            _currentLevelNumber = LevelStateManager.GetLevelToLoad();
+            _currentDisplayLevel = LevelStateManager.GetCurrentDisplayLevel();
         }
 
-        if (GameDataManager.Instance != null)
-            GameDataManager.Instance.SetLevel(_currentLevelNumber);
+        int baseLevelNumber = LevelVariantConfig.Instance != null
+            ? LevelVariantConfig.Instance.GetBaseLevelForDisplayLevel(_currentDisplayLevel)
+            : _currentDisplayLevel;
 
-        Debug.Log($"[LevelLoader] Starting load for level {_currentLevelNumber}");
+        if (GameDataManager.Instance != null)
+            GameDataManager.Instance.SetLevel(_currentDisplayLevel);
+
+        Debug.Log($"[LevelLoader] Display:{_currentDisplayLevel} to Loading Base Level:{baseLevelNumber}");
 
         yield return FadeLoading(1f);
-
         SetProgress(0f);
 
-        string path = $"Levels/Level{_currentLevelNumber}";
+        string path = $"Levels/Level{baseLevelNumber}";
         float startTime = Time.realtimeSinceStartup;
-
         ResourceRequest req = Resources.LoadAsync<GameObject>(path);
 
         while (!req.isDone)
@@ -95,24 +91,22 @@ public class LevelLoader : MonoBehaviour
         }
 
         SetProgress(0.85f);
-        
+
         if (req.asset == null)
         {
             _errorCount++;
-            Debug.LogError($"[LevelLoader] Prefab Not found in: Resources/{path}");
+            Debug.LogError($"[LevelLoader] Prefab not found: Resources/{path}");
             LevelStateManager.ReturnToFirstLevel();
-            
-            if(_errorCount <= 3)
+
+            if (_errorCount <= 3)
             {
-                Debug.LogWarning($"[LevelLoader] Attempting to load fallback level. Attempt {_errorCount} of 3.");
+                Debug.LogWarning($"[LevelLoader] Fallback attempt {_errorCount}/3");
                 StartCoroutine(LoadLevelRoutine());
             }
             else
             {
-                Debug.LogError($"[LevelLoader] Multiple load errors detected. Please check your Resources folder and ensure Level{_currentLevelNumber} prefab exists.");
-                yield break;
+                Debug.LogError("[LevelLoader] Multiple load errors. Check Resources folder.");
             }
-
             yield break;
         }
 
@@ -125,6 +119,13 @@ public class LevelLoader : MonoBehaviour
         _currentLevelInstance = Instantiate(req.asset as GameObject, parent);
 
         SetProgress(0.92f);
+
+        yield return null;
+
+        if (LevelVariantApplier.Instance != null)
+            LevelVariantApplier.Instance.ApplyCurrentVariant();
+        else
+            Debug.LogWarning("[LevelLoader] LevelVariantApplier  Not present in the scene.");
 
         float elapsed = Time.realtimeSinceStartup - startTime;
         float remaining = minLoadingDuration - elapsed;
@@ -139,19 +140,12 @@ public class LevelLoader : MonoBehaviour
             zoneProgressController.Refresh();
 
         Time.timeScale = 1f;
-        Debug.Log("[LevelLoader] Game started — physics resumed.");
 
         yield return FadeLoading(0f);
 
-        //UIManager.Instance?.ShowMainUI();
-
-        Debug.Log($"[LevelLoader] Level {_currentLevelNumber} ready — waiting for player.");
+        Debug.Log($"[LevelLoader] Level ready — Display:{_currentDisplayLevel} Base:{baseLevelNumber}");
     }
 
-    #endregion
-
-    // ===================================================================
-    #region Enter Game
 
     private void HandleEnterGame()
     {
@@ -159,48 +153,34 @@ public class LevelLoader : MonoBehaviour
         _gameActive = true;
     }
 
-    #endregion
-
-    // ===================================================================
-    #region Public Win / Lose API
-
     public void OnWin()
     {
         if (!_gameActive) return;
-
         _gameActive = false;
         Time.timeScale = 0f;
 
         if (GameDataManager.Instance != null)
             GameDataManager.Instance.AdvanceLevel();
 
-        LevelStateManager.SaveWin(_currentLevelNumber);
-
-        LeaderboardManager.Instance.UpdatePlayerLevel(_currentLevelNumber);
-
+        LevelStateManager.SaveWin(_currentDisplayLevel);
+        LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
         UIManager.Instance?.ShowWinScreen();
 
-        Debug.Log($"[LevelLoader] Win! Next level = {_currentLevelNumber + 1}");
+        Debug.Log($"[LevelLoader] Win! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");
     }
 
     public void OnLose()
     {
         if (!_gameActive) return;
-
         _gameActive = false;
         Time.timeScale = 0f;
 
-        LevelStateManager.SaveLose(_currentLevelNumber);
-
+        LevelStateManager.SaveLose(_currentDisplayLevel);
         UIManager.Instance?.ShowLoseScreen();
 
-        Debug.Log($"[LevelLoader] Lose! Retry level = {_currentLevelNumber}");
+        Debug.Log($"[LevelLoader] Lose! Retry {_currentDisplayLevel}");
     }
 
-    #endregion
-
-    // ===================================================================
-    #region Helpers
 
     private void InitLoadingScreen()
     {
@@ -212,16 +192,13 @@ public class LevelLoader : MonoBehaviour
 
     private void SetProgress(float value)
     {
-        value = Mathf.Clamp01(value);
-
         if (progressBar != null)
-            progressBar.value = value;
+            progressBar.value = Mathf.Clamp01(value);
     }
 
     private IEnumerator FadeLoading(float target)
     {
         if (loadingCanvasGroup == null) yield break;
-
         loadingCanvasGroup.blocksRaycasts = true;
 
         yield return loadingCanvasGroup
@@ -237,7 +214,6 @@ public class LevelLoader : MonoBehaviour
     private IEnumerator AnimateProgressTo(float target, float duration)
     {
         if (progressBar == null) yield break;
-
         float current = progressBar.value;
 
         yield return DOTween
@@ -245,6 +221,4 @@ public class LevelLoader : MonoBehaviour
             .SetUpdate(true)
             .WaitForCompletion();
     }
-
-    #endregion
 }

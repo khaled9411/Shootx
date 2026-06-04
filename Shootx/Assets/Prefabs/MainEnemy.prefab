@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2923239806948973205}
   - component: {fileID: 5685074920699640239}
   - component: {fileID: 2486786393488841979}
+  - component: {fileID: 3021253028676666312}
   m_Layer: 8
   m_Name: MainEnemy
   m_TagString: Untagged
@@ -157,6 +158,27 @@ MonoBehaviour:
   OnEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3021253028676666312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5721131461776048384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e18a815e3009b94bb4eada1035bc2d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAppearanceController
+  visualChildren:
+  - {fileID: 3342276852803903900}
+  - {fileID: 795401334418006413}
+  - {fileID: 8303045603175291241}
+  - {fileID: 7957339261756199983}
+  - {fileID: 2004069654441186365}
+  - {fileID: 5132848791591869733}
+  - {fileID: 1173201734237461562}
+  defaultChildIndex: 0
 --- !u!1001 &560905537241636060
 PrefabInstance:
   m_ObjectHideFlags: 0

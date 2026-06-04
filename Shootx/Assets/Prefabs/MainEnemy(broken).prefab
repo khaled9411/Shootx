@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 4948573675266688443}
   - component: {fileID: 7997297659624212478}
   - component: {fileID: 3932768910325725192}
+  - component: {fileID: 8852323989199692929}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -253,6 +254,27 @@ MonoBehaviour:
   OnEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8852323989199692929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119015271853763341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e18a815e3009b94bb4eada1035bc2d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAppearanceController
+  visualChildren:
+  - {fileID: 4561307646220827420}
+  - {fileID: 7172847317035624353}
+  - {fileID: 4144415316145743245}
+  - {fileID: 6845593341616557315}
+  - {fileID: 2410973938837990210}
+  - {fileID: 2245739432632860756}
+  - {fileID: 3103338851970707926}
+  defaultChildIndex: 0
 --- !u!1001 &293301625526304929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1517,7 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
-  mainEnemyAI: {fileID: 0}
+  mainEnemyAI: {fileID: 3932768910325725192}
   headshotMultiplier: 2
 --- !u!1001 &1435260476000206085
 PrefabInstance:
@@ -2480,7 +2502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
-  mainEnemyAI: {fileID: 0}
+  mainEnemyAI: {fileID: 3932768910325725192}
   headshotMultiplier: 2
 --- !u!1 &7351173733872828124 stripped
 GameObject:
@@ -3847,7 +3869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
-  mainEnemyAI: {fileID: 0}
+  mainEnemyAI: {fileID: 3932768910325725192}
   headshotMultiplier: 2
 --- !u!1 &8284476202791988837 stripped
 GameObject:
@@ -5113,7 +5135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
-  mainEnemyAI: {fileID: 0}
+  mainEnemyAI: {fileID: 3932768910325725192}
   headshotMultiplier: 2
 --- !u!1 &8690989669613024497 stripped
 GameObject:
@@ -5416,6 +5438,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4700718891997078985, guid: 47cc4aba4bf6fca41bef0f68180bd93c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7328047284322740052}
+    - targetCorrespondingSourceObject: {fileID: 4700718891997078985, guid: 47cc4aba4bf6fca41bef0f68180bd93c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1163412697008064645}
     - targetCorrespondingSourceObject: {fileID: 7354008096416770832, guid: 47cc4aba4bf6fca41bef0f68180bd93c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7570449126599445921}
@@ -6570,6 +6595,20 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1163412697008064645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394372125400972565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
+  mainEnemyAI: {fileID: 3932768910325725192}
+  headshotMultiplier: 2
 --- !u!1001 &6035112732629971026
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7058,7 +7097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
-  mainEnemyAI: {fileID: 0}
+  mainEnemyAI: {fileID: 3932768910325725192}
   headshotMultiplier: 2
 --- !u!1 &2751289608524608395 stripped
 GameObject:
@@ -7939,6 +7978,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4700718891997078985, guid: 1f53cdf5224a0984093dc0021cd90bf8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8519833822122961598}
+    - targetCorrespondingSourceObject: {fileID: 4700718891997078985, guid: 1f53cdf5224a0984093dc0021cd90bf8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 719899802514479752}
     - targetCorrespondingSourceObject: {fileID: 7354008096416770832, guid: 1f53cdf5224a0984093dc0021cd90bf8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8540329541121210860}
@@ -8414,6 +8456,20 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &719899802514479752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3347922321665736505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb680ae1b05a6f45ab16327fa5a2ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeadHitbox
+  mainEnemyAI: {fileID: 3932768910325725192}
+  headshotMultiplier: 2
 --- !u!1 &4206937824155645970 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3087093466631822622, guid: 1f53cdf5224a0984093dc0021cd90bf8, type: 3}
