@@ -176,6 +176,8 @@ public class LevelLoader : MonoBehaviour
 
         LevelStateManager.SaveWin(_currentLevelNumber);
 
+        LeaderboardManager.Instance.UpdatePlayerLevel(_currentLevelNumber);
+
         UIManager.Instance?.ShowWinScreen();
 
         Debug.Log($"[LevelLoader] Win! Next level = {_currentLevelNumber + 1}");

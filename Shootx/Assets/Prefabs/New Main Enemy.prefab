@@ -164,9 +164,21 @@ PrefabInstance:
       propertyPath: 'movementPoints.Array.data[1]'
       value: 
       objectReference: {fileID: 3911837047766193167}
+    - target: {fileID: 3342276852803903900, guid: 32b63772f16af9d46a18dbf3d5208440, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3778290642252427547, guid: 32b63772f16af9d46a18dbf3d5208440, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5721131461776048384, guid: 32b63772f16af9d46a18dbf3d5208440, type: 3}
       propertyPath: m_Name
       value: MainEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363404260176657028, guid: 32b63772f16af9d46a18dbf3d5208440, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
