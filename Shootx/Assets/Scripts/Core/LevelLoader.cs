@@ -55,7 +55,6 @@ public class LevelLoader : MonoBehaviour
         DOTween.Kill(this);
     }
 
-
     private IEnumerator LoadLevelRoutine()
     {
         if (useTestLevel)
@@ -125,7 +124,7 @@ public class LevelLoader : MonoBehaviour
         if (LevelVariantApplier.Instance != null)
             LevelVariantApplier.Instance.ApplyCurrentVariant();
         else
-            Debug.LogWarning("[LevelLoader] LevelVariantApplier  Not present in the scene.");
+            Debug.LogWarning("[LevelLoader] LevelVariantApplier Not present in the scene.");
 
         float elapsed = Time.realtimeSinceStartup - startTime;
         float remaining = minLoadingDuration - elapsed;
@@ -161,6 +160,12 @@ public class LevelLoader : MonoBehaviour
 
         if (GameDataManager.Instance != null)
             GameDataManager.Instance.AdvanceLevel();
+
+        if (LevelVariantApplier.Instance != null)
+        {
+            var enemies = FindObjectsByType<EnemyAppearanceController>(FindObjectsSortMode.None);
+            LevelVariantApplier.Instance.ClearSavedRandom(_currentDisplayLevel, enemies);
+        }
 
         LevelStateManager.SaveWin(_currentDisplayLevel);
         LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
