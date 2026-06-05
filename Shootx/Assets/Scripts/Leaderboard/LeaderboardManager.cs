@@ -1,10 +1,11 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using DG.Tweening;
 using PlayFab;
 using PlayFab.ClientModels;
-using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -24,12 +25,12 @@ public class LeaderboardManager : MonoBehaviour
     [Header("Player Pinned Info")]
     [SerializeField] private LeaderboardItemUI playerPinnedItem;
 
-    [Header("Colors")]
-    [SerializeField] private Color firstPlaceColor = new Color(1f, 0.84f, 0f);
-    [SerializeField] private Color secondPlaceColor = new Color(0.75f, 0.75f, 0.75f);
-    [SerializeField] private Color thirdPlaceColor = new Color(0.8f, 0.5f, 0.2f);
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color playerHighlightColor = new Color(0.5f, 1f, 0.5f);
+    [Header("Sprites")]
+    [SerializeField] private Sprite firstPlaceSprite;
+    [SerializeField] private Sprite secondPlaceSprite;
+    [SerializeField] private Sprite thirdPlaceSprite;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite playerHighlightSprite;
 
     private string playFabId;
 
@@ -107,7 +108,7 @@ public class LeaderboardManager : MonoBehaviour
 
         var request = new GetLeaderboardRequest
         {
-            StatisticName = "HighestLevel",
+            StatisticName = "LevelsCompleted",
             StartPosition = 0,
             MaxResultsCount = 100
         };
@@ -116,7 +117,7 @@ public class LeaderboardManager : MonoBehaviour
 
         var playerRankRequest = new GetLeaderboardAroundPlayerRequest
         {
-            StatisticName = "HighestLevel",
+            StatisticName = "LevelsCompleted",
             MaxResultsCount = 1
         };
 
@@ -141,15 +142,15 @@ public class LeaderboardManager : MonoBehaviour
 
             spawnedItem.Setup(item.Position + 1, item.DisplayName, item.StatValue);
 
-            if (item.Position == 0) ApplyRankStyle(spawnedItem, firstPlaceColor, 1.15f);
-            else if (item.Position == 1) ApplyRankStyle(spawnedItem, secondPlaceColor, 1.1f);
-            else if (item.Position == 2) ApplyRankStyle(spawnedItem, thirdPlaceColor, 1.05f);
-            else spawnedItem.SetColor(normalColor);
+            if (item.Position == 0) ApplyRankStyle(spawnedItem, firstPlaceSprite, 1.15f);
+            else if (item.Position == 1) ApplyRankStyle(spawnedItem, secondPlaceSprite, 1.1f);
+            else if (item.Position == 2) ApplyRankStyle(spawnedItem, thirdPlaceSprite, 1.05f);
+            else spawnedItem.SetImage(normalSprite);
 
             if (item.PlayFabId == playFabId || item.PlayFabId == PlayFabSettings.staticPlayer.PlayFabId)
             {
                 playerIndex = i;
-                spawnedItem.SetColor(playerHighlightColor);
+                spawnedItem.SetImage(playerHighlightSprite);
 
                 spawnedItem.transform.DOScale(1.05f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
             }
@@ -157,23 +158,30 @@ public class LeaderboardManager : MonoBehaviour
 
         if (playerIndex != -1)
         {
-            DOVirtual.DelayedCall(0.1f, () => ScrollToPlayer(playerIndex, result.Leaderboard.Count));
+            DOVirtual.DelayedCall(0.1f, () => StartCoroutine(ScrollToPlayerCoroutine(playerIndex, result.Leaderboard.Count)));
         }
     }
 
-    private void ApplyRankStyle(LeaderboardItemUI item, Color color, float scale)
+    private void ApplyRankStyle(LeaderboardItemUI item, Sprite sprite, float scale)
     {
-        item.SetColor(color);
+        item.SetImage(sprite);
         item.transform.localScale = Vector3.one * scale;
     }
 
-    private void ScrollToPlayer(int index, int totalItems)
+    private IEnumerator ScrollToPlayerCoroutine(int index, int totalItems)
     {
-        Canvas.ForceUpdateCanvases();
+        yield return new WaitForEndOfFrame();
+        scrollRect.DOKill();
+        if (totalItems <= 5 || index > 100)
+        {
+            scrollRect.verticalNormalizedPosition = 1f;
+            yield break;
+        }
 
         float normalizedPosition = 1f - ((float)index / (totalItems - 1));
+        normalizedPosition = Mathf.Clamp01(normalizedPosition);
 
-        scrollRect.DONormalizedPos(new Vector2(0, normalizedPosition), 1f).SetEase(Ease.OutCubic);
+        scrollRect.DOVerticalNormalizedPos(normalizedPosition, 1f).SetEase(Ease.OutCubic);
     }
 
     private void OnPlayerRankReceived(GetLeaderboardAroundPlayerResult result)
@@ -183,7 +191,7 @@ public class LeaderboardManager : MonoBehaviour
             playerPinnedItem.gameObject.SetActive(true);
             var me = result.Leaderboard[0];
             playerPinnedItem.Setup(me.Position + 1, me.DisplayName, me.StatValue);
-            playerPinnedItem.SetColor(playerHighlightColor);
+            playerPinnedItem.SetImage(playerHighlightSprite);
         }
     }
 
@@ -208,7 +216,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             Statistics = new List<StatisticUpdate>
             {
-                new StatisticUpdate { StatisticName = "HighestLevel", Value = newLevel }
+                new StatisticUpdate { StatisticName = "LevelsCompleted", Value = newLevel }
             }
         };
 
@@ -259,22 +267,22 @@ public class LeaderboardManager : MonoBehaviour
 
             spawnedItem.Setup(rank, playerName, level);
 
-            if (i == 0) ApplyRankStyle(spawnedItem, firstPlaceColor, 1.15f);
-            else if (i == 1) ApplyRankStyle(spawnedItem, secondPlaceColor, 1.1f);
-            else if (i == 2) ApplyRankStyle(spawnedItem, thirdPlaceColor, 1.05f);
-            else spawnedItem.SetColor(normalColor);
+            if (i == 0) ApplyRankStyle(spawnedItem, firstPlaceSprite, 1.15f);
+            else if (i == 1) ApplyRankStyle(spawnedItem, secondPlaceSprite, 1.1f);
+            else if (i == 2) ApplyRankStyle(spawnedItem, thirdPlaceSprite, 1.05f);
+            else spawnedItem.SetImage(normalSprite);
             if (i == mockPlayerIndex)
             {
-                spawnedItem.SetColor(playerHighlightColor);
+                spawnedItem.SetImage(playerHighlightSprite);
                 spawnedItem.transform.DOScale(1.05f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
             }
         }
 
         playerPinnedItem.gameObject.SetActive(true);
         playerPinnedItem.Setup(mockPlayerIndex + 1, "My_Test_Name", 500 - (mockPlayerIndex * 2));
-        playerPinnedItem.SetColor(playerHighlightColor);
+        playerPinnedItem.SetImage(playerHighlightSprite);
 
-        DOVirtual.DelayedCall(0.1f, () => ScrollToPlayer(mockPlayerIndex, totalMockPlayers));
+        DOVirtual.DelayedCall(0.1f, () => StartCoroutine(ScrollToPlayerCoroutine(mockPlayerIndex, totalMockPlayers)));
     }
 
     #endregion

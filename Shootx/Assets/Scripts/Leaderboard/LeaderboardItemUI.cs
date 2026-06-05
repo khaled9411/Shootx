@@ -29,4 +29,12 @@ public class LeaderboardItemUI : MonoBehaviour
             levelText.color = color;
         }
     }
+
+    public void SetImage(Sprite sprite)
+    {
+        if (backgroundImage != null)
+        {
+            backgroundImage.sprite = sprite;
+        }
+    }
 }

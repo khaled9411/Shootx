@@ -186,6 +186,26 @@ public class LevelLoader : MonoBehaviour
         Debug.Log($"[LevelLoader] Lose! Retry {_currentDisplayLevel}");
     }
 
+    public void OnSkipLevel()
+    {
+        _gameActive = false;
+        Time.timeScale = 0f;
+
+        if (GameDataManager.Instance != null)
+            GameDataManager.Instance.AdvanceLevel();
+
+        if (LevelVariantApplier.Instance != null)
+        {
+            var enemies = FindObjectsByType<EnemyAppearanceController>(FindObjectsSortMode.None);
+            LevelVariantApplier.Instance.ClearSavedRandom(_currentDisplayLevel, enemies);
+        }
+
+        LevelStateManager.SaveWin(_currentDisplayLevel);
+        LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
+        UIManager.Instance?.ShowWinScreen();
+
+        Debug.Log($"[LevelLoader] Skip! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");
+    }
 
     private void InitLoadingScreen()
     {

@@ -138,12 +138,20 @@ public class WinLosePauseUI : MonoBehaviour
         // Lose
         if (retryButton) retryButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelButton) skipLevelButton.onClick.AddListener(OnSkipLevelClicked);
+        
 
         // Pause
         if (pauseButton) pauseButton.onClick.AddListener(TogglePause);
         if (resumeButton) resumeButton.onClick.AddListener(OnResumeClicked);
         if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelPauseButton) skipLevelPauseButton.onClick.AddListener(OnSkipLevelClicked);
+        
+        OnSkipLevel += FindFirstObjectByType<LevelLoader>().OnSkipLevel;
+    }
+
+    private void OnDestroy()
+    {
+        OnSkipLevel -= FindFirstObjectByType<LevelLoader>().OnSkipLevel;
     }
 
     #endregion
@@ -154,6 +162,7 @@ public class WinLosePauseUI : MonoBehaviour
     public void ShowWin(int earnedMoney)
     {
         _currentMoney = earnedMoney;
+        GameDataManager.Instance.AddSoftCurrency(earnedMoney);
 
         HideInstant(winPanel);
         winPanel.alpha = 0f;
@@ -467,11 +476,13 @@ public class WinLosePauseUI : MonoBehaviour
     private void OnDoubleClicked()
     {
         AnimateButtonPress(_doubleButtonRT, () => OnDoubleMoney?.Invoke());
+        ConfirmDoubleMoney();
     }
 
     public void ConfirmDoubleMoney()
     {
         int doubled = _currentMoney * 2;
+        GameDataManager.Instance.AddSoftCurrency(_currentMoney);
         StartMoneyCount(_currentMoney, doubled);
         _currentMoney = doubled;
 
