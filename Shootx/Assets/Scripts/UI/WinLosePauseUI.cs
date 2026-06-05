@@ -101,20 +101,17 @@ public class WinLosePauseUI : MonoBehaviour
 
     private void CacheRectTransforms()
     {
-        // Win
         if (winHeader) _winHeaderRT = winHeader.GetComponent<RectTransform>();
         if (winTitleText) _winTitleRT = winTitleText.GetComponent<RectTransform>();
         if (moneyRewardGroup) _rewardGroupRT = moneyRewardGroup.GetComponent<RectTransform>();
         if (doubleMoneyButton) _doubleButtonRT = doubleMoneyButton.GetComponent<RectTransform>();
         if (nextButton) _nextButtonRT = nextButton.GetComponent<RectTransform>();
 
-        // Lose
         if (loseHeader) _loseHeaderRT = loseHeader.GetComponent<RectTransform>();
         if (loseTitleText) _loseTitleRT = loseTitleText.GetComponent<RectTransform>();
         if (retryButton) _retryButtonRT = retryButton.GetComponent<RectTransform>();
         if (skipLevelButton) _skipLevelButtonRT = skipLevelButton.GetComponent<RectTransform>();
 
-        // Pause
         if (pauseHeader) _pauseHeaderRT = pauseHeader.GetComponent<RectTransform>();
         if (pauseTitleText) _pauseTitleRT = pauseTitleText.GetComponent<RectTransform>();
         if (resumeButton) _resumeButtonRT = resumeButton.GetComponent<RectTransform>();
@@ -138,14 +135,13 @@ public class WinLosePauseUI : MonoBehaviour
         // Lose
         if (retryButton) retryButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelButton) skipLevelButton.onClick.AddListener(OnSkipLevelClicked);
-        
 
         // Pause
         if (pauseButton) pauseButton.onClick.AddListener(TogglePause);
         if (resumeButton) resumeButton.onClick.AddListener(OnResumeClicked);
         if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelPauseButton) skipLevelPauseButton.onClick.AddListener(OnSkipLevelClicked);
-        
+
         OnSkipLevel += FindFirstObjectByType<LevelLoader>().OnSkipLevel;
     }
 
@@ -326,8 +322,8 @@ public class WinLosePauseUI : MonoBehaviour
                 .SetEase(Ease.OutCubic).SetUpdate(true));
             seq.Append(_loseTitleRT.DOScale(1f, 0.12f).SetUpdate(true));
             seq.Append(_loseTitleRT
-                .DOShakePosition(0.55f, strength: 12f, vibrato: 14, randomness: 90, snapping: false, fadeOut: true)
-                .SetUpdate(true));
+                .DOShakePosition(0.55f, strength: 12f, vibrato: 14, randomness: 90,
+                    snapping: false, fadeOut: true).SetUpdate(true));
         }
 
         seq.AppendInterval(elementDelay);
@@ -338,14 +334,11 @@ public class WinLosePauseUI : MonoBehaviour
             _retryButtonRT.localScale = Vector3.zero;
 
             seq.Append(_retryButtonRT
-                .DOScale(1f, popInDuration)
-                .SetEase(elementEaseIn).SetUpdate(true));
+                .DOScale(1f, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
             seq.Join(_retryButtonRT
-                .DOAnchorPos(origPos, popInDuration)
-                .SetEase(elementEaseIn).SetUpdate(true));
+                .DOAnchorPos(origPos, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
             seq.Append(_retryButtonRT
-                .DOPunchScale(Vector3.one * punchStrength, 0.4f, 6, 0.5f)
-                .SetUpdate(true));
+                .DOPunchScale(Vector3.one * punchStrength, 0.4f, 6, 0.5f).SetUpdate(true));
         }
 
         seq.AppendInterval(elementDelay);
@@ -356,11 +349,9 @@ public class WinLosePauseUI : MonoBehaviour
             _skipLevelButtonRT.localScale = Vector3.zero;
 
             seq.Append(_skipLevelButtonRT
-                .DOScale(1f, popInDuration)
-                .SetEase(elementEaseIn).SetUpdate(true));
+                .DOScale(1f, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
             seq.Join(_skipLevelButtonRT
-                .DOAnchorPos(origPos, popInDuration)
-                .SetEase(elementEaseIn).SetUpdate(true));
+                .DOAnchorPos(origPos, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
         }
 
         seq.Play();
@@ -466,26 +457,49 @@ public class WinLosePauseUI : MonoBehaviour
 
     #endregion
 
+    // =================================================================
     #region Button Callbacks
 
     private void OnNextClicked()
     {
-        AnimateButtonPress(_nextButtonRT, () => HideWin(() => OnNextLevel?.Invoke()));
+        AnimateButtonPress(_nextButtonRT, () =>
+            HideWin(() => OnNextLevel?.Invoke()));
     }
 
+    // ?? Double Money: ??? ?????? ??????? ????? ??????????????????????
     private void OnDoubleClicked()
     {
-        AnimateButtonPress(_doubleButtonRT, () => OnDoubleMoney?.Invoke());
-        ConfirmDoubleMoney();
+        // ????? ???? ?????? ???? ????? ???????
+        if (doubleMoneyButton) doubleMoneyButton.interactable = false;
+
+        AnimateButtonPress(_doubleButtonRT, () =>
+        {
+            GameAdManager.Instance.ShowRewardedAd(watched =>
+            {
+                if (watched)
+                {
+                    // ?????? ???? ??????? ? ????? ????????
+                    ConfirmDoubleMoney();
+                    OnDoubleMoney?.Invoke();
+                }
+                else
+                {
+                    // ?? ????? ? ????? ????? ????
+                    Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? ??????.");
+                    if (doubleMoneyButton) doubleMoneyButton.interactable = true;
+                }
+            });
+        });
     }
 
     public void ConfirmDoubleMoney()
     {
         int doubled = _currentMoney * 2;
-        GameDataManager.Instance.AddSoftCurrency(_currentMoney);
+        GameDataManager.Instance.AddSoftCurrency(_currentMoney); // ????? ????? ???
         StartMoneyCount(_currentMoney, doubled);
         _currentMoney = doubled;
 
+        // ????? ?? ???????? ??? ?????????
         if (_doubleButtonRT)
             _doubleButtonRT.DOScale(0f, 0.3f).SetEase(Ease.InBack).SetUpdate(true);
     }
@@ -503,27 +517,53 @@ public class WinLosePauseUI : MonoBehaviour
         else
         {
             AnimateButtonPress(_retryButtonRT, () =>
-            {
-                HideLose(() => OnRetry?.Invoke());
-            });
+                HideLose(() => OnRetry?.Invoke()));
         }
     }
 
+    // ?? Skip Level: ??? ?????? ??????? ????? (Lose + Pause) ?????????
     private void OnSkipLevelClicked()
     {
         if (_isPaused)
         {
+            // Skip ?? ????? ????
+            if (skipLevelPauseButton) skipLevelPauseButton.interactable = false;
+
             AnimateButtonPress(_skipLevelPauseRT, () =>
             {
-                ResumeGame();
-                OnSkipLevel?.Invoke();
+                GameAdManager.Instance.ShowRewardedAd(watched =>
+                {
+                    if (watched)
+                    {
+                        ResumeGame();
+                        OnSkipLevel?.Invoke();
+                    }
+                    else
+                    {
+                        Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? Skip.");
+                        if (skipLevelPauseButton) skipLevelPauseButton.interactable = true;
+                    }
+                });
             });
         }
         else
         {
+            if (skipLevelButton) skipLevelButton.interactable = false;
+
             AnimateButtonPress(_skipLevelButtonRT, () =>
             {
-                HideLose(() => OnSkipLevel?.Invoke());
+                GameAdManager.Instance.ShowRewardedAd(watched =>
+                {
+                    if (watched)
+                    {
+                        HideLose(() => OnSkipLevel?.Invoke());
+                    }
+                    else
+                    {
+                        Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? Skip.");
+                        if (skipLevelButton) skipLevelButton.interactable = true;
+                    }
+                });
             });
         }
     }

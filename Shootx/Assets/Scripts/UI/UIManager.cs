@@ -361,4 +361,10 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
+
+
+    public bool isgameactive()
+    {
+        return gameStarted;
+    }
 }
