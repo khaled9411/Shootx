@@ -60,6 +60,7 @@ public class WinLosePauseUI : MonoBehaviour
     private int _currentMoney = 0;
     private bool _isPaused = false;
     private Tween _moneyCountTween;
+    private LevelLoader _levelLoader;
 
     // Win
     private RectTransform _winHeaderRT;
@@ -142,12 +143,17 @@ public class WinLosePauseUI : MonoBehaviour
         if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelPauseButton) skipLevelPauseButton.onClick.AddListener(OnSkipLevelClicked);
 
-        OnSkipLevel += FindFirstObjectByType<LevelLoader>().OnSkipLevel;
+        _levelLoader = FindFirstObjectByType<LevelLoader>();
+        if (_levelLoader != null)
+            OnSkipLevel += _levelLoader.OnSkipLevel;
+        else
+            Debug.LogWarning("[WinLosePauseUI] LevelLoader it's not in the scene!");
     }
 
     private void OnDestroy()
     {
-        OnSkipLevel -= FindFirstObjectByType<LevelLoader>().OnSkipLevel;
+        if (_levelLoader != null)
+            OnSkipLevel -= _levelLoader.OnSkipLevel;
     }
 
     #endregion
@@ -466,10 +472,8 @@ public class WinLosePauseUI : MonoBehaviour
             HideWin(() => OnNextLevel?.Invoke()));
     }
 
-    // ?? Double Money: ??? ?????? ??????? ????? ??????????????????????
     private void OnDoubleClicked()
     {
-        // ????? ???? ?????? ???? ????? ???????
         if (doubleMoneyButton) doubleMoneyButton.interactable = false;
 
         AnimateButtonPress(_doubleButtonRT, () =>
@@ -478,14 +482,12 @@ public class WinLosePauseUI : MonoBehaviour
             {
                 if (watched)
                 {
-                    // ?????? ???? ??????? ? ????? ????????
                     ConfirmDoubleMoney();
                     OnDoubleMoney?.Invoke();
                 }
                 else
                 {
-                    // ?? ????? ? ????? ????? ????
-                    Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? ??????.");
+                    Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no duplication.");
                     if (doubleMoneyButton) doubleMoneyButton.interactable = true;
                 }
             });
@@ -495,11 +497,10 @@ public class WinLosePauseUI : MonoBehaviour
     public void ConfirmDoubleMoney()
     {
         int doubled = _currentMoney * 2;
-        GameDataManager.Instance.AddSoftCurrency(_currentMoney); // ????? ????? ???
+        GameDataManager.Instance.AddSoftCurrency(_currentMoney);
         StartMoneyCount(_currentMoney, doubled);
         _currentMoney = doubled;
 
-        // ????? ?? ???????? ??? ?????????
         if (_doubleButtonRT)
             _doubleButtonRT.DOScale(0f, 0.3f).SetEase(Ease.InBack).SetUpdate(true);
     }
@@ -521,12 +522,10 @@ public class WinLosePauseUI : MonoBehaviour
         }
     }
 
-    // ?? Skip Level: ??? ?????? ??????? ????? (Lose + Pause) ?????????
     private void OnSkipLevelClicked()
     {
         if (_isPaused)
         {
-            // Skip ?? ????? ????
             if (skipLevelPauseButton) skipLevelPauseButton.interactable = false;
 
             AnimateButtonPress(_skipLevelPauseRT, () =>
@@ -540,7 +539,7 @@ public class WinLosePauseUI : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? Skip.");
+                        Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no skip.");
                         if (skipLevelPauseButton) skipLevelPauseButton.interactable = true;
                     }
                 });
@@ -560,7 +559,7 @@ public class WinLosePauseUI : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] ?? ????? ???????? ?? Skip.");
+                        Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no skip.");
                         if (skipLevelButton) skipLevelButton.interactable = true;
                     }
                 });

@@ -31,9 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isMoving /*&& animator == null*/)
+        if (isMoving)
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
+
+            direction.y = 0;
+
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -56,16 +59,14 @@ public class PlayerMovement : MonoBehaviour
         float distance = Vector3.Distance(transform.position, targetPosition);
         float duration = distance / movementSpeed;
 
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        if (direction != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.DORotateQuaternion(targetRotation, 0.3f);
-        }
+        // ?? ????? transform.DORotateQuaternion ???? ??????? ?? ??? Update
 
         StartMovement(duration);
 
-        GameCameraController.Instance.OnPlayerStartMoving();
+        if (GameCameraController.Instance != null)
+        {
+            GameCameraController.Instance.OnPlayerStartMoving();
+        }
     }
 
     void StartMovement(float duration)
@@ -74,10 +75,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            animator.Play(walkAnimationName);
+            // ??????? CrossFade ??? Play ??????? ??? ????? ??? ????? ?????
+            animator.CrossFade(walkAnimationName, 0.1f);
         }
 
-        if(movementParticles != null)
+        if (movementParticles != null)
         {
             movementParticles.Play();
         }
@@ -90,8 +92,6 @@ public class PlayerMovement : MonoBehaviour
 
         movementTween = transform.DOMove(targetPosition, duration)
             .SetEase(movementEase)
-            .OnUpdate(() => {
-            })
             .OnComplete(() => OnMovementComplete());
     }
 
@@ -101,12 +101,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            animator.Play(idleAnimationName);
+            // ?????? ??? ?? Idle
+            animator.CrossFade(idleAnimationName, 0.15f);
         }
 
         if (movementParticles != null)
         {
-             movementParticles.Stop();
+            movementParticles.Stop();
         }
 
         if (useSquashStretch)
@@ -115,12 +116,12 @@ public class PlayerMovement : MonoBehaviour
                 .OnComplete(() => transform.DOScaleY(1, 0.1f));
         }
 
-        transform.DOMoveY(transform.position.y + 0.2f, 0.15f)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() => {
-                transform.DOMoveY(transform.position.y - 0.2f, 0.15f)
-                    .SetEase(Ease.InQuad);
-            });
+        // ??? ???? ??? Y ??????? ??? ?? ????? ?????? ??? ???? ???? ????? ??? ??????
+        float startY = transform.position.y;
+
+        Sequence jumpSequence = DOTween.Sequence();
+        jumpSequence.Append(transform.DOMoveY(startY + 0.2f, 0.15f).SetEase(Ease.OutQuad))
+                    .Append(transform.DOMoveY(startY, 0.15f).SetEase(Ease.InQuad));
 
         Collider[] nearbyPoints = Physics.OverlapSphere(transform.position, 0.5f);
         foreach (Collider col in nearbyPoints)
@@ -142,5 +143,7 @@ public class PlayerMovement : MonoBehaviour
     void OnDestroy()
     {
         movementTween?.Kill();
+        // ?????? ????? ?? ??? Tweens ???????? ???? ??? Transform ??? ??????
+        transform.DOKill();
     }
 }

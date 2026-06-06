@@ -6,6 +6,7 @@ using System.Reflection;
 [CustomEditor(typeof(LevelVariantConfig))]
 public class LevelVariantConfigEditor : Editor
 {
+
     private int _totalBaseLevels = 50;
     private int _totalDisplayLevels = 500;
     private int _maxChildIndex = 5;
@@ -17,6 +18,7 @@ public class LevelVariantConfigEditor : Editor
     private bool _allowRandom = true;
     private bool _allowWeightedRandom = false;
     private bool _allowNoChange = false;
+
 
     private GUIStyle _headerStyle;
     private GUIStyle _subHeaderStyle;
@@ -63,19 +65,19 @@ public class LevelVariantConfigEditor : Editor
             GUILayout.Space(4);
 
             _totalBaseLevels = EditorGUILayout.IntField(
-                new GUIContent("Base Levels",
+                new GUIContent("Number of original levels (Base Levels)",
                                "Number of prefabs available — Level1 to LevelN"),
                 _totalBaseLevels);
             _totalBaseLevels = Mathf.Max(1, _totalBaseLevels);
 
             _totalDisplayLevels = EditorGUILayout.IntField(
-                new GUIContent("Total Display Levels",
-                               "The 500 levels that the player sees"),
+                new GUIContent("Total levels for the player",
+                               "The 500 levels that the player will see"),
                 _totalDisplayLevels);
             _totalDisplayLevels = Mathf.Max(_totalBaseLevels, _totalDisplayLevels);
 
             _maxChildIndex = EditorGUILayout.IntField(
-                new GUIContent("Max Child Index",
+                new GUIContent("Maximum Child Index Available",
                                "Number of available shapes - 1 (e.g., 5 means shapes 0,1,2,3,4,5)"),
                 _maxChildIndex);
             _maxChildIndex = Mathf.Max(0, _maxChildIndex);
@@ -103,7 +105,6 @@ public class LevelVariantConfigEditor : Editor
 
             GUILayout.Space(8);
 
-            // --- Summary ---
             int randomCount = _totalDisplayLevels - _totalBaseLevels;
             EditorGUILayout.HelpBox(
                 $"Result:\n" +
@@ -115,12 +116,12 @@ public class LevelVariantConfigEditor : Editor
 
             // --- Generate Button ---
             GUI.backgroundColor = new Color(0.4f, 0.8f, 0.4f);
-            if (GUILayout.Button("Generating the sequence", GUILayout.Height(32)))
+            if (GUILayout.Button("Generate Sequence", GUILayout.Height(32)))
             {
                 if (EditorUtility.DisplayDialog(
-                    "Confirmation of delivery",
+                    "Confirm Generation",
                     $"The current sequence will be replaced with {_totalDisplayLevels} elements.\nAre you sure?",
-                    "Yes, generate",
+                    "Yes, Generate",
                     "Cancel"))
                 {
                     GenerateSequence();
@@ -135,14 +136,14 @@ public class LevelVariantConfigEditor : Editor
         GUILayout.Space(8);
 
         // ===== Preview Table =====
-        _showPreviewTable = EditorGUILayout.Foldout(_showPreviewTable, "Previewing the first elements of the sequence", true, EditorStyles.foldoutHeader);
+        _showPreviewTable = EditorGUILayout.Foldout(_showPreviewTable, "Preview First Elements of the Sequence", true, EditorStyles.foldoutHeader);
 
         if (_showPreviewTable)
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Space(4);
 
-            _previewCount = EditorGUILayout.IntSlider("Number of items to preview", _previewCount, 5, 100);
+            _previewCount = EditorGUILayout.IntSlider("Number of elements to preview", _previewCount, 5, 100);
 
             var listProp = serializedObject.FindProperty("levelSequence");
             int showCount = Mathf.Min(_previewCount, listProp.arraySize);
@@ -155,7 +156,7 @@ public class LevelVariantConfigEditor : Editor
             {
                 // header
                 EditorGUILayout.BeginHorizontal();
-                GUILayout.Label("Player level", EditorStyles.miniLabel, GUILayout.Width(90));
+                GUILayout.Label("Player Level", EditorStyles.miniLabel, GUILayout.Width(90));
                 GUILayout.Label("Base Level", EditorStyles.miniLabel, GUILayout.Width(80));
                 GUILayout.Label("Mode", EditorStyles.miniLabel, GUILayout.Width(120));
                 GUILayout.Label("Child Index", EditorStyles.miniLabel, GUILayout.Width(80));
@@ -191,7 +192,7 @@ public class LevelVariantConfigEditor : Editor
                 if (listProp.arraySize > _previewCount)
                 {
                     EditorGUILayout.HelpBox(
-                        $"...and {listProp.arraySize - _previewCount} is an additional element (increase the preview for viewing)",
+                        $"... and {listProp.arraySize - _previewCount} more elements (increase preview to see)",
                         MessageType.None);
                 }
             }
@@ -202,11 +203,13 @@ public class LevelVariantConfigEditor : Editor
 
         GUILayout.Space(8);
 
-        GUILayout.Label("Sequence (for manual editing)", _subHeaderStyle);
+        // ===== Default Inspector =====
+        GUILayout.Label("The Sequence (for manual editing)", _subHeaderStyle);
         DrawDefaultInspector();
 
         serializedObject.ApplyModifiedProperties();
     }
+
 
     private void GenerateSequence()
     {
@@ -227,43 +230,99 @@ public class LevelVariantConfigEditor : Editor
 
         var allowedModes = BuildAllowedModes();
 
-        for (int i = _totalBaseLevels; i < _totalDisplayLevels; i++)
+        int groupCount = _totalBaseLevels / 5;
+        int randomCount = _totalDisplayLevels - _totalBaseLevels;
+        int insertIndex = _totalBaseLevels;
+        int fullGroups = randomCount / 5;
+        int remainder = randomCount % 5;
+        int lastGroupStart = -1;
+
+        for (int g = 0; g < fullGroups; g++)
         {
-            listProp.InsertArrayElementAtIndex(i);
-            var elem = listProp.GetArrayElementAtIndex(i);
+            int groupStart = PickGroupStart(groupCount, lastGroupStart);
+            lastGroupStart = groupStart;
 
-            int randomBase = Random.Range(1, _totalBaseLevels + 1);
-            EnemySelectionMode randomMode = allowedModes[Random.Range(0, allowedModes.Count)];
-            int randomChild = Random.Range(0, _maxChildIndex + 1);
+            EnemySelectionMode groupMode = allowedModes[Random.Range(0, allowedModes.Count)];
+            int groupChild = Random.Range(0, _maxChildIndex + 1);
 
-            elem.FindPropertyRelative("baseLevelNumber").intValue = randomBase;
-            elem.FindPropertyRelative("selectionMode").enumValueIndex = (int)randomMode;
-            elem.FindPropertyRelative("globalChildIndex").intValue =
-                randomMode == EnemySelectionMode.GlobalIndex ? randomChild : 0;
-
-            if (randomMode == EnemySelectionMode.WeightedRandom)
+            for (int j = 0; j < 5; j++)
             {
-                var weightsArr = elem.FindPropertyRelative("weightedRandomWeights");
-                int childCount = _maxChildIndex + 1;
-                weightsArr.arraySize = childCount;
+                listProp.InsertArrayElementAtIndex(insertIndex);
+                var elem = listProp.GetArrayElementAtIndex(insertIndex);
 
-                float remaining = 100f;
-                for (int w = 0; w < childCount - 1; w++)
-                {
-                    float val = Random.Range(10f, remaining - (10f * (childCount - 1 - w)));
-                    val = Mathf.Round(val);
-                    weightsArr.GetArrayElementAtIndex(w).floatValue = val;
-                    remaining -= val;
-                }
-                weightsArr.GetArrayElementAtIndex(childCount - 1).floatValue = remaining;
+                elem.FindPropertyRelative("baseLevelNumber").intValue = groupStart + j + 1;
+                elem.FindPropertyRelative("selectionMode").enumValueIndex = (int)groupMode;
+                elem.FindPropertyRelative("globalChildIndex").intValue =
+                    groupMode == EnemySelectionMode.GlobalIndex ? groupChild : 0;
+
+                if (groupMode == EnemySelectionMode.WeightedRandom)
+                    FillWeightedRandom(elem);
+
+                insertIndex++;
+            }
+        }
+
+        if (remainder > 0)
+        {
+            int groupStart = PickGroupStart(groupCount, lastGroupStart);
+            EnemySelectionMode groupMode = allowedModes[Random.Range(0, allowedModes.Count)];
+            int groupChild = Random.Range(0, _maxChildIndex + 1);
+
+            for (int j = 0; j < remainder; j++)
+            {
+                listProp.InsertArrayElementAtIndex(insertIndex);
+                var elem = listProp.GetArrayElementAtIndex(insertIndex);
+
+                elem.FindPropertyRelative("baseLevelNumber").intValue = groupStart + j + 1;
+                elem.FindPropertyRelative("selectionMode").enumValueIndex = (int)groupMode;
+                elem.FindPropertyRelative("globalChildIndex").intValue =
+                    groupMode == EnemySelectionMode.GlobalIndex ? groupChild : 0;
+
+                if (groupMode == EnemySelectionMode.WeightedRandom)
+                    FillWeightedRandom(elem);
+
+                insertIndex++;
             }
         }
 
         serializedObject.ApplyModifiedProperties();
         EditorUtility.SetDirty(config);
 
-        Debug.Log($"[LevelVariantConfigEditor] {_totalDisplayLevels} level generated:" +
+        Debug.Log($"[LevelVariantConfigEditor] Generated {_totalDisplayLevels} levels: " +
                   $"{_totalBaseLevels} fixed + {_totalDisplayLevels - _totalBaseLevels} random.");
+    }
+
+
+    private int PickGroupStart(int groupCount, int lastGroupStart)
+    {
+        if (groupCount <= 1) return 0;
+
+        int picked;
+        int attempts = 0;
+        do
+        {
+            picked = Random.Range(0, groupCount) * 5;
+            attempts++;
+        }
+        while (picked == lastGroupStart && attempts < 20);
+
+        return picked;
+    }
+
+    private void FillWeightedRandom(UnityEditor.SerializedProperty elem)
+    {
+        var weightsArr = elem.FindPropertyRelative("weightedRandomWeights");
+        int childCount = _maxChildIndex + 1;
+        weightsArr.arraySize = childCount;
+
+        float remaining = 100f;
+        for (int w = 0; w < childCount - 1; w++)
+        {
+            float val = Mathf.Round(Random.Range(10f, remaining - 10f * (childCount - 1 - w)));
+            weightsArr.GetArrayElementAtIndex(w).floatValue = val;
+            remaining -= val;
+        }
+        weightsArr.GetArrayElementAtIndex(childCount - 1).floatValue = remaining;
     }
 
     private List<EnemySelectionMode> BuildAllowedModes()

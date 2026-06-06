@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelLoader
   useTestLevel: 0
-  testDisplayLevel: 2
+  testDisplayLevel: 70
   loadingCanvasGroup: {fileID: 194928518}
   progressBar: {fileID: 327972280}
   levelContainer: {fileID: 1901949306}
@@ -661,73 +661,53 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 6
+    selectionMode: 0
+    globalChildIndex: 1
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 7
+    selectionMode: 0
+    globalChildIndex: 1
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
+    selectionMode: 0
+    globalChildIndex: 1
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 9
+    selectionMode: 0
+    globalChildIndex: 1
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
+  - baseLevelNumber: 10
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 2
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 3
-    selectionMode: 2
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
@@ -736,22 +716,17 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 31
+  - baseLevelNumber: 27
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 35
+  - baseLevelNumber: 28
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
+  - baseLevelNumber: 29
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -761,547 +736,12 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 34
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 36
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 37
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 48
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
+  - baseLevelNumber: 31
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 34
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 42
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 37
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 1
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 2
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 46
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 42
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 42
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 2
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 48
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 48
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 34
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 46
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 2
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -1311,127 +751,7 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 1
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 46
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 37
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
+  - baseLevelNumber: 34
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -1441,37 +761,57 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 46
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 15
+  - baseLevelNumber: 32
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 45
+  - baseLevelNumber: 33
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 5
+  - baseLevelNumber: 34
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 19
+  - baseLevelNumber: 35
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
+  - baseLevelNumber: 41
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -1481,32 +821,12 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 3
+  - baseLevelNumber: 43
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 11
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
+  - baseLevelNumber: 44
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -1516,1237 +836,157 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 34
+  - baseLevelNumber: 21
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 16
+  - baseLevelNumber: 22
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 29
+  - baseLevelNumber: 23
     selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 37
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 36
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 33
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 48
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 1
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 11
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 37
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 33
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 1
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 34
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 36
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 38
-    selectionMode: 2
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 1
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 34
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 16
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 11
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 11
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 27
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 22
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 21
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 9
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 40
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 49
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 4
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 31
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 43
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 24
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 33
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 14
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 15
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 11
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 47
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 44
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 36
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 25
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 19
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 39
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 3
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 5
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 18
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 12
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 35
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 46
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 6
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -2756,109 +996,44 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 38
+  - baseLevelNumber: 3
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 7
+  - baseLevelNumber: 4
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 45
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 23
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 30
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 8
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 26
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 32
+  - baseLevelNumber: 5
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 41
-    selectionMode: 2
-    globalChildIndex: 0
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 50
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 10
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 38
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 28
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 48
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 7
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 13
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 29
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 20
-    selectionMode: 2
-    globalChildIndex: 0
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 6
@@ -2866,17 +1041,12 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 42
+  - baseLevelNumber: 7
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
-  - baseLevelNumber: 17
-    selectionMode: 2
-    globalChildIndex: 0
-    perEnemyOverrides: []
-    weightedRandomWeights: []
-  - baseLevelNumber: 36
+  - baseLevelNumber: 8
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -2886,12 +1056,572 @@ MonoBehaviour:
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
+  - baseLevelNumber: 10
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 26
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 27
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 28
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 29
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 30
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
   - baseLevelNumber: 16
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
   - baseLevelNumber: 34
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 16
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 16
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 16
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
@@ -2899,15 +1629,1285 @@ MonoBehaviour:
   - baseLevelNumber: 34
     selectionMode: 2
     globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 26
+    selectionMode: 0
+    globalChildIndex: 3
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 27
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 28
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 29
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 30
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 26
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 27
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 28
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 29
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 30
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 46
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 47
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 48
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 49
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 50
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 16
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 26
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 27
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 28
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 29
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 30
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 36
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 37
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 38
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 39
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 40
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 6
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 7
     selectionMode: 2
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
   - baseLevelNumber: 8
     selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 9
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 10
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 6
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 7
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 8
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 9
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 10
+    selectionMode: 0
+    globalChildIndex: 1
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 26
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 27
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 28
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 29
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 30
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 16
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 17
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 18
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 19
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 20
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 31
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 32
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 33
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 34
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 35
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
+    globalChildIndex: 4
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 21
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 22
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 23
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 24
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 25
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 3
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 5
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 41
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 42
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 43
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 44
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 45
+    selectionMode: 0
+    globalChildIndex: 2
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 11
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 12
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 13
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 14
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 15
+    selectionMode: 2
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 1
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 2
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 3
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 4
+    selectionMode: 0
+    globalChildIndex: 0
+    perEnemyOverrides: []
+    weightedRandomWeights: []
+  - baseLevelNumber: 5
+    selectionMode: 0
     globalChildIndex: 0
     perEnemyOverrides: []
     weightedRandomWeights: []
@@ -6803,7 +6803,7 @@ Transform:
   m_GameObject: {fileID: 360323622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 645.2383, y: 1365.5264, z: 4.1883492}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16051,11 +16051,56 @@ MonoBehaviour:
   equippedGunId: 0
   equippedOutfitId: 0
   zoneSprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
+  - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
   allGuns: []
   allOutfits: []
   dailyMissions: []
