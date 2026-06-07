@@ -802,7 +802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: aimAssistBlend
-      value: 0.9
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: aimSensitivity
@@ -819,6 +819,14 @@ PrefabInstance:
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: axisLockThreshold
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
+      propertyPath: collisionLayers.m_Bits
+      value: 53203
+      objectReference: {fileID: 0}
+    - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
+      propertyPath: penetrableLayers.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 2307692263859986858, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: animator

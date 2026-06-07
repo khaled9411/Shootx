@@ -539,7 +539,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3548127877843113660, guid: 799a4235c5712f44fbc510ecd833e86e, type: 3}
       propertyPath: m_Name
-      value: Level 31
+      value: Level31
       objectReference: {fileID: 0}
     - target: {fileID: 6025774097683727779, guid: 799a4235c5712f44fbc510ecd833e86e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1239,7 +1239,7 @@ PrefabInstance:
     - target: {fileID: 465876348241079445, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: neighborRight
       value: 
-      objectReference: {fileID: 6466339319089826234}
+      objectReference: {fileID: 9032298852778950165}
     - target: {fileID: 2049626384093535547, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -51.3114
@@ -1356,6 +1356,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -9.612976
       objectReference: {fileID: 0}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: aimAssistBlend
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 8361268907892528415, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.846382
@@ -1398,6 +1402,17 @@ Transform:
 --- !u!114 &6466339319089826234 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 465876348241079445, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+  m_PrefabInstance: {fileID: 6902379182154048815}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a22a240d49f584418aca66b1349c324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementPoint
+--- !u!114 &9032298852778950165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2491342406886710074, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
   m_PrefabInstance: {fileID: 6902379182154048815}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

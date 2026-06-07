@@ -5,11 +5,6 @@ public class EnemyAppearanceController : MonoBehaviour
     [SerializeField] private GameObject[] visualChildren;
     [SerializeField] private int defaultChildIndex = 0;
 
-    private void Awake()
-    {
-        ApplyChildIndex(defaultChildIndex);
-    }
-
     public void SetActiveChild(int index)
     {
         if (visualChildren == null || visualChildren.Length == 0)

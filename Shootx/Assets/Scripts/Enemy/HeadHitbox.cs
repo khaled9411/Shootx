@@ -8,13 +8,18 @@ public class HeadHitbox : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, Vector3 hitDirection)
     {
-        float finalDamage = damage * headshotMultiplier;
-
-        Debug.Log("Headshot!");
-
-        if (mainEnemyAI != null)
+        if (mainEnemyAI == null)
         {
-            mainEnemyAI.TakeDamage(finalDamage, hitDirection);
+            Debug.LogError($"HeadHitbox on {gameObject.name} is missing mainEnemyAI reference!");
+            return;
         }
+
+        if (mainEnemyAI.IsDead())
+            return;
+
+        float finalDamage = damage * headshotMultiplier;
+        Debug.Log($"Headshot! Dealing {finalDamage} damage.");
+
+        mainEnemyAI.TakeDamage(finalDamage, hitDirection);
     }
 }

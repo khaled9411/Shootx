@@ -54,6 +54,7 @@ public class ShootingSystem : MonoBehaviour
     private int currentAmmo;
 
     [Header("Layer Settings")]
+    [SerializeField] private LayerMask collisionLayers;
     [SerializeField] private LayerMask shootableLayers;
     [SerializeField] private LayerMask penetrableLayers;
     [SerializeField] private LayerMask movementPointLayer;
@@ -312,7 +313,7 @@ public class ShootingSystem : MonoBehaviour
 
         for (int i = 0; i <= maxBounces; i++)
         {
-            if (Physics.Raycast(currentPos, currentDir, out RaycastHit hit, maxRayDistance, shootableLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(currentPos, currentDir, out RaycastHit hit, maxRayDistance, collisionLayers, QueryTriggerInteraction.Ignore))
             {
                 if (IsPenetrable(hit.collider.gameObject))
                 {
@@ -323,6 +324,11 @@ public class ShootingSystem : MonoBehaviour
 
                 points.Add(hit.point);
                 finalNormal = hit.normal;
+
+                if (!IsShootableForBounce(hit.collider.gameObject))
+                {
+                    break;
+                }
 
                 float angle = Vector3.Angle(-currentDir, hit.normal);
 
@@ -343,10 +349,11 @@ public class ShootingSystem : MonoBehaviour
     }
 
     bool IsPenetrable(GameObject obj) => ((1 << obj.layer) & penetrableLayers) != 0;
+    bool IsShootableForBounce(GameObject obj) => ((1 << obj.layer) & shootableLayers) != 0;
 
     bool CheckEnemiesInRayPath(Vector3 origin, Vector3 initialDirection)
     {
-        if (Physics.Raycast(origin, initialDirection, out RaycastHit directHit, maxRayDistance, shootableLayers))
+        if (Physics.Raycast(origin, initialDirection, out RaycastHit directHit, maxRayDistance, collisionLayers))
         {
             if (directHit.collider.GetComponent<IDamageable>() != null)
                 return true;
@@ -361,7 +368,7 @@ public class ShootingSystem : MonoBehaviour
 
             if (segmentLength < 0.01f) continue;
 
-            RaycastHit[] hits = Physics.RaycastAll(path[i], segmentDir.normalized, segmentLength, shootableLayers);
+            RaycastHit[] hits = Physics.RaycastAll(path[i], segmentDir.normalized, segmentLength, collisionLayers);
             foreach (var hit in hits)
             {
                 if (hit.collider.GetComponent<IDamageable>() != null)
@@ -412,7 +419,7 @@ public class ShootingSystem : MonoBehaviour
                 BulletTimeManager.Instance?.StartBulletFreeze();
 
             bulletCtrl.Initialize(shootDirection, bulletSpeed, maxBounces, bounceDecay,
-                                   maxBounceAngle, shootableLayers, penetrableLayers, maxRayDistance,
+                                   maxBounceAngle, collisionLayers, shootableLayers, penetrableLayers, maxRayDistance,
                                    freezeOnFlight: enemyInPath);
         }
 
@@ -444,4 +451,5 @@ public class ShootingSystem : MonoBehaviour
     public int GetCurrentAmmo() => currentAmmo;
     public int GetMaxAmmo() => maxAmmo;
     public bool IsAiming() => isAiming;
+
 }

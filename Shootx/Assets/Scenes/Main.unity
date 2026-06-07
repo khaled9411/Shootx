@@ -10086,6 +10086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 658102933}
   - component: {fileID: 658102934}
+  - component: {fileID: 658102935}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -10128,6 +10129,14 @@ MonoBehaviour:
   gameplayMusic: {fileID: 8300000, guid: 4854e3acd31364b4883875c066cbe1a7, type: 3}
   buttonClickSound: {fileID: 8300000, guid: eb3ceee3da22a4368a284a670b2fd99b, type: 3}
   fadeDuration: 1.5
+--- !u!81 &658102935
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658102932}
+  m_Enabled: 1
 --- !u!1 &658748916
 GameObject:
   m_ObjectHideFlags: 0

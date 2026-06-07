@@ -13,6 +13,8 @@ public class BulletController : MonoBehaviour
     private float currentPower = 120f;
     private float bounceDecay;
     private float maxBounceAngle;
+
+    private LayerMask collisionLayers;
     private LayerMask shootableLayers;
     private LayerMask penetrableLayers;
     private float maxDistance;
@@ -20,7 +22,7 @@ public class BulletController : MonoBehaviour
     private bool causedFreeze = false;
 
     public void Initialize(Vector3 dir, float spd, int bounces, float decay, float maxAngle,
-                           LayerMask shootable, LayerMask penetrable, float maxDist,
+                           LayerMask collision, LayerMask shootable, LayerMask penetrable, float maxDist,
                            bool freezeOnFlight = false)
     {
         direction = dir.normalized;
@@ -28,6 +30,8 @@ public class BulletController : MonoBehaviour
         bouncesLeft = bounces;
         bounceDecay = decay;
         maxBounceAngle = maxAngle;
+
+        collisionLayers = collision;
         shootableLayers = shootable;
         penetrableLayers = penetrable;
         maxDistance = maxDist;
@@ -43,11 +47,15 @@ public class BulletController : MonoBehaviour
     {
         float distance = speed * Time.unscaledDeltaTime;
 
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, shootableLayers))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, collisionLayers))
         {
             transform.position = hit.point;
-            Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            AudioManager.Instance.PlaySFX(bulletHit);
+
+            if (hitEffect != null)
+                Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+            if (AudioManager.Instance != null && bulletHit != null)
+                AudioManager.Instance.PlaySFX(bulletHit);
 
             if (hit.collider.TryGetComponent(out IDamageable damageable))
             {
@@ -57,6 +65,12 @@ public class BulletController : MonoBehaviour
             if (IsPenetrable(hit.collider.gameObject))
             {
                 transform.position += direction * 0.1f;
+                return;
+            }
+
+            if (!IsShootableForBounce(hit.collider.gameObject))
+            {
+                OnBulletStopped(hit);
                 return;
             }
 
@@ -87,6 +101,8 @@ public class BulletController : MonoBehaviour
     }
 
     bool IsPenetrable(GameObject obj) => ((1 << obj.layer) & penetrableLayers) != 0;
+
+    bool IsShootableForBounce(GameObject obj) => ((1 << obj.layer) & shootableLayers) != 0;
 
     void OnBulletStopped(RaycastHit hit)
     {
