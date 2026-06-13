@@ -8,20 +8,21 @@ public class BulletTimePPVolume : MonoBehaviour
     public static BulletTimePPVolume Instance { get; private set; }
 
     [SerializeField] private Volume ppVolume;
+    [SerializeField] private Volume baseVolume;
 
     [Header("Vignette")]
-    [SerializeField] private float vignetteNormal = 0.25f;
+    private float vignetteNormal;
     [SerializeField] private float vignetteFreeze = 0.55f;
     [SerializeField] private float vignetteDuration = 0.3f;
 
     [Header("Chromatic Aberration")]
-    [SerializeField] private float chromaticNormal = 0f;
+    private float chromaticNormal;
     [SerializeField] private float chromaticShot = 1f;
     [SerializeField] private float chromaticFreeze = 0.35f;
     [SerializeField] private float chromaticDuration = 0.15f;
 
     [Header("Color Grading")]
-    [SerializeField] private float saturationNormal = 0f;
+    private float saturationNormal;
     [SerializeField] private float saturationFreeze = -40f;
     [SerializeField] private float saturationDuration = 0.3f;
 
@@ -39,6 +40,18 @@ public class BulletTimePPVolume : MonoBehaviour
             ppVolume.profile.TryGet(out vignette);
             ppVolume.profile.TryGet(out chromaticAberration);
             ppVolume.profile.TryGet(out colorAdjustments);
+        }
+
+        if (baseVolume != null && baseVolume.profile != null)
+        {
+            if (baseVolume.profile.TryGet(out Vignette baseVignette))
+                vignetteNormal = baseVignette.intensity.value;
+
+            if (baseVolume.profile.TryGet(out ChromaticAberration baseCA))
+                chromaticNormal = baseCA.intensity.value;
+
+            if (baseVolume.profile.TryGet(out ColorAdjustments baseColor))
+                saturationNormal = baseColor.saturation.value;
         }
     }
 
