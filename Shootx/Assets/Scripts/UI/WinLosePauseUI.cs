@@ -21,6 +21,10 @@ public class WinLosePauseUI : MonoBehaviour
     [SerializeField] private Button doubleMoneyButton;
     [SerializeField] private Button nextButton;
 
+    [Header("SHINE")]
+    [SerializeField] private Image shineImage;
+    [SerializeField] private float shineRotateSpeed = 60f;
+
     [Header("LOSE SCREEN")]
     [SerializeField] private CanvasGroup losePanel;
     [SerializeField] private Image loseHeader;
@@ -38,15 +42,15 @@ public class WinLosePauseUI : MonoBehaviour
     [SerializeField] private Button skipLevelPauseButton;
 
     [Header("ANIMATION SETTINGS")]
-    [SerializeField] private float bgFadeDuration = 0.35f;
-    [SerializeField] private float elementDelay = 0.07f;
-    [SerializeField] private float popInDuration = 0.45f;
-    [SerializeField] private float punchStrength = 0.2f;
-    [SerializeField] private float moneyCountDuration = 1.0f;
+    [SerializeField] private float bgFadeDuration = 0.25f;
+    [SerializeField] private float elementDelay = 0.04f;
+    [SerializeField] private float popInDuration = 0.40f;
+    [SerializeField] private float punchStrength = 0.25f;
+    [SerializeField] private float moneyCountDuration = 1.2f;
     [SerializeField] private Ease elementEaseIn = Ease.OutBack;
     [SerializeField] private Ease elementEaseOut = Ease.InBack;
 
-    // EVENTS
+    // ?? EVENTS ??????????????????????????????????????????????????????????????
     public static event Action OnNextLevel;
     public static event Action OnDoubleMoney;
     public static event Action OnRetry;
@@ -60,6 +64,7 @@ public class WinLosePauseUI : MonoBehaviour
     private int _currentMoney = 0;
     private bool _isPaused = false;
     private Tween _moneyCountTween;
+    private Tween _shineTween;
     private LevelLoader _levelLoader;
 
     // Win
@@ -68,6 +73,7 @@ public class WinLosePauseUI : MonoBehaviour
     private RectTransform _rewardGroupRT;
     private RectTransform _doubleButtonRT;
     private RectTransform _nextButtonRT;
+    private RectTransform _shineRT;
 
     // Lose
     private RectTransform _loseHeaderRT;
@@ -107,6 +113,7 @@ public class WinLosePauseUI : MonoBehaviour
         if (moneyRewardGroup) _rewardGroupRT = moneyRewardGroup.GetComponent<RectTransform>();
         if (doubleMoneyButton) _doubleButtonRT = doubleMoneyButton.GetComponent<RectTransform>();
         if (nextButton) _nextButtonRT = nextButton.GetComponent<RectTransform>();
+        if (shineImage) _shineRT = shineImage.GetComponent<RectTransform>();
 
         if (loseHeader) _loseHeaderRT = loseHeader.GetComponent<RectTransform>();
         if (loseTitleText) _loseTitleRT = loseTitleText.GetComponent<RectTransform>();
@@ -125,40 +132,34 @@ public class WinLosePauseUI : MonoBehaviour
         HideInstant(winPanel);
         HideInstant(losePanel);
         HideInstant(pausePanel);
+
+        if (shineImage) shineImage.color = new Color(1f, 1f, 1f, 0f);
     }
 
     private void BindButtons()
     {
-        // Win
         if (nextButton) nextButton.onClick.AddListener(OnNextClicked);
         if (doubleMoneyButton) doubleMoneyButton.onClick.AddListener(OnDoubleClicked);
-
-        // Lose
         if (retryButton) retryButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelButton) skipLevelButton.onClick.AddListener(OnSkipLevelClicked);
-
-        // Pause
         if (pauseButton) pauseButton.onClick.AddListener(TogglePause);
         if (resumeButton) resumeButton.onClick.AddListener(OnResumeClicked);
         if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelPauseButton) skipLevelPauseButton.onClick.AddListener(OnSkipLevelClicked);
 
         _levelLoader = FindFirstObjectByType<LevelLoader>();
-        if (_levelLoader != null)
-            OnSkipLevel += _levelLoader.OnSkipLevel;
-        else
-            Debug.LogWarning("[WinLosePauseUI] LevelLoader it's not in the scene!");
+        if (_levelLoader != null) OnSkipLevel += _levelLoader.OnSkipLevel;
+        else Debug.LogWarning("[WinLosePauseUI] LevelLoader not found in scene!");
     }
 
     private void OnDestroy()
     {
-        if (_levelLoader != null)
-            OnSkipLevel -= _levelLoader.OnSkipLevel;
+        _shineTween?.Kill();
+        if (_levelLoader != null) OnSkipLevel -= _levelLoader.OnSkipLevel;
     }
 
     #endregion
 
-    // =================================================================
     #region WIN SCREEN
 
     public void ShowWin(int earnedMoney)
@@ -169,19 +170,42 @@ public class WinLosePauseUI : MonoBehaviour
         HideInstant(winPanel);
         winPanel.alpha = 0f;
 
-        Sequence seq = DOTween.Sequence().SetUpdate(true);
-
         if (_winHeaderRT)
         {
-            Vector2 origPos = _winHeaderRT.anchoredPosition;
-            _winHeaderRT.anchoredPosition = origPos + Vector2.up * 200f;
+            _winHeaderRT.localScale = Vector3.one * 1.4f;
+            _winHeaderRT.anchoredPosition += Vector2.up * 300f;
             Color c = winHeader.color; c.a = 0f; winHeader.color = c;
-
-            seq.Append(winHeader.DOFade(1f, bgFadeDuration).SetUpdate(true));
-            seq.Join(_winHeaderRT
-                .DOAnchorPos(origPos, popInDuration * 0.8f)
-                .SetEase(Ease.OutBounce).SetUpdate(true));
         }
+
+        if (_winTitleRT)
+        {
+            _winTitleRT.localScale = Vector3.one * 2.2f;
+            winTitleText.alpha = 0f;
+        }
+
+        if (_rewardGroupRT)
+        {
+            _rewardGroupRT.localScale = Vector3.zero;
+            if (moneyAmountText) { moneyAmountText.text = "0"; moneyAmountText.alpha = 0f; }
+        }
+
+        if (_doubleButtonRT) _doubleButtonRT.localScale = Vector3.zero;
+
+        if (_nextButtonRT)
+        {
+            _nextButtonRT.localScale = Vector3.zero;
+            _nextButtonRT.anchoredPosition += Vector2.down * 120f;
+        }
+
+        if (_shineRT)
+        {
+            _shineRT.localScale = Vector3.zero;
+            _shineRT.localRotation = Quaternion.identity;
+            Color sc = shineImage.color; sc.a = 0f; shineImage.color = sc;
+        }
+
+
+        Sequence seq = DOTween.Sequence().SetUpdate(true);
 
         seq.AppendCallback(() =>
         {
@@ -190,75 +214,130 @@ public class WinLosePauseUI : MonoBehaviour
             winPanel.blocksRaycasts = true;
         });
 
+        if (_winHeaderRT)
+        {
+            Vector2 targetPos = _winHeaderRT.anchoredPosition - Vector2.up * 300f;
+            seq.Append(
+                winHeader.DOFade(1f, bgFadeDuration).SetUpdate(true)
+            );
+            seq.Join(
+                _winHeaderRT.DOAnchorPos(targetPos, popInDuration * 0.7f)
+                            .SetEase(Ease.OutBounce).SetUpdate(true)
+            );
+            seq.Join(
+                _winHeaderRT.DOScale(1f, popInDuration * 0.6f)
+                            .SetEase(Ease.OutBack).SetUpdate(true)
+            );
+        }
+
         if (_winTitleRT)
         {
-            _winTitleRT.localScale = Vector3.zero;
-            winTitleText.alpha = 0f;
-            seq.AppendInterval(elementDelay);
-            seq.Append(winTitleText.DOFade(1f, 0.2f).SetUpdate(true));
-            seq.Join(_winTitleRT
-                .DOScale(1.15f, popInDuration * 0.5f)
-                .SetEase(Ease.OutCubic).SetUpdate(true));
-            seq.Append(_winTitleRT.DOScale(1f, 0.15f).SetUpdate(true));
-            seq.Append(_winTitleRT
-                .DOPunchScale(Vector3.one * punchStrength, 0.5f, 8, 0.6f)
-                .SetUpdate(true));
+            seq.Append(
+                winTitleText.DOFade(1f, 0.15f).SetUpdate(true)
+            );
+            seq.Join(
+                _winTitleRT.DOScale(1f, popInDuration * 0.55f)
+                           .SetEase(Ease.OutBack, overshoot: 1.8f).SetUpdate(true)
+            );
+
+            seq.AppendCallback(() =>
+                _winTitleRT.DOPunchScale(
+                    Vector3.one * (punchStrength + 0.15f),
+                    0.55f, 9, 0.5f
+                ).SetUpdate(true)
+            );
         }
+
+        seq.AppendInterval(elementDelay * 2f);
 
         if (_rewardGroupRT)
         {
-            Vector2 origPos = _rewardGroupRT.anchoredPosition;
-            _rewardGroupRT.anchoredPosition = origPos + Vector2.up * 60f;
-            _rewardGroupRT.localScale = Vector3.zero;
+            seq.Append(
+                _rewardGroupRT.DOScale(1.15f, popInDuration * 0.5f)
+                              .SetEase(Ease.OutExpo).SetUpdate(true)
+            );
+            seq.Join(
+                _rewardGroupRT.DOScale(1f, 0.18f).SetDelay(popInDuration * 0.5f).SetUpdate(true)
+            );
 
             if (moneyAmountText)
+                seq.Join(moneyAmountText.DOFade(1f, 0.2f).SetUpdate(true));
+
+            if (_shineRT)
             {
-                moneyAmountText.text = "0";
-                moneyAmountText.alpha = 0f;
+                seq.Join(
+                    shineImage.DOFade(1f, 0.3f).SetUpdate(true)
+                );
+                seq.Join(
+                    _shineRT.DOScale(1.2f, popInDuration * 0.6f)
+                            .SetEase(Ease.OutBack).SetUpdate(true)
+                );
+                seq.AppendCallback(() =>
+                {
+                    _shineRT.DOScale(1f, 0.15f).SetUpdate(true);
+                    StartShineRotation();
+                });
             }
-
-            seq.AppendInterval(elementDelay);
-            seq.Append(_rewardGroupRT
-                .DOScale(1f, popInDuration * 0.75f)
-                .SetEase(elementEaseIn).SetUpdate(true));
-            seq.Join(_rewardGroupRT
-                .DOAnchorPos(origPos, popInDuration * 0.75f)
-                .SetEase(elementEaseIn).SetUpdate(true));
-
-            if (moneyAmountText)
-                seq.Join(moneyAmountText.DOFade(1f, 0.25f).SetUpdate(true));
 
             seq.AppendCallback(() => StartMoneyCount(0, _currentMoney));
         }
 
-        seq.AppendInterval(moneyCountDuration * 0.6f);
         if (_doubleButtonRT)
         {
-            _doubleButtonRT.localScale = Vector3.zero;
-            seq.Append(_doubleButtonRT
-                .DOScale(1f, popInDuration)
-                .SetEase(elementEaseIn).SetUpdate(true));
-            seq.Append(_doubleButtonRT
-                .DOPunchScale(Vector3.one * (punchStrength + 0.1f), 0.5f, 8, 0.5f)
-                .SetUpdate(true));
+            seq.Join(
+                _doubleButtonRT.DOScale(1.2f, popInDuration * 0.55f)
+                               .SetEase(Ease.OutBack, overshoot: 2f).SetUpdate(true)
+            );
+            seq.AppendCallback(() =>
+                _doubleButtonRT.DOScale(1f, 0.15f).SetUpdate(true)
+            );
+
+            seq.AppendCallback(() =>
+                _doubleButtonRT
+                    .DOPunchScale(Vector3.one * (punchStrength + 0.1f), 0.5f, 7, 0.45f)
+                    .SetUpdate(true)
+            );
         }
 
-        seq.AppendInterval(elementDelay);
         if (_nextButtonRT)
         {
-            Vector2 origPos = _nextButtonRT.anchoredPosition;
-            _nextButtonRT.anchoredPosition = origPos + Vector2.down * 70f;
-            _nextButtonRT.localScale = Vector3.zero;
+            Vector2 targetPos = _nextButtonRT.anchoredPosition + Vector2.down * 120f;
 
-            seq.Append(_nextButtonRT
-                .DOScale(1f, popInDuration * 0.9f)
-                .SetEase(elementEaseIn).SetUpdate(true));
-            seq.Join(_nextButtonRT
-                .DOAnchorPos(origPos, popInDuration * 0.9f)
-                .SetEase(elementEaseIn).SetUpdate(true));
+            Vector2 finalPos = _nextButtonRT.anchoredPosition - Vector2.down * 120f;
+
+            seq.Join(
+                _nextButtonRT.DOScale(1.1f, popInDuration * 0.6f)
+                             .SetEase(Ease.OutBack).SetUpdate(true)
+            );
+            seq.Join(
+                _nextButtonRT.DOAnchorPos(finalPos, popInDuration * 0.6f)
+                             .SetEase(Ease.OutBack).SetUpdate(true)
+            );
+            seq.AppendCallback(() =>
+                _nextButtonRT.DOScale(1f, 0.15f).SetUpdate(true)
+            );
         }
 
         seq.Play();
+    }
+
+
+    private void StartShineRotation()
+    {
+        _shineTween?.Kill();
+        if (_shineRT == null) return;
+
+        _shineTween = _shineRT
+            .DORotate(new Vector3(0f, 0f, -360f), 360f / shineRotateSpeed, RotateMode.FastBeyond360)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Restart)
+            .SetUpdate(true);
+    }
+
+    private void StopShineRotation()
+    {
+        _shineTween?.Kill();
+        _shineTween = null;
     }
 
     private void StartMoneyCount(int from, int to)
@@ -276,6 +355,8 @@ public class WinLosePauseUI : MonoBehaviour
     private void HideWin(Action onComplete = null)
     {
         _moneyCountTween?.Kill();
+        StopShineRotation();
+
         winPanel.interactable = false;
         winPanel.blocksRaycasts = false;
 
@@ -287,7 +368,6 @@ public class WinLosePauseUI : MonoBehaviour
 
     #endregion
 
-    // =================================================================
     #region LOSE SCREEN
 
     public void ShowLose()
@@ -328,8 +408,8 @@ public class WinLosePauseUI : MonoBehaviour
                 .SetEase(Ease.OutCubic).SetUpdate(true));
             seq.Append(_loseTitleRT.DOScale(1f, 0.12f).SetUpdate(true));
             seq.Append(_loseTitleRT
-                .DOShakePosition(0.55f, strength: 12f, vibrato: 14, randomness: 90,
-                    snapping: false, fadeOut: true).SetUpdate(true));
+                .DOShakePosition(0.55f, strength: 12f, vibrato: 14,
+                    randomness: 90, snapping: false, fadeOut: true).SetUpdate(true));
         }
 
         seq.AppendInterval(elementDelay);
@@ -376,7 +456,6 @@ public class WinLosePauseUI : MonoBehaviour
 
     #endregion
 
-    // =================================================================
     #region PAUSE MENU
 
     public void TogglePause()
@@ -463,7 +542,6 @@ public class WinLosePauseUI : MonoBehaviour
 
     #endregion
 
-    // =================================================================
     #region Button Callbacks
 
     private void OnNextClicked()
@@ -487,7 +565,7 @@ public class WinLosePauseUI : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no duplication.");
+                    Debug.Log("[WinLosePauseUI] Ad not completed – no double.");
                     if (doubleMoneyButton) doubleMoneyButton.interactable = true;
                 }
             });
@@ -508,18 +586,9 @@ public class WinLosePauseUI : MonoBehaviour
     private void OnRetryClicked()
     {
         if (_isPaused)
-        {
-            AnimateButtonPress(_retryPauseRT, () =>
-            {
-                ResumeGame();
-                OnRetry?.Invoke();
-            });
-        }
+            AnimateButtonPress(_retryPauseRT, () => { ResumeGame(); OnRetry?.Invoke(); });
         else
-        {
-            AnimateButtonPress(_retryButtonRT, () =>
-                HideLose(() => OnRetry?.Invoke()));
-        }
+            AnimateButtonPress(_retryButtonRT, () => HideLose(() => OnRetry?.Invoke()));
     }
 
     private void OnSkipLevelClicked()
@@ -527,19 +596,14 @@ public class WinLosePauseUI : MonoBehaviour
         if (_isPaused)
         {
             if (skipLevelPauseButton) skipLevelPauseButton.interactable = false;
-
             AnimateButtonPress(_skipLevelPauseRT, () =>
             {
                 GameAdManager.Instance.ShowRewardedAd(watched =>
                 {
-                    if (watched)
-                    {
-                        ResumeGame();
-                        OnSkipLevel?.Invoke();
-                    }
+                    if (watched) { ResumeGame(); OnSkipLevel?.Invoke(); }
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no skip.");
+                        Debug.Log("[WinLosePauseUI] Ad not completed – no skip.");
                         if (skipLevelPauseButton) skipLevelPauseButton.interactable = true;
                     }
                 });
@@ -548,18 +612,14 @@ public class WinLosePauseUI : MonoBehaviour
         else
         {
             if (skipLevelButton) skipLevelButton.interactable = false;
-
             AnimateButtonPress(_skipLevelButtonRT, () =>
             {
                 GameAdManager.Instance.ShowRewardedAd(watched =>
                 {
-                    if (watched)
-                    {
-                        HideLose(() => OnSkipLevel?.Invoke());
-                    }
+                    if (watched) HideLose(() => OnSkipLevel?.Invoke());
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] If you haven't seen the ad, there's no skip.");
+                        Debug.Log("[WinLosePauseUI] Ad not completed – no skip.");
                         if (skipLevelButton) skipLevelButton.interactable = true;
                     }
                 });
@@ -578,7 +638,6 @@ public class WinLosePauseUI : MonoBehaviour
 
     #endregion
 
-    // =================================================================
     #region Helpers
 
     private void AnimateButtonPress(RectTransform rt, Action onComplete = null)
