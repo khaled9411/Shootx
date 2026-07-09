@@ -375,19 +375,32 @@ public class WinLosePauseUI : MonoBehaviour
         HideInstant(losePanel);
         losePanel.alpha = 0f;
 
-        Sequence seq = DOTween.Sequence().SetUpdate(true);
-
         if (_loseHeaderRT)
         {
-            Vector2 origPos = _loseHeaderRT.anchoredPosition;
-            _loseHeaderRT.anchoredPosition = origPos + Vector2.up * 200f;
+            _loseHeaderRT.localScale = Vector3.one * 1.4f;
+            _loseHeaderRT.anchoredPosition += Vector2.up * 300f;
             Color c = loseHeader.color; c.a = 0f; loseHeader.color = c;
-
-            seq.Append(loseHeader.DOFade(1f, bgFadeDuration).SetUpdate(true));
-            seq.Join(_loseHeaderRT
-                .DOAnchorPos(origPos, popInDuration * 0.7f)
-                .SetEase(Ease.OutBounce).SetUpdate(true));
         }
+
+        if (_loseTitleRT)
+        {
+            _loseTitleRT.localScale = Vector3.one * 2.2f;
+            loseTitleText.alpha = 0f;
+        }
+
+        if (_retryButtonRT)
+        {
+            _retryButtonRT.localScale = Vector3.zero;
+            _retryButtonRT.anchoredPosition += Vector2.down * 120f;
+        }
+
+        if (_skipLevelButtonRT)
+        {
+            _skipLevelButtonRT.localScale = Vector3.zero;
+            _skipLevelButtonRT.anchoredPosition += Vector2.down * 120f;
+        }
+
+        Sequence seq = DOTween.Sequence().SetUpdate(true);
 
         seq.AppendCallback(() =>
         {
@@ -396,48 +409,32 @@ public class WinLosePauseUI : MonoBehaviour
             losePanel.blocksRaycasts = true;
         });
 
+        if (_loseHeaderRT)
+        {
+            Vector2 targetPos = _loseHeaderRT.anchoredPosition - Vector2.up * 300f;
+            seq.Append(loseHeader.DOFade(1f, bgFadeDuration).SetUpdate(true));
+            seq.Join(_loseHeaderRT.DOAnchorPos(targetPos, popInDuration * 0.7f).SetEase(Ease.OutBounce).SetUpdate(true));
+            seq.Join(_loseHeaderRT.DOScale(1f, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+        }
+
         if (_loseTitleRT)
         {
-            _loseTitleRT.localScale = Vector3.zero;
-            loseTitleText.alpha = 0f;
-
-            seq.AppendInterval(elementDelay);
-            seq.Append(loseTitleText.DOFade(1f, 0.2f).SetUpdate(true));
-            seq.Join(_loseTitleRT
-                .DOScale(1.2f, popInDuration * 0.5f)
-                .SetEase(Ease.OutCubic).SetUpdate(true));
-            seq.Append(_loseTitleRT.DOScale(1f, 0.12f).SetUpdate(true));
-            seq.Append(_loseTitleRT
-                .DOShakePosition(0.55f, strength: 12f, vibrato: 14,
-                    randomness: 90, snapping: false, fadeOut: true).SetUpdate(true));
+            seq.Append(loseTitleText.DOFade(1f, 0.15f).SetUpdate(true));
+            seq.Join(_loseTitleRT.DOScale(1f, popInDuration * 0.55f).SetEase(Ease.OutBack, overshoot: 1.8f).SetUpdate(true));
+            seq.AppendCallback(() => _loseTitleRT.DOPunchScale(Vector3.one * (punchStrength + 0.15f), 0.55f, 9, 0.5f).SetUpdate(true));
         }
 
-        seq.AppendInterval(elementDelay);
-        if (_retryButtonRT)
+        seq.AppendInterval(elementDelay * 2f);
+
+        RectTransform[] loseButtons = { _retryButtonRT, _skipLevelButtonRT };
+        foreach (var btn in loseButtons)
         {
-            Vector2 origPos = _retryButtonRT.anchoredPosition;
-            _retryButtonRT.anchoredPosition = origPos + Vector2.down * 80f;
-            _retryButtonRT.localScale = Vector3.zero;
+            if (btn == null) continue;
+            Vector2 finalPos = btn.anchoredPosition - Vector2.down * 120f;
 
-            seq.Append(_retryButtonRT
-                .DOScale(1f, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
-            seq.Join(_retryButtonRT
-                .DOAnchorPos(origPos, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
-            seq.Append(_retryButtonRT
-                .DOPunchScale(Vector3.one * punchStrength, 0.4f, 6, 0.5f).SetUpdate(true));
-        }
-
-        seq.AppendInterval(elementDelay);
-        if (_skipLevelButtonRT)
-        {
-            Vector2 origPos = _skipLevelButtonRT.anchoredPosition;
-            _skipLevelButtonRT.anchoredPosition = origPos + Vector2.down * 80f;
-            _skipLevelButtonRT.localScale = Vector3.zero;
-
-            seq.Append(_skipLevelButtonRT
-                .DOScale(1f, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
-            seq.Join(_skipLevelButtonRT
-                .DOAnchorPos(origPos, popInDuration).SetEase(elementEaseIn).SetUpdate(true));
+            seq.Join(btn.DOScale(1.1f, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+            seq.Join(btn.DOAnchorPos(finalPos, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+            seq.AppendCallback(() => btn.DOScale(1f, 0.15f).SetUpdate(true));
         }
 
         seq.Play();
@@ -472,19 +469,28 @@ public class WinLosePauseUI : MonoBehaviour
         HideInstant(pausePanel);
         pausePanel.alpha = 0f;
 
-        Sequence seq = DOTween.Sequence().SetUpdate(true);
-
         if (_pauseHeaderRT)
         {
-            Vector2 origPos = _pauseHeaderRT.anchoredPosition;
-            _pauseHeaderRT.anchoredPosition = origPos + Vector2.up * 150f;
+            _pauseHeaderRT.localScale = Vector3.one * 1.4f;
+            _pauseHeaderRT.anchoredPosition += Vector2.up * 300f;
             Color c = pauseHeader.color; c.a = 0f; pauseHeader.color = c;
-
-            seq.Append(pauseHeader.DOFade(1f, bgFadeDuration).SetUpdate(true));
-            seq.Join(_pauseHeaderRT
-                .DOAnchorPos(origPos, popInDuration * 0.7f)
-                .SetEase(Ease.OutBack).SetUpdate(true));
         }
+
+        if (_pauseTitleRT)
+        {
+            _pauseTitleRT.localScale = Vector3.one * 2.2f;
+            pauseTitleText.alpha = 0f;
+        }
+
+        RectTransform[] buttons = { _resumeButtonRT, _retryPauseRT, _skipLevelPauseRT };
+        foreach (var btn in buttons)
+        {
+            if (btn == null) continue;
+            btn.localScale = Vector3.zero;
+            btn.anchoredPosition += Vector2.down * 120f;
+        }
+
+        Sequence seq = DOTween.Sequence().SetUpdate(true);
 
         seq.AppendCallback(() =>
         {
@@ -493,15 +499,32 @@ public class WinLosePauseUI : MonoBehaviour
             pausePanel.blocksRaycasts = true;
         });
 
-        RectTransform[] buttons = { _resumeButtonRT, _retryPauseRT, _skipLevelPauseRT };
+        if (_pauseHeaderRT)
+        {
+            Vector2 targetPos = _pauseHeaderRT.anchoredPosition - Vector2.up * 300f;
+            seq.Append(pauseHeader.DOFade(1f, bgFadeDuration).SetUpdate(true));
+            seq.Join(_pauseHeaderRT.DOAnchorPos(targetPos, popInDuration * 0.7f).SetEase(Ease.OutBounce).SetUpdate(true));
+            seq.Join(_pauseHeaderRT.DOScale(1f, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+        }
+
+        if (_pauseTitleRT)
+        {
+            seq.Append(pauseTitleText.DOFade(1f, 0.15f).SetUpdate(true));
+            seq.Join(_pauseTitleRT.DOScale(1f, popInDuration * 0.55f).SetEase(Ease.OutBack, overshoot: 1.8f).SetUpdate(true));
+            seq.AppendCallback(() => _pauseTitleRT.DOPunchScale(Vector3.one * (punchStrength + 0.15f), 0.55f, 9, 0.5f).SetUpdate(true));
+        }
+
+        seq.AppendInterval(elementDelay * 2f);
+
         foreach (var btn in buttons)
         {
             if (btn == null) continue;
-            btn.localScale = Vector3.zero;
+            Vector2 finalPos = btn.anchoredPosition - Vector2.down * 120f;
+
+            seq.Join(btn.DOScale(1.1f, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+            seq.Join(btn.DOAnchorPos(finalPos, popInDuration * 0.6f).SetEase(Ease.OutBack).SetUpdate(true));
+            seq.AppendCallback(() => btn.DOScale(1f, 0.15f).SetUpdate(true));
             seq.AppendInterval(elementDelay);
-            seq.Append(btn
-                .DOScale(1f, popInDuration * 0.75f)
-                .SetEase(elementEaseIn).SetUpdate(true));
         }
 
         seq.Play();
