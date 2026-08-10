@@ -148,7 +148,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5765947246807976738}
   - component: {fileID: 7741714003493518011}
-  - component: {fileID: 4919396062510683159}
   - component: {fileID: 3207540366192387184}
   - component: {fileID: 3806560739131308274}
   m_Layer: 0
@@ -224,14 +223,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4919396062510683159
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608728393344622132}
-  m_Enabled: 1
 --- !u!114 &3207540366192387184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,7 +813,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: collisionLayers.m_Bits
-      value: 53203
+      value: 315347
+      objectReference: {fileID: 0}
+    - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
+      propertyPath: shootableLayers.m_Bits
+      value: 265024
       objectReference: {fileID: 0}
     - target: {fileID: 1767875988958458118, guid: 5de68f9ee9abb934289735929f34b55e, type: 3}
       propertyPath: penetrableLayers.m_Bits
@@ -943,7 +938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AimAssist
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 262400
   detectionRadius: 20
   snapAngle: 30
   snapStrength: 10
