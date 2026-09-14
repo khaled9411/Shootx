@@ -1,28 +1,28 @@
-using AdManagerPro;
 using System;
-using System.Collections;
 using UnityEngine;
+using GoogleMobileAds.Api;
 
 public class GameAdManager : MonoBehaviour
 {
     public static GameAdManager Instance { get; private set; }
-    #region Inspector Settings
 
-    [Header("Interstitial")]
+    [Header("Ad Unit IDs")]
+    [SerializeField] private string bannerId = "ca-app-pub-8291738977037870/1235947238";
+    [SerializeField] private string interstitialId = "ca-app-pub-8291738977037870/5833667794";
+    [SerializeField] private string rewardedId = "ca-app-pub-8291738977037870/9932310465";
+
+    [Header("Interstitial Settings")]
     [SerializeField] private float autoInterstitialInterval = 120f;
     [SerializeField] private bool startAutoInterstitialOnStart = true;
-
-    #endregion
-    #region Private State
 
     private float _interstitialTimer = 0f;
     private bool _autoInterstitialRunning = false;
     private bool _bannerVisible = false;
     private Action<bool> _pendingRewardedCallback;
 
-    #endregion
-
-    #region Unity Lifecycle
+    private BannerView _bannerView;
+    private InterstitialAd _interstitialAd;
+    private RewardedAd _rewardedAd;
 
     private void Awake()
     {
@@ -33,8 +33,12 @@ public class GameAdManager : MonoBehaviour
 
     private void Start()
     {
-        RewardedAdManager.RequestRewardedAd();
-        InterstitialAdManager.RequestAdInterstitial();
+        MobileAds.Initialize(initStatus =>
+        {
+            LoadBannerAd();
+            LoadInterstitialAd();
+            LoadRewardedAd();
+        });
 
         if (startAutoInterstitialOnStart)
             StartAutoInterstitial();
@@ -53,48 +57,91 @@ public class GameAdManager : MonoBehaviour
         }
     }
 
-    #endregion
+    private string GetBannerId()
+    {
+        return bannerId;
+    }
+
+    private string GetInterstitialId()
+    {
+        return interstitialId;
+    }
+
+    private string GetRewardedId()
+    {
+        return rewardedId;
+    }
 
     #region Rewarded Ad
 
-    public void ShowRewardedAd(Action<bool> onResult)
+    private void LoadRewardedAd()
     {
-        if (!RewardedAdManager.isAdmobRewardedReady)
+        if (_rewardedAd != null)
         {
-            Debug.LogWarning("[GameAdManager] Rewarded Ad not ready, new upload request...");
-            RewardedAdManager.RequestRewardedAd();
-            onResult?.Invoke(false);
-            return;
+            _rewardedAd.Destroy();
+            _rewardedAd = null;
         }
 
-        _pendingRewardedCallback = onResult;
-        RewardedAdManager.ShowRewardedAd(OnRewardedAdWatched);
+        var adRequest = new AdRequest();
+        RewardedAd.Load(GetRewardedId(), adRequest, (RewardedAd ad, LoadAdError error) =>
+        {
+            if (error != null || ad == null) return;
+            _rewardedAd = ad;
+        });
     }
 
-    private void OnRewardedAdWatched(bool adWatched)
+    public void ShowRewardedAd(Action<bool> onResult)
     {
-        _pendingRewardedCallback?.Invoke(adWatched);
-        _pendingRewardedCallback = null;
-        RewardedAdManager.RequestRewardedAd();
+        if (_rewardedAd != null && _rewardedAd.CanShowAd())
+        {
+            _pendingRewardedCallback = onResult;
+            _rewardedAd.Show((Reward reward) =>
+            {
+                _pendingRewardedCallback?.Invoke(true);
+                _pendingRewardedCallback = null;
+            });
+            LoadRewardedAd();
+        }
+        else
+        {
+            Debug.LogWarning("Rewarded Ad not ready");
+            onResult?.Invoke(false);
+            LoadRewardedAd();
+        }
     }
 
     #endregion
 
     #region Banner Ad
 
+    private void LoadBannerAd()
+    {
+        if (_bannerView != null)
+        {
+            _bannerView.Destroy();
+        }
+
+        _bannerView = new BannerView(GetBannerId(), AdSize.Banner, AdPosition.Bottom);
+        var adRequest = new AdRequest();
+        _bannerView.LoadAd(adRequest);
+        _bannerView.Hide();
+        _bannerVisible = false;
+    }
+
     public void ShowBanner()
     {
-        if (_bannerVisible) return;
+        if (_bannerView == null) LoadBannerAd();
+        _bannerView.Show();
         _bannerVisible = true;
-        BannerAdManager.ShowAdBanner();
-        Debug.Log("[GameAdManager] Banner to Show");
     }
+
     public void HideBanner()
     {
-        if (!_bannerVisible) return;
+        if (_bannerView != null)
+        {
+            _bannerView.Hide();
+        }
         _bannerVisible = false;
-        BannerAdManager.HideAdBanner();
-        Debug.Log("[GameAdManager] Banner to Hide");
     }
 
     public void ToggleBanner()
@@ -109,49 +156,51 @@ public class GameAdManager : MonoBehaviour
 
     #region Interstitial Ad
 
-    public void ShowInterstitialNow()
+    private void LoadInterstitialAd()
     {
-        if (!InterstitialAdManager.isAdmobInterstitialReady)
+        if (_interstitialAd != null)
         {
-            Debug.LogWarning("[GameAdManager] Interstitial Not ready.");
-            InterstitialAdManager.RequestAdInterstitial();
-            return;
+            _interstitialAd.Destroy();
+            _interstitialAd = null;
         }
 
-        InterstitialAdManager.ShowAdInterstitial();
+        var adRequest = new AdRequest();
+        InterstitialAd.Load(GetInterstitialId(), adRequest, (InterstitialAd ad, LoadAdError error) =>
+        {
+            if (error != null || ad == null) return;
+            _interstitialAd = ad;
+        });
+    }
 
-        InterstitialAdManager.RequestAdInterstitial();
-
-        Debug.Log("[GameAdManager] Interstitial to Shown");
+    public void ShowInterstitialNow()
+    {
+        if (_interstitialAd != null && _interstitialAd.CanShowAd())
+        {
+            _interstitialAd.Show();
+            LoadInterstitialAd();
+        }
+        else
+        {
+            Debug.LogWarning("Interstitial Not ready");
+            LoadInterstitialAd();
+        }
     }
 
     public void StartAutoInterstitial()
     {
         _autoInterstitialRunning = true;
         _interstitialTimer = 0f;
-        Debug.Log($"[GameAdManager] Auto-Interstitial It started — all {autoInterstitialInterval}s");
     }
 
     public void StopAutoInterstitial()
     {
         _autoInterstitialRunning = false;
-        Debug.Log("[GameAdManager] Auto-Interstitial arrested");
     }
 
     public void SetAutoInterstitialInterval(float seconds)
     {
         autoInterstitialInterval = Mathf.Max(10f, seconds);
         _interstitialTimer = 0f;
-    }
-
-    #endregion
-
-    #region App Open
-
-    private void OnApplicationPause(bool pause)
-    {
-        //if (!pause)
-        //    AppOpenAdManager.ShowAppOpenAd();
     }
 
     #endregion
