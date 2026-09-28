@@ -1979,6 +1979,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.05686689
       objectReference: {fileID: 0}
+    - target: {fileID: 5786852803578546324, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 6329860142819180323, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.9000015
@@ -1986,6 +1990,14 @@ PrefabInstance:
     - target: {fileID: 6329860142819180323, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.z
       value: -9.612999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: collisionLayers.m_Bits
+      value: 53203
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: shootableLayers.m_Bits
+      value: 2880
       objectReference: {fileID: 0}
     - target: {fileID: 8361268907892528415, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
