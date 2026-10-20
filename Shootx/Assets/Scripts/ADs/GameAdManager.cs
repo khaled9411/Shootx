@@ -130,6 +130,11 @@ public class GameAdManager : MonoBehaviour
 
     public void ShowBanner()
     {
+        if (GameDataManager.Instance != null && GameDataManager.Instance.AdsRemoved)
+        {
+            return;
+        }
+
         if (_bannerView == null) LoadBannerAd();
         _bannerView.Show();
         _bannerVisible = true;
@@ -174,6 +179,11 @@ public class GameAdManager : MonoBehaviour
 
     public void ShowInterstitialNow()
     {
+        if (GameDataManager.Instance != null && GameDataManager.Instance.AdsRemoved)
+        {
+            return;
+        }
+
         if (_interstitialAd != null && _interstitialAd.CanShowAd())
         {
             _interstitialAd.Show();

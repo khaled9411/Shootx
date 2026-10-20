@@ -181,8 +181,23 @@ public class ShootingSystem : MonoBehaviour
         if (weaponFirePoint != null)
             currentXRotation = weaponFirePoint.localEulerAngles.x;
 
-        if (aimRig != null) aimRig.weight = 1f;
-        if (animator != null) animator.CrossFade(aimingHash, 0.1f);
+        if (aimRig != null)
+            aimRig.weight = 1f;
+
+        if (animator != null)
+        {
+            Debug.Log(
+                $"AIMING Animator = {animator.gameObject.name} | " +
+                $"Active = {animator.gameObject.activeInHierarchy} | " +
+                $"Controller = {animator.runtimeAnimatorController?.name}"
+            );
+
+            animator.CrossFade(aimingHash, 0.1f);
+        }
+        else
+        {
+            Debug.LogError("ShootingSystem Animator is NULL!");
+        }
 
         GameCameraController.Instance?.OnPlayerStartAiming();
     }

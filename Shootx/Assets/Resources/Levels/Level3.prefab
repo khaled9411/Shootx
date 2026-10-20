@@ -580,6 +580,14 @@ PrefabInstance:
       value: -3.56
       objectReference: {fileID: 0}
     - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: aimRig
+      value: 
+      objectReference: {fileID: 2151896258935081934}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7037347863665062121}
+    - target: {fileID: 6366522917496824175, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: maxHorizontalAngle
       value: 80
       objectReference: {fileID: 0}
@@ -591,6 +599,10 @@ PrefabInstance:
       propertyPath: maxVerticalAngleDown
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 6977270888744694211, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7037347863665062121}
     - target: {fileID: 8361268907892528415, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.48280168
@@ -641,6 +653,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2049626384093535547, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
   m_PrefabInstance: {fileID: 739937043231792802}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2151896258935081934 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1700631045795911020, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+  m_PrefabInstance: {fileID: 739937043231792802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
 --- !u!114 &2943047836736062872 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2491342406886710074, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
@@ -652,6 +675,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a22a240d49f584418aca66b1349c324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementPoint
+--- !u!95 &7037347863665062121 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7776984602763587147, guid: 598994caa005bbb45a608390e7927a3a, type: 3}
+  m_PrefabInstance: {fileID: 739937043231792802}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &900819249881396560
 PrefabInstance:
   m_ObjectHideFlags: 0

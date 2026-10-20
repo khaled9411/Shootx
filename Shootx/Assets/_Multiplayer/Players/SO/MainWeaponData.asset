@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e2cb6545792964a8116cadc27950a9, type: 3}
+  m_Name: MainWeaponData
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  fireCooldown: 0.25
+  magazineSize: 12
+  reloadTime: 1.5
+  projectileData: {fileID: 11400000, guid: d206d73b673e8d24684db2928a7661f0, type: 2}
+  networkProjectilePrefab: {fileID: 7439830649194630489, guid: 691929b57fcf55f4a97ad94e5078fdd6, type: 3}
+  dummyProjectilePrefab: {fileID: 5912089068989780228, guid: 1b2831bc267a3cf4e9dd42848635ab75, type: 3}
+  muzzleFlashPrefab: {fileID: 5291548235857690430, guid: 82da3e0ff65af744287bd68fe2e0a9a3, type: 3}

@@ -47,7 +47,6 @@ public class WinLosePauseUI : MonoBehaviour
     [SerializeField] private float popInDuration = 0.40f;
     [SerializeField] private float punchStrength = 0.25f;
     [SerializeField] private float moneyCountDuration = 1.2f;
-    [SerializeField] private Ease elementEaseIn = Ease.OutBack;
     [SerializeField] private Ease elementEaseOut = Ease.InBack;
 
     public static event Action OnNextLevel;

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private Animator animator;
-    [SerializeField] private string walkAnimationName = "Walk";
+    [SerializeField] private string walkAnimationName = "Running";
     [SerializeField] private string idleAnimationName = "Idle";
 
     [Header("Visual Feedback")]
@@ -59,8 +59,6 @@ public class PlayerMovement : MonoBehaviour
         float distance = Vector3.Distance(transform.position, targetPosition);
         float duration = distance / movementSpeed;
 
-        // ?? ????? transform.DORotateQuaternion ???? ??????? ?? ??? Update
-
         StartMovement(duration);
 
         if (GameCameraController.Instance != null)
@@ -75,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            // ??????? CrossFade ??? Play ??????? ??? ????? ??? ????? ?????
             animator.CrossFade(walkAnimationName, 0.1f);
         }
 
@@ -101,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            // ?????? ??? ?? Idle
             animator.CrossFade(idleAnimationName, 0.15f);
         }
 
@@ -116,7 +112,6 @@ public class PlayerMovement : MonoBehaviour
                 .OnComplete(() => transform.DOScaleY(1, 0.1f));
         }
 
-        // ??? ???? ??? Y ??????? ??? ?? ????? ?????? ??? ???? ???? ????? ??? ??????
         float startY = transform.position.y;
 
         Sequence jumpSequence = DOTween.Sequence();
@@ -143,7 +138,6 @@ public class PlayerMovement : MonoBehaviour
     void OnDestroy()
     {
         movementTween?.Kill();
-        // ?????? ????? ?? ??? Tweens ???????? ???? ??? Transform ??? ??????
         transform.DOKill();
     }
 }

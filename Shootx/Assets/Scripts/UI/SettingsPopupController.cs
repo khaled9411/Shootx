@@ -75,7 +75,7 @@ public class SettingsPopupController : MonoBehaviour
     private void OnNoAdsPressed()
     {
         Debug.Log("[Settings] No Ads pressed");
-        IAPManager.Instance?.BuyNoAds();
+        IAPManager.Instance?.BuyProduct("no_ads");
     }
 
     private void OnSupportPressed()

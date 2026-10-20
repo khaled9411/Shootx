@@ -84,6 +84,13 @@ public class GameDataManager : MonoBehaviour
     [SerializeField] private int equippedGunId = 0;
     [SerializeField] private int equippedOutfitId = 0;
 
+    [Header("=== IAP & Ownership ===")]
+    [SerializeField] private bool adsRemoved = false;
+    [SerializeField] private bool multiplayerUnlocked = false;
+    private HashSet<int> ownedGuns = new HashSet<int>();
+    private HashSet<int> ownedOutfits = new HashSet<int>();
+    private HashSet<string> processedTransactions = new HashSet<string>();
+
     [Header("=== Zone Sprites ===")]
     [SerializeField] private List<Sprite> zoneSprites;
 
@@ -113,6 +120,8 @@ public class GameDataManager : MonoBehaviour
     public int CurrentLevel => currentLevel;
     public int EquippedGunId => equippedGunId;
     public int EquippedOutfitId => equippedOutfitId;
+    public bool AdsRemoved => adsRemoved;
+    public bool MultiplayerUnlocked => multiplayerUnlocked;
 
     public List<ShopOffer> SoftCurrencyOffers => softCurrencyOffers;
     public List<ShopOffer> HardCurrencyOffers => hardCurrencyOffers;
@@ -167,7 +176,7 @@ public class GameDataManager : MonoBehaviour
     public void AddSoftCurrency(int amount)
     {
         softCurrency += amount;
-        SaveCurrency();
+        SaveData();
         OnCurrencyChanged?.Invoke();
     }
 
@@ -175,7 +184,7 @@ public class GameDataManager : MonoBehaviour
     {
         if (softCurrency < amount) return false;
         softCurrency -= amount;
-        SaveCurrency();
+        SaveData();
         OnCurrencyChanged?.Invoke();
         return true;
     }
@@ -183,7 +192,7 @@ public class GameDataManager : MonoBehaviour
     public void AddHardCurrency(int amount)
     {
         hardCurrency += amount;
-        SaveCurrency();
+        SaveData();
         OnCurrencyChanged?.Invoke();
     }
 
@@ -191,7 +200,7 @@ public class GameDataManager : MonoBehaviour
     {
         if (hardCurrency < amount) return false;
         hardCurrency -= amount;
-        SaveCurrency();
+        SaveData();
         OnCurrencyChanged?.Invoke();
         return true;
     }
@@ -284,13 +293,78 @@ public class GameDataManager : MonoBehaviour
     #endregion
 
     // ===================================================================
+    #region IAP Unlocks & Ownership
+    // ===================================================================
+
+    public void RemoveAds()
+    {
+        adsRemoved = true;
+        SaveData();
+        // Fire event or update Ad Manager directly
+        if (GameAdManager.Instance != null && GameAdManager.Instance.IsBannerVisible())
+        {
+            GameAdManager.Instance.HideBanner();
+        }
+    }
+
+    public void UnlockMultiplayer()
+    {
+        multiplayerUnlocked = true;
+        SaveData();
+    }
+
+    public void AddOwnedGun(int id)
+    {
+        if (ownedGuns.Add(id))
+            SaveData();
+    }
+
+    public void AddOwnedOutfit(int id)
+    {
+        if (ownedOutfits.Add(id))
+            SaveData();
+    }
+
+    public bool IsGunOwned(int id)
+    {
+        // By default, if we don't have a strict inventory system initially, 
+        // we might consider some default items owned. We can just check the HashSet.
+        return ownedGuns.Contains(id);
+    }
+
+    public bool IsOutfitOwned(int id)
+    {
+        return ownedOutfits.Contains(id);
+    }
+
+    public bool IsTransactionProcessed(string transactionId)
+    {
+        return processedTransactions.Contains(transactionId);
+    }
+
+    public void RecordTransaction(string transactionId)
+    {
+        if (processedTransactions.Add(transactionId))
+            SaveData();
+    }
+
+    // ===================================================================
+    #endregion
+
+    // ===================================================================
     #region Save / Load
     // ===================================================================
 
-    private void SaveCurrency()
+    private void SaveData()
     {
         PlayerPrefs.SetInt("softCurrency", softCurrency);
         PlayerPrefs.SetInt("hardCurrency", hardCurrency);
+        PlayerPrefs.SetInt("adsRemoved", adsRemoved ? 1 : 0);
+        PlayerPrefs.SetInt("multiplayerUnlocked", multiplayerUnlocked ? 1 : 0);
+        PlayerPrefs.SetString("ownedGuns", string.Join(",", ownedGuns));
+        PlayerPrefs.SetString("ownedOutfits", string.Join(",", ownedOutfits));
+        PlayerPrefs.SetString("processedTransactions", string.Join(",", processedTransactions));
+        PlayerPrefs.Save();
     }
 
     private void LoadFromPlayerPrefs()
@@ -300,6 +374,42 @@ public class GameDataManager : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt("currentLevel", 1);
         equippedGunId = PlayerPrefs.GetInt("equippedGun", 0);
         equippedOutfitId = PlayerPrefs.GetInt("equippedOutfit", 0);
+        adsRemoved = PlayerPrefs.GetInt("adsRemoved", 0) == 1;
+        multiplayerUnlocked = PlayerPrefs.GetInt("multiplayerUnlocked", 0) == 1;
+
+        LoadIntHashSet("ownedGuns", ownedGuns);
+        LoadIntHashSet("ownedOutfits", ownedOutfits);
+        LoadStringHashSet("processedTransactions", processedTransactions);
+    }
+
+    private void LoadIntHashSet(string key, HashSet<int> set)
+    {
+        set.Clear();
+        string data = PlayerPrefs.GetString(key, "");
+        if (!string.IsNullOrEmpty(data))
+        {
+            string[] parts = data.Split(',');
+            foreach (var p in parts)
+            {
+                if (int.TryParse(p, out int val))
+                    set.Add(val);
+            }
+        }
+    }
+
+    private void LoadStringHashSet(string key, HashSet<string> set)
+    {
+        set.Clear();
+        string data = PlayerPrefs.GetString(key, "");
+        if (!string.IsNullOrEmpty(data))
+        {
+            string[] parts = data.Split(',');
+            foreach (var p in parts)
+            {
+                if (!string.IsNullOrEmpty(p))
+                    set.Add(p);
+            }
+        }
     }
 
     // ===================================================================
