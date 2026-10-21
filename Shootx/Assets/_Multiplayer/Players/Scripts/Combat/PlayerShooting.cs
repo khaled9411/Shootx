@@ -84,7 +84,12 @@ public class PlayerShooting : NetworkBehaviour
         // Fire initial event so UI is in sync
         OnAmmoChanged?.Invoke(currentAmmo.Value, weaponData.magazineSize);
 
+        if (mainCamera == null) mainCamera = Camera.main;
+
         if (!IsOwner) return;
+
+        // Bind Ammo UI if present in scene
+        FindAnyObjectByType<MultiplayerAmmoUI>()?.Initialize(this);
 
         // Subscribe to input events
         if (inputReader != null)
@@ -146,6 +151,7 @@ public class PlayerShooting : NetworkBehaviour
     /// </summary>
     private void UpdateAimWorldPoint()
     {
+        if (mainCamera == null) mainCamera = Camera.main;
         if (mainCamera == null) return;
 
         Vector2 aimScreenPos = inputReader.aimPostion;

@@ -30,6 +30,8 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (mainCamera == null) mainCamera = Camera.main;
+
         if (!IsOwner) return;
 
         if (inputReader != null)
@@ -87,6 +89,9 @@ public class PlayerController : NetworkBehaviour
 
     private void ProcessRotation()
     {
+        if (mainCamera == null) mainCamera = Camera.main;
+        if (mainCamera == null) return;
+
         Ray ray = mainCamera.ScreenPointToRay(currentAimInput);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f, groundLayer))
         {

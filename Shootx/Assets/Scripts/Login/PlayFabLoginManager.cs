@@ -24,6 +24,8 @@ public class PlayFabLoginManager : MonoBehaviour
 
     private bool isLoggedIn;
 
+    public const string PlayerNameKey = "PlayerUserName";
+
     private readonly string[] bannedWords =
     {
         "admin", "moderator", "mod", "owner",
@@ -108,6 +110,8 @@ public class PlayFabLoginManager : MonoBehaviour
             else
             {
                 Debug.Log("Username: " + displayName);
+                PlayerPrefs.SetString(PlayerNameKey, displayName);
+                PlayerPrefs.Save();
                 LoadMainScene();
             }
         }, OnPlayFabError);
@@ -151,8 +155,11 @@ public class PlayFabLoginManager : MonoBehaviour
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, result =>
         {
             ShowFeedback("Success!", isError: false);
+            
+            PlayerPrefs.SetString(PlayerNameKey, result.DisplayName);
             PlayerPrefs.SetInt("HasRegistered", 1);
             PlayerPrefs.Save();
+
             HideUsernamePanel();
             Debug.Log("Display Name Saved: " + result.DisplayName);
             DOVirtual.DelayedCall(0.4f, LoadMainScene);

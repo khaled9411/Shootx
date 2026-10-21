@@ -242,8 +242,12 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         currentHealth.Value = healthData.maxHealth;
         isDead.Value = false;
 
-        // TODO: Reset position to a spawn point
-        // transform.position = SpawnManager.GetRandomSpawnPoint();
+        // Reset position to a spawn point
+        Vector3 spawnPos = MultiplayerSpawnManager.GetRandomSpawnPosition();
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+        transform.position = spawnPos;
+        if (cc != null) cc.enabled = true;
 
         // Notify all clients
         NotifyRespawnClientRpc();
