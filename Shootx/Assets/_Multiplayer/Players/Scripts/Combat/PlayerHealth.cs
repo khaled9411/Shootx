@@ -27,9 +27,9 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
 
     // ─── Networked State ────────────────────────────────────────
 
-    /// <summary>Current health, synced to all clients. Only the server writes.</summary>
-    private NetworkVariable<int> currentHealth = new NetworkVariable<int>(
-        0,
+    /// <summary>Current health (units, e.g. 3.0, 1.5, 0.5), synced to all clients. Only the server writes.</summary>
+    private NetworkVariable<float> currentHealth = new NetworkVariable<float>(
+        3f,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
@@ -47,20 +47,20 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     /// Fires on ALL clients whenever health changes.
     /// Passes (currentHealth, maxHealth).
     /// </summary>
-    public event Action<int, int> OnHealthChanged;
+    public event Action<float, float> OnHealthChanged;
 
     /// <summary>
     /// Fires on ALL clients when this player takes damage.
     /// Passes (damageAmount, attackerClientId).
     /// Use this for hit-flash, screen-shake, floating damage numbers, etc.
     /// </summary>
-    public event Action<int, ulong> OnDamageTaken;
+    public event Action<float, ulong> OnDamageTaken;
 
     /// <summary>
     /// Fires on ALL clients when this player is healed.
     /// Passes (healAmount).
     /// </summary>
-    public event Action<int> OnHealed;
+    public event Action<float> OnHealed;
 
     /// <summary>
     /// Fires on ALL clients when this player dies.
@@ -80,14 +80,18 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
 
     // ─── Properties ─────────────────────────────────────────────
 
-    /// <summary>Read the current health from any client.</summary>
-    public int CurrentHealth => currentHealth.Value;
+    /// <summary>Read the current fractional health from any client.</summary>
+    public float CurrentHealth => currentHealth.Value;
 
-    /// <summary>Read max health from the data asset.</summary>
-    public int MaxHealth => healthData != null ? healthData.maxHealth : 100;
+    /// <summary>Read max health (units) from the data asset.</summary>
+    public float MaxHealth => healthData != null ? healthData.maxHealth : 3f;
+
+    /// <summary>Backward-compatibility integer health.</summary>
+    public int CurrentHealthInt => Mathf.RoundToInt(currentHealth.Value);
+    public int MaxHealthInt => healthData != null ? healthData.maxHealthInt : 3;
 
     /// <summary>Is the player currently dead?</summary>
-    public bool IsDead => isDead.Value;
+    public bool IsDead => isDead.Value || currentHealth.Value <= 0.001f;
 
     // ═══════════════════════════════════════════════════════════
     // NetworkBehaviour Lifecycle
@@ -104,14 +108,15 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         // Server initializes health
         if (IsServer)
         {
-            currentHealth.Value = healthData.maxHealth;
+            float startingHealth = healthData != null ? healthData.maxHealth : 3f;
+            currentHealth.Value = startingHealth;
             isDead.Value = false;
             lastDamageTime = float.MinValue;
             invulnerabilityEndTime = float.MinValue;
         }
 
         // Fire initial event so UI is in sync immediately
-        OnHealthChanged?.Invoke(currentHealth.Value, healthData.maxHealth);
+        OnHealthChanged?.Invoke(currentHealth.Value, MaxHealth);
 
         if (IsOwner)
         {
@@ -133,7 +138,7 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     {
         if (!IsServer) return;
         if (isDead.Value) return;
-        if (!healthData.enableRegen) return;
+        if (healthData == null || !healthData.enableRegen) return;
 
         // Wait for regen delay after last damage
         if (Time.time - lastDamageTime < healthData.regenDelay) return;
@@ -141,47 +146,41 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         // Already at full health
         if (currentHealth.Value >= healthData.maxHealth) return;
 
-        // Apply regen (accumulated fractionally to stay smooth)
-        regenAccumulator += healthData.regenRate * Time.deltaTime;
-        int regenInt = Mathf.FloorToInt(regenAccumulator);
-        if (regenInt <= 0) return;
-        regenAccumulator -= regenInt;
-
-
-        int newHealth = Mathf.Min(currentHealth.Value + regenInt, healthData.maxHealth);
-        if (newHealth != currentHealth.Value)
+        // Apply regen smoothly
+        float healAmount = healthData.regenRate * Time.deltaTime;
+        float newHealth = Mathf.Min(currentHealth.Value + healAmount, healthData.maxHealth);
+        if (newHealth > currentHealth.Value)
         {
-            int healed = newHealth - currentHealth.Value;
+            float actualHeal = newHealth - currentHealth.Value;
             currentHealth.Value = newHealth;
-            NotifyHealedClientRpc(healed);
+            NotifyHealedClientRpc(actualHeal);
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    // INetworkDamageable — called by projectiles AND melee
+    // INetworkDamageable — called by hitscan Raycast, projectiles, and melee
     // ═══════════════════════════════════════════════════════════
 
     /// <summary>
-    /// Apply damage to this player. Called on the SERVER by
-    /// <see cref="NetworkProjectile.OnHit"/> or <see cref="PlayerMelee.MeleeServerRpc"/>.
+    /// Apply fractional damage to this player (server-authoritative).
     /// </summary>
-    public void TakeDamage(int damage, ulong attackerClientId)
+    public void TakeDamage(float damage, ulong attackerClientId)
     {
         if (!IsServer) return;
         if (isDead.Value) return;
-        if (damage <= 0) return;
+        if (damage <= 0f) return;
 
         // Invulnerability check
-        if (healthData.invulnerabilityDuration > 0f && Time.time < invulnerabilityEndTime)
+        if (healthData != null && healthData.invulnerabilityDuration > 0f && Time.time < invulnerabilityEndTime)
             return;
 
-        // Apply damage
-        int clampedDamage = Mathf.Min(damage, currentHealth.Value);
-        currentHealth.Value -= clampedDamage;
+        // Apply clamped damage
+        float clampedDamage = Mathf.Min(damage, currentHealth.Value);
+        currentHealth.Value = Mathf.Max(0f, currentHealth.Value - clampedDamage);
         lastDamageTime = Time.time;
 
         // Start i-frames
-        if (healthData.invulnerabilityDuration > 0f)
+        if (healthData != null && healthData.invulnerabilityDuration > 0f)
         {
             invulnerabilityEndTime = Time.time + healthData.invulnerabilityDuration;
         }
@@ -190,10 +189,19 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         NotifyDamageTakenClientRpc(clampedDamage, attackerClientId);
 
         // Death check
-        if (currentHealth.Value <= 0)
+        if (currentHealth.Value <= 0.001f)
         {
+            currentHealth.Value = 0f;
             HandleDeath(attackerClientId);
         }
+    }
+
+    /// <summary>
+    /// Backward-compatibility integer damage method.
+    /// </summary>
+    public void TakeDamage(int damage, ulong attackerClientId)
+    {
+        TakeDamage((float)damage, attackerClientId);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -201,22 +209,28 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     // ═══════════════════════════════════════════════════════════
 
     /// <summary>
-    /// Heal the player by the specified amount. Server-only.
+    /// Heal the player by the specified fractional amount. Server-only.
     /// </summary>
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         if (!IsServer) return;
         if (isDead.Value) return;
-        if (amount <= 0) return;
+        if (amount <= 0f) return;
 
-        int newHealth = Mathf.Min(currentHealth.Value + amount, healthData.maxHealth);
-        int actualHeal = newHealth - currentHealth.Value;
+        float maxHp = MaxHealth;
+        float newHealth = Mathf.Min(currentHealth.Value + amount, maxHp);
+        float actualHeal = newHealth - currentHealth.Value;
 
-        if (actualHeal > 0)
+        if (actualHeal > 0f)
         {
             currentHealth.Value = newHealth;
             NotifyHealedClientRpc(actualHeal);
         }
+    }
+
+    public void Heal(int amount)
+    {
+        Heal((float)amount);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -225,6 +239,7 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
 
     private void HandleDeath(ulong killerClientId)
     {
+        if (isDead.Value) return;
         isDead.Value = true;
 
         // Notify all clients
@@ -236,10 +251,11 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
 
     private System.Collections.IEnumerator RespawnCoroutine()
     {
-        yield return new WaitForSeconds(healthData.respawnDelay);
+        float delay = healthData != null ? healthData.respawnDelay : 3f;
+        yield return new WaitForSeconds(delay);
 
         // Restore health
-        currentHealth.Value = healthData.maxHealth;
+        currentHealth.Value = MaxHealth;
         isDead.Value = false;
 
         // Reset position to a spawn point
@@ -249,6 +265,12 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         transform.position = spawnPos;
         if (cc != null) cc.enabled = true;
 
+        // Reset shooter ammo for respawn (Basic 3, Extra preserved)
+        if (TryGetComponent<PlayerShooting>(out var shooting))
+        {
+            shooting.HandleRespawnServer();
+        }
+
         // Notify all clients
         NotifyRespawnClientRpc();
     }
@@ -257,16 +279,14 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     // NetworkVariable Callbacks (all clients)
     // ═══════════════════════════════════════════════════════════
 
-    private void HandleHealthChanged(int oldValue, int newValue)
+    private void HandleHealthChanged(float oldValue, float newValue)
     {
-        OnHealthChanged?.Invoke(newValue, healthData.maxHealth);
+        OnHealthChanged?.Invoke(newValue, MaxHealth);
     }
 
     private void HandleDeadStateChanged(bool oldValue, bool newValue)
     {
-        // This can be used to toggle ragdoll, disable controls, etc.
-        // The specific events (OnDeath, OnRespawn) are fired via ClientRPC
-        // so they carry additional info (killer ID).
+        // Network state synced
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -274,13 +294,13 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     // ═══════════════════════════════════════════════════════════
 
     [ClientRpc]
-    private void NotifyDamageTakenClientRpc(int damage, ulong attackerClientId)
+    private void NotifyDamageTakenClientRpc(float damage, ulong attackerClientId)
     {
         OnDamageTaken?.Invoke(damage, attackerClientId);
     }
 
     [ClientRpc]
-    private void NotifyHealedClientRpc(int amount)
+    private void NotifyHealedClientRpc(float amount)
     {
         OnHealed?.Invoke(amount);
     }

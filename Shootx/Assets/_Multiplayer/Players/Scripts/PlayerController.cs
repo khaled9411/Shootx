@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour
     private CharacterController characterController;
     private Vector2 currentMoveInput;
     private Vector2 currentAimInput;
+    private Vector3 latestMobileAimDir;
 
     private float verticalVelocity;
     private const float gravity = -9.81f;
@@ -37,6 +38,7 @@ public class PlayerController : NetworkBehaviour
         if (inputReader != null)
         {
             inputReader.moveEvent += HandleMoveInput;
+            inputReader.mobileAimDirectionEvent += HandleMobileAimDirection;
         }
     }
 
@@ -47,7 +49,13 @@ public class PlayerController : NetworkBehaviour
         if (inputReader != null)
         {
             inputReader.moveEvent -= HandleMoveInput;
+            inputReader.mobileAimDirectionEvent -= HandleMobileAimDirection;
         }
+    }
+
+    private void HandleMobileAimDirection(Vector3 dir)
+    {
+        latestMobileAimDir = dir;
     }
 
     private void Update()
@@ -89,6 +97,15 @@ public class PlayerController : NetworkBehaviour
 
     private void ProcessRotation()
     {
+        // 1. Mobile touch aiming takes precedence when active
+        if (inputReader != null && inputReader.IsMobileAiming && latestMobileAimDir.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(latestMobileAimDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            return;
+        }
+
+        // 2. Desktop mouse aiming via ground plane raycast
         if (mainCamera == null) mainCamera = Camera.main;
         if (mainCamera == null) return;
 
@@ -106,4 +123,4 @@ public class PlayerController : NetworkBehaviour
             }
         }
     }
-}
+}

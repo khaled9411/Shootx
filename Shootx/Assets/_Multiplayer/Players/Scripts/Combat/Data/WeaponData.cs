@@ -8,28 +8,40 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     [Header("Firing")]
-    [Tooltip("Minimum time between shots (seconds). For semi-auto this prevents spam-clicking.")]
-    public float fireCooldown = 0.25f;
+    [Tooltip("Minimum time between shots (seconds). Default is 0.2s.")]
+    public float fireCooldown = 0.2f;
 
-    [Header("Ammo")]
-    [Tooltip("Maximum rounds in a single magazine.")]
-    public int magazineSize = 12;
+    [Header("Hitscan & Ricochet")]
+    [Tooltip("Maximum effective shot range in meters.")]
+    public float maxShotRange = 30f;
 
-    [Tooltip("Time it takes to reload (seconds).")]
-    public float reloadTime = 1.5f;
+    [Tooltip("Maximum wall ricochet bounces allowed (0 = no bounce).")]
+    public int maxRicochets = 2;
 
-    [Header("Projectile")]
-    [Tooltip("Reference to the projectile data this weapon fires.")]
-    public ProjectileData projectileData;
+    [Tooltip("Distance threshold for close-range damage (e.g. 6m).")]
+    public float closeRangeDistance = 6f;
 
-    [Header("Prefabs")]
-    [Tooltip("The networked projectile prefab (must have NetworkObject).")]
-    public GameObject networkProjectilePrefab;
+    [Tooltip("Distance threshold for medium-range damage (e.g. 14m).")]
+    public float mediumRangeDistance = 14f;
 
-    [Tooltip("The local dummy projectile prefab (no NetworkObject needed).")]
-    public GameObject dummyProjectilePrefab;
+    [Header("Distance Damage Values (Health Units)")]
+    [Tooltip("Damage dealt at close range (<= closeRangeDistance).")]
+    public float closeDamage = 3f;
 
-    [Header("Visuals")]
+    [Tooltip("Damage dealt at medium range (> closeRangeDistance, <= mediumRangeDistance).")]
+    public float mediumDamage = 1.5f;
+
+    [Tooltip("Damage dealt at long range (> mediumRangeDistance, <= maxShotRange).")]
+    public float longDamage = 1f;
+
+    [Header("Ammunition Settings")]
+    [Tooltip("Basic ammunition capacity (default 3).")]
+    public int basicAmmoCapacity = 3;
+
+    [Header("Laser Visuals (Local Only)")]
+    [Tooltip("Prefab for the local-only animated laser beam (with LaserBeamVisual component).")]
+    public GameObject laserBeamPrefab;
+
     [Tooltip("Muzzle flash particle prefab (optional).")]
     public GameObject muzzleFlashPrefab;
 }

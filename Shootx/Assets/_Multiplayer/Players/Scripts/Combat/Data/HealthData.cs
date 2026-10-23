@@ -8,8 +8,13 @@ using UnityEngine;
 public class HealthData : ScriptableObject
 {
     [Header("Health")]
-    [Tooltip("Maximum health points.")]
-    public int maxHealth = 100;
+    [Tooltip("Maximum health points (units). Default is 3 for three health segments.")]
+    public float maxHealth = 3f;
+
+    /// <summary>
+    /// Backward-compatibility integer accessor.
+    /// </summary>
+    public int maxHealthInt => Mathf.RoundToInt(maxHealth);
 
     [Header("Regeneration")]
     [Tooltip("Enable passive health regeneration over time.")]

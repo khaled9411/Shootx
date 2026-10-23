@@ -1,88 +1,188 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using static Unity.Collections.CollectionHelper;
 
 /// <summary>
-/// Main shooting system for the player. Handles input, ammo management,
-/// reload logic, dummy projectile spawning (client prediction), and
-/// server-authoritative networked projectile spawning.
+/// Server-authoritative hitscan shooting system with configurable wall ricochets,
+/// distance-based damage (fractional), two-tier ammunition (Basic recoverable & Extra permanent),
+/// and local-only animated laser beam rendering.
 /// 
-/// Attach this to the Player prefab alongside PlayerController.
+/// Attach to Player prefab alongside PlayerController, PlayerHealth, and PlayerMelee.
 /// </summary>
 public class PlayerShooting : NetworkBehaviour
 {
-    [Header("Weapon Configuration")]
+    public enum AmmoType
+    {
+        Basic,
+        Extra
+    }
+
+    [Header("Weapon Data Asset (Optional)")]
     [SerializeField] private WeaponData weaponData;
 
     [Header("Input")]
     [SerializeField] private InputReader inputReader;
 
     [Header("Fire Point")]
-    [Tooltip("Transform at the weapon muzzle where projectiles spawn. Assign in the Inspector.")]
+    [Tooltip("Transform at the weapon muzzle where the hitscan trace begins. Assign in Inspector.")]
     [SerializeField] private Transform muzzlePoint;
 
-    [Header("Camera Reference")]
-    [SerializeField] private LayerMask groundLayer;
+    [Header("Camera & Aim Reference")]
+    [SerializeField] private LayerMask groundLayer = 513;
 
-    // ─── Ammo State ─────────────────────────────────────────────
+    [Header("Hitscan & Ricochet Configuration")]
+    [Tooltip("Minimum time between shots (seconds). Default 0.2s.")]
+    [SerializeField] private float fireCooldown = 0.2f;
+
+    [Tooltip("Maximum total shot range across all bounce segments.")]
+    [SerializeField] private float maxShotRange = 30f;
+
+    [Tooltip("Maximum number of wall bounces allowed (0 = no bounces).")]
+    [SerializeField] private int maxRicochets = 2;
+
+    [Tooltip("Offset distance along reflection normal to prevent repeated collisions with the same surface.")]
+    [SerializeField] private float surfaceOffset = 0.02f;
+
+    [Header("Collision Layer Masks")]
+    [Tooltip("Layers that bullets can collide with (Players, Walls, Obstacles, Destructibles).")]
+    [SerializeField] private LayerMask hitLayers = ~0;
+
+    [Tooltip("Designated wall layer(s) that reflect bullets. Other walls block and stop the ray.")]
+    [SerializeField] private LayerMask ricochetWallMask = 0;
+
+    [Header("Distance Damage Thresholds (Health Units)")]
+    [Tooltip("Distance threshold for close-range shots.")]
+    [SerializeField] private float closeRangeDistance = 6f;
+
+    [Tooltip("Distance threshold for medium-range shots.")]
+    [SerializeField] private float mediumRangeDistance = 14f;
+
+    [Header("Distance Damage Values")]
+    [Tooltip("Close range damage (default 3 health units).")]
+    [SerializeField] private float closeDamage = 3f;
+
+    [Tooltip("Medium range damage (default 1.5 health units).")]
+    [SerializeField] private float mediumDamage = 1.5f;
+
+    [Tooltip("Long range damage (default 1 health unit).")]
+    [SerializeField] private float longDamage = 1f;
+
+    [Header("Ammunition Settings")]
+    [Tooltip("Starting and maximum capacity for basic ammunition (default 3).")]
+    [SerializeField] private int basicAmmoCapacity = 3;
+
+    [Header("Laser Visuals (Local Only)")]
+    [Tooltip("Prefab with LaserBeamVisual component, instantiated locally for the shooter only.")]
+    [SerializeField] private GameObject laserBeamPrefab;
+
+    [Tooltip("Muzzle flash effect spawned at muzzle point.")]
+    [SerializeField] private GameObject muzzleFlashPrefab;
+
+    [Tooltip("Enable instant local prediction for the laser beam to give zero-latency feedback.")]
+    [SerializeField] private bool predictLaserLocally = true;
+
+    [Header("Mobile Aim Preview (Local Only)")]
+    [Tooltip("LineRenderer used for continuous local laser trajectory preview while joystick is armed.")]
+    [SerializeField] private LineRenderer aimPreviewLine;
+    [SerializeField] private Color previewBeamColor = new Color(0f, 0.9f, 1f, 0.45f);
+    [SerializeField] private float previewBeamWidth = 0.04f;
+
+    // ─── Networked Ammunition State ─────────────────────────────
     /// <summary>
-    /// Synced ammo count so the UI can read it on all clients.
-    /// Only the server modifies this value.
+    /// Basic ammunition. Starts at 3. Refunded only on confirmed enemy player hit.
+    /// Only server writes. Synced to all clients.
     /// </summary>
-    private NetworkVariable<int> currentAmmo = new NetworkVariable<int>(
+    private readonly NetworkVariable<int> basicAmmo = new NetworkVariable<int>(
+        3,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    /// <summary>
+    /// Extra ammunition. Starts at 0. Consumed permanently when fired (fired first). Never refunded.
+    /// Only server writes. Synced to all clients.
+    /// </summary>
+    private readonly NetworkVariable<int> extraAmmo = new NetworkVariable<int>(
         0,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
 
-    private NetworkVariable<bool> isReloading = new NetworkVariable<bool>(
-        false,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-
+    // ─── Public Events ──────────────────────────────────────────
     /// <summary>
-    /// Event fired when ammo count changes. UI can subscribe to this.
-    /// Passes (currentAmmo, magazineSize).
+    /// Event fired on all clients when ammo counts change.
+    /// Passes (basicAmmo, extraAmmo).
     /// </summary>
     public event Action<int, int> OnAmmoChanged;
 
     /// <summary>
-    /// Event fired when reload state changes. Passes isReloading.
+    /// Event fired on the owner when a basic bullet is confirmed refunded by the server.
     /// </summary>
-    public event Action<bool> OnReloadStateChanged;
+    public event Action OnBasicAmmoRefunded;
+
+    /// <summary>
+    /// Event fired on the owner when an ammunition pickup is collected.
+    /// </summary>
+    public event Action OnAmmoPickupCollected;
+
+    // ─── Properties ─────────────────────────────────────────────
+    public int BasicAmmo => basicAmmo.Value;
+    public int ExtraAmmo => extraAmmo.Value;
+    public int TotalAmmo => basicAmmo.Value + extraAmmo.Value;
+    public int BasicCapacity => weaponData != null ? weaponData.basicAmmoCapacity : basicAmmoCapacity;
+    public float FireCooldown => weaponData != null ? weaponData.fireCooldown : fireCooldown;
 
     // ─── Local State ────────────────────────────────────────────
     private Camera mainCamera;
-    private float lastFireTime;
+    private float lastLocalFireTime = float.MinValue;
+    private float lastServerFireTime = float.MinValue;
     private bool isFiring;
-    private float reloadTimer;
-
-    // ─── Aim State ──────────────────────────────────────────────
     private Vector3 currentAimWorldPoint;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        playerHealth = GetComponent<PlayerHealth>();
+        ApplyWeaponDataDefaults();
+    }
+
+    private void ApplyWeaponDataDefaults()
+    {
+        if (weaponData == null) return;
+
+        if (weaponData.fireCooldown > 0f) fireCooldown = weaponData.fireCooldown;
+        if (weaponData.maxShotRange > 0f) maxShotRange = weaponData.maxShotRange;
+        if (weaponData.maxRicochets >= 0) maxRicochets = weaponData.maxRicochets;
+        if (weaponData.closeRangeDistance > 0f) closeRangeDistance = weaponData.closeRangeDistance;
+        if (weaponData.mediumRangeDistance > 0f) mediumRangeDistance = weaponData.mediumRangeDistance;
+        if (weaponData.closeDamage > 0f) closeDamage = weaponData.closeDamage;
+        if (weaponData.mediumDamage > 0f) mediumDamage = weaponData.mediumDamage;
+        if (weaponData.longDamage > 0f) longDamage = weaponData.longDamage;
+        if (weaponData.basicAmmoCapacity > 0) basicAmmoCapacity = weaponData.basicAmmoCapacity;
+        if (laserBeamPrefab == null && weaponData.laserBeamPrefab != null) laserBeamPrefab = weaponData.laserBeamPrefab;
+        if (muzzleFlashPrefab == null && weaponData.muzzleFlashPrefab != null) muzzleFlashPrefab = weaponData.muzzleFlashPrefab;
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        // Initialize ammo on server
+        // Server initializes ammo state
         if (IsServer)
         {
-            currentAmmo.Value = weaponData.magazineSize;
+            basicAmmo.Value = BasicCapacity;
+            extraAmmo.Value = 0;
+            NormalizeAmmoState();
         }
 
-        // Subscribe to ammo change events on all clients
-        currentAmmo.OnValueChanged += HandleAmmoChanged;
-        isReloading.OnValueChanged += HandleReloadStateChanged;
+        // Subscribe to synced value changes on all clients
+        basicAmmo.OnValueChanged += HandleBasicAmmoChanged;
+        extraAmmo.OnValueChanged += HandleExtraAmmoChanged;
 
-        // Fire initial event so UI is in sync
-        OnAmmoChanged?.Invoke(currentAmmo.Value, weaponData.magazineSize);
+        // Fire initial event for UI synchronization
+        OnAmmoChanged?.Invoke(basicAmmo.Value, extraAmmo.Value);
 
         if (mainCamera == null) mainCamera = Camera.main;
 
@@ -91,44 +191,102 @@ public class PlayerShooting : NetworkBehaviour
         // Bind Ammo UI if present in scene
         FindAnyObjectByType<MultiplayerAmmoUI>()?.Initialize(this);
 
+        // Bind Mobile HUD if present in scene
+        FindAnyObjectByType<MobileControlsHUD>()?.BindLocalPlayer(playerHealth);
+
         // Subscribe to input events
         if (inputReader != null)
         {
             inputReader.primaryFireEvent += HandleFireInput;
+            inputReader.mobileAimDirectionEvent += HandleMobileAimDirection;
+            inputReader.mobileAimStateChangedEvent += HandleMobileAimStateChanged;
+            inputReader.mobileFireEvent += HandleMobileFire;
+        }
+
+        if (playerHealth != null)
+        {
+            playerHealth.OnDeath += HandleDeath;
+            playerHealth.OnRespawn += HandleRespawn;
         }
     }
 
     public override void OnNetworkDespawn()
     {
-        currentAmmo.OnValueChanged -= HandleAmmoChanged;
-        isReloading.OnValueChanged -= HandleReloadStateChanged;
+        basicAmmo.OnValueChanged -= HandleBasicAmmoChanged;
+        extraAmmo.OnValueChanged -= HandleExtraAmmoChanged;
 
         if (!IsOwner) return;
 
         if (inputReader != null)
         {
             inputReader.primaryFireEvent -= HandleFireInput;
+            inputReader.mobileAimDirectionEvent -= HandleMobileAimDirection;
+            inputReader.mobileAimStateChangedEvent -= HandleMobileAimStateChanged;
+            inputReader.mobileFireEvent -= HandleMobileFire;
         }
+
+        if (playerHealth != null)
+        {
+            playerHealth.OnDeath -= HandleDeath;
+            playerHealth.OnRespawn -= HandleRespawn;
+        }
+
+        HideAimPreview(true);
     }
 
-    private void HandleAmmoChanged(int oldValue, int newValue)
+    private void HandleBasicAmmoChanged(int oldValue, int newValue)
     {
-        OnAmmoChanged?.Invoke(newValue, weaponData.magazineSize);
+        OnAmmoChanged?.Invoke(newValue, extraAmmo.Value);
     }
 
-    private void HandleReloadStateChanged(bool oldValue, bool newValue)
+    private void HandleExtraAmmoChanged(int oldValue, int newValue)
     {
-        OnReloadStateChanged?.Invoke(newValue);
+        OnAmmoChanged?.Invoke(basicAmmo.Value, newValue);
     }
-
-    // ─── Input Handling ─────────────────────────────────────────
 
     private void HandleFireInput(bool pressed)
     {
         isFiring = pressed;
     }
 
-    // ─── Update Loop ────────────────────────────────────────────
+    private void HandleMobileAimDirection(Vector3 direction)
+    {
+        if (inputReader != null && inputReader.IsMobileArmed)
+        {
+            UpdateAimPreview(direction);
+        }
+    }
+
+    private void HandleMobileAimStateChanged(bool isArmed)
+    {
+        if (isArmed)
+        {
+            Vector3 dir = (inputReader != null && inputReader.MobileAimDirection.sqrMagnitude > 0.001f)
+                ? inputReader.MobileAimDirection
+                : transform.forward;
+            UpdateAimPreview(dir);
+        }
+        else
+        {
+            HideAimPreview(true);
+        }
+    }
+
+    private void HandleMobileFire(Vector3 direction)
+    {
+        RequestMobileFire(direction);
+    }
+
+    private void HandleDeath(ulong killerId)
+    {
+        HideAimPreview(true);
+    }
+
+    private void HandleRespawn()
+    {
+        HideAimPreview(true);
+    }
+
 
     private void Update()
     {
@@ -136,23 +294,20 @@ public class PlayerShooting : NetworkBehaviour
 
         UpdateAimWorldPoint();
 
-        // Semi-auto: fire once per press
         if (isFiring)
         {
             TryFire();
-            // Semi-auto behavior: consume the press
             isFiring = false;
         }
     }
 
     /// <summary>
-    /// Converts the screen-space aim position to a world point on the ground plane.
-    /// Works for both mouse (PC) and touch (mobile) input.
+    /// Calculates ground plane world point from screen aim position.
     /// </summary>
     private void UpdateAimWorldPoint()
     {
         if (mainCamera == null) mainCamera = Camera.main;
-        if (mainCamera == null) return;
+        if (mainCamera == null || inputReader == null) return;
 
         Vector2 aimScreenPos = inputReader.aimPostion;
         Ray ray = mainCamera.ScreenPointToRay(aimScreenPos);
@@ -163,7 +318,6 @@ public class PlayerShooting : NetworkBehaviour
         }
         else
         {
-            // Fallback: project onto Y=player height plane
             Plane groundPlane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
             if (groundPlane.Raycast(ray, out float distance))
             {
@@ -172,173 +326,441 @@ public class PlayerShooting : NetworkBehaviour
         }
     }
 
-    // ─── Fire Logic ─────────────────────────────────────────────
+    // ─── Fire Request (Client) ──────────────────────────────────
 
     private void TryFire()
     {
-        // Can't fire while reloading
-        if (isReloading.Value) return;
+        // Alive check
+        if (playerHealth != null && playerHealth.IsDead) return;
 
-        // Cooldown check (local, to avoid unnecessary RPCs)
-        if (Time.time - lastFireTime < weaponData.fireCooldown) return;
+        // Local cooldown check
+        if (Time.time - lastLocalFireTime < FireCooldown) return;
 
-        // Ammo check (local prediction — server will also validate)
-        if (currentAmmo.Value <= 0)
-        {
-            // Auto-reload when trying to fire with empty magazine
-            RequestReloadServerRpc();
-            return;
-        }
+        // Local ammo prediction check
+        if (TotalAmmo <= 0) return;
 
-        lastFireTime = Time.time;
+        lastLocalFireTime = Time.time;
 
-        // Calculate fire direction from muzzle toward aim point
-        Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + transform.forward * 0.5f;
-        Vector3 fireDirection = (currentAimWorldPoint - spawnPos);
-        fireDirection.y = 0f; // Keep projectiles on horizontal plane for top-down
+        Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + Vector3.up * 0.9f + transform.forward * 0.5f;
+        Vector3 fireDirection = currentAimWorldPoint - spawnPos;
+        fireDirection.y = 0f;
+        if (fireDirection.sqrMagnitude < 0.001f) fireDirection = transform.forward;
         fireDirection.Normalize();
 
-        // ─── Client-side prediction: spawn dummy projectile immediately ───
-        SpawnDummyProjectile(spawnPos, fireDirection);
-
-        // ─── Spawn muzzle flash locally ───
+        // Local-only instant muzzle flash
         SpawnMuzzleFlash(spawnPos, fireDirection);
 
-        // ─── Request server to spawn the real networked projectile ───
+        // Optional local-only predicted laser visual
+        if (predictLaserLocally)
+        {
+            List<Vector3> predictedPath = CalculateTrajectory(spawnPos, fireDirection, out _, out _);
+            RenderLocalLaser(predictedPath);
+        }
+
+        // Request authoritative server execution
         FireServerRpc(spawnPos, fireDirection);
     }
 
-    /// <summary>
-    /// Spawns a local-only dummy projectile for instant visual feedback.
-    /// This eliminates the perceived delay of waiting for the server round-trip.
-    /// </summary>
-    private void SpawnDummyProjectile(Vector3 position, Vector3 direction)
-    {
-        if (weaponData.dummyProjectilePrefab == null) return;
+    // ─── Mobile Fire & Continuous Preview ───────────────────────
 
-        GameObject dummyGO = Instantiate(weaponData.dummyProjectilePrefab, position, Quaternion.identity);
-        DummyProjectile dummy = dummyGO.GetComponent<DummyProjectile>();
-        if (dummy != null)
+    /// <summary>
+    /// Executes a single authoritative shot from a mobile joystick release.
+    /// Reuses the exact same cooldown, ammo, muzzle flash, and hitscan server RPC.
+    /// </summary>
+    public bool RequestMobileFire(Vector3 aimDirection)
+    {
+        if (!IsOwner) return false;
+        if (playerHealth != null && playerHealth.IsDead) return false;
+        if (Time.time - lastLocalFireTime < FireCooldown) return false;
+        if (TotalAmmo <= 0) return false;
+
+        lastLocalFireTime = Time.time;
+        HideAimPreview(true);
+
+        Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + Vector3.up * 0.9f + transform.forward * 0.5f;
+        if (aimDirection.sqrMagnitude < 0.001f) aimDirection = transform.forward;
+        aimDirection.y = 0f;
+        aimDirection.Normalize();
+
+        SpawnMuzzleFlash(spawnPos, aimDirection);
+
+        if (predictLaserLocally)
         {
-            dummy.Initialize(direction, weaponData.projectileData);
+            List<Vector3> predictedPath = CalculateTrajectory(spawnPos, aimDirection, out _, out _);
+            RenderLocalLaser(predictedPath);
         }
 
-        if(dummyGO.TryGetComponent<Rigidbody>(out Rigidbody rb))
+        FireServerRpc(spawnPos, aimDirection);
+        return true;
+    }
+
+    /// <summary>
+    /// Continuously renders a local-only laser preview while the aim joystick is armed.
+    /// Uses CalculateTrajectory with serverFiredType == null (NO damage, NO ammo refund).
+    /// </summary>
+    public void UpdateAimPreview(Vector3 aimDirection)
+    {
+        if (!IsOwner) return;
+        if (playerHealth != null && playerHealth.IsDead)
         {
-            rb.linearVelocity = direction * weaponData.projectileData.speed;
+            HideAimPreview(true);
+            return;
+        }
+
+        EnsureAimPreviewLine();
+        if (aimPreviewLine == null) return;
+
+        Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + Vector3.up * 0.9f + transform.forward * 0.5f;
+        if (aimDirection.sqrMagnitude < 0.001f) aimDirection = transform.forward;
+        aimDirection.y = 0f;
+        aimDirection.Normalize();
+
+        List<Vector3> trajectory = CalculateTrajectory(spawnPos, aimDirection, out _, out _, serverFiredType: null);
+
+        aimPreviewLine.enabled = true;
+        aimPreviewLine.positionCount = trajectory.Count;
+        for (int i = 0; i < trajectory.Count; i++)
+        {
+            aimPreviewLine.SetPosition(i, trajectory[i]);
         }
     }
 
     /// <summary>
-    /// Spawns a muzzle flash effect at the fire point.
+    /// Hides the local laser preview immediately upon disarm, cancel, death, or fire.
     /// </summary>
+    public void HideAimPreview(bool immediate = false)
+    {
+        if (aimPreviewLine != null)
+        {
+            aimPreviewLine.positionCount = 0;
+            aimPreviewLine.enabled = false;
+        }
+    }
+
+    private void EnsureAimPreviewLine()
+    {
+        if (aimPreviewLine != null) return;
+
+        GameObject previewGO = new GameObject("AimPreviewLine");
+        previewGO.transform.SetParent(transform, false);
+        aimPreviewLine = previewGO.AddComponent<LineRenderer>();
+        aimPreviewLine.useWorldSpace = true;
+        aimPreviewLine.startWidth = previewBeamWidth;
+        aimPreviewLine.endWidth = previewBeamWidth;
+        aimPreviewLine.startColor = previewBeamColor;
+        aimPreviewLine.endColor = previewBeamColor;
+        aimPreviewLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        aimPreviewLine.receiveShadows = false;
+
+        Material lineMat = null;
+        if (laserBeamPrefab != null && laserBeamPrefab.TryGetComponent<LineRenderer>(out var prefabLR) && prefabLR.sharedMaterial != null)
+        {
+            lineMat = new Material(prefabLR.sharedMaterial);
+        }
+        else
+        {
+            Shader shader = Shader.Find("Sprites/Default");
+            if (shader != null) lineMat = new Material(shader);
+        }
+
+        if (lineMat != null)
+        {
+            aimPreviewLine.material = lineMat;
+        }
+
+        aimPreviewLine.positionCount = 0;
+        aimPreviewLine.enabled = false;
+    }
+
+
+    // ─── Server-Authoritative Shooting ──────────────────────────
+
+    [ServerRpc]
+    private void FireServerRpc(Vector3 clientSpawnPos, Vector3 fireDirection)
+    {
+        // 1. Validate player is alive
+        if (playerHealth != null && playerHealth.IsDead) return;
+
+        // 2. Validate cooldown
+        if (Time.time - lastServerFireTime < FireCooldown - 0.03f) return;
+        lastServerFireTime = Time.time;
+
+        // 3. Firing Priority: Extra ammo fired first, then basic
+        AmmoType firedType;
+        if (extraAmmo.Value > 0)
+        {
+            firedType = AmmoType.Extra;
+            extraAmmo.Value--;
+        }
+        else if (basicAmmo.Value > 0)
+        {
+            firedType = AmmoType.Basic;
+            basicAmmo.Value--;
+        }
+        else
+        {
+            // Out of ammo, reject shot
+            return;
+        }
+
+        // Ensure ammo invariant: ExtraAmmo > 0 => BasicAmmo == Capacity
+        NormalizeAmmoState();
+
+        // 4. Validate firing origin on server
+        Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + Vector3.up * 0.9f + transform.forward * 0.5f;
+        fireDirection.y = 0f;
+        if (fireDirection.sqrMagnitude < 0.001f) fireDirection = transform.forward;
+        fireDirection.Normalize();
+
+        // 5. Authoritative hitscan raycast calculation
+        bool hitEnemyPlayer = false;
+        bool wasRefunded = false;
+        List<Vector3> trajectory = CalculateTrajectory(spawnPos, fireDirection, out hitEnemyPlayer, out wasRefunded, firedType);
+
+        // 6. Notify the SHOOTER CLIENT ONLY about the result and confirmed laser trajectory
+        // Other clients NEVER see this player's laser visual!
+        RenderConfirmedLaserClientRpc(trajectory.ToArray(), hitEnemyPlayer, wasRefunded);
+    }
+
+    /// <summary>
+    /// Calculates the full Raycast trajectory with ricochets and distance damage.
+    /// If firedType is passed, server applies authoritative damage and basic-ammo refund.
+    /// </summary>
+    private List<Vector3> CalculateTrajectory(
+        Vector3 origin,
+        Vector3 initialDirection,
+        out bool hitEnemyPlayer,
+        out bool wasRefunded,
+        AmmoType? serverFiredType = null)
+    {
+        hitEnemyPlayer = false;
+        wasRefunded = false;
+
+        List<Vector3> trajectory = new List<Vector3> { origin };
+        Vector3 currentOrigin = origin;
+        Vector3 currentDir = initialDirection;
+        float remainingRange = maxShotRange;
+        float cumulativeDistance = 0f;
+        int bounces = 0;
+
+        while (bounces <= maxRicochets && remainingRange > 0.05f)
+        {
+            Ray ray = new Ray(currentOrigin, currentDir);
+            if (Physics.Raycast(ray, out RaycastHit hit, remainingRange, hitLayers, QueryTriggerInteraction.Ignore))
+            {
+                // Ignore shooter's own colliders
+                if (hit.collider.transform.root == transform.root)
+                {
+                    currentOrigin = hit.point + currentDir * surfaceOffset;
+                    remainingRange -= Vector3.Distance(ray.origin, currentOrigin);
+                    continue;
+                }
+
+                float segmentDist = hit.distance;
+                cumulativeDistance += segmentDist;
+                remainingRange -= segmentDist;
+                trajectory.Add(hit.point);
+
+                // Check for player
+                PlayerHealth targetHealth = hit.collider.GetComponentInParent<PlayerHealth>();
+                INetworkDamageable damageable = hit.collider.GetComponentInParent<INetworkDamageable>();
+
+                if (targetHealth != null && targetHealth.transform.root != transform.root)
+                {
+                    // Hit an enemy player!
+                    hitEnemyPlayer = true;
+
+                    if (serverFiredType.HasValue && IsServer)
+                    {
+                        float damage = CalculateDistanceDamage(cumulativeDistance);
+                        targetHealth.TakeDamage(damage, OwnerClientId);
+
+                        // Basic ammo refund rule
+                        if (serverFiredType.Value == AmmoType.Basic)
+                        {
+                            basicAmmo.Value = Mathf.Min(basicAmmo.Value + 1, BasicCapacity);
+                            wasRefunded = true;
+                            NormalizeAmmoState();
+                        }
+                    }
+
+                    // Stop ray immediately: do not penetrate or bounce off players
+                    break;
+                }
+                else if (damageable != null && hit.collider.transform.root != transform.root)
+                {
+                    // Hit a destructible object!
+                    if (serverFiredType.HasValue && IsServer)
+                    {
+                        float damage = CalculateDistanceDamage(cumulativeDistance);
+                        damageable.TakeDamage(damage, OwnerClientId);
+                    }
+
+                    // Stop ray immediately: do not penetrate or bounce off destructibles
+                    break;
+                }
+                else if (ricochetWallMask.value != 0 && ((1 << hit.collider.gameObject.layer) & ricochetWallMask.value) != 0 && bounces < maxRicochets)
+                {
+                    // Hit a designated ricochet wall!
+                    Vector3 reflectDir = Vector3.Reflect(currentDir, hit.normal);
+                    reflectDir.y = 0f;
+                    reflectDir.Normalize();
+
+                    currentDir = reflectDir;
+                    currentOrigin = hit.point + hit.normal * surfaceOffset;
+                    bounces++;
+                }
+                else
+                {
+                    // Ordinary wall or obstacle: stops ray without reflection
+                    break;
+                }
+            }
+            else
+            {
+                // Reached max effective range in open air
+                Vector3 endPt = currentOrigin + currentDir * remainingRange;
+                trajectory.Add(endPt);
+                break;
+            }
+        }
+
+        return trajectory;
+    }
+
+    /// <summary>
+    /// Calculates distance-based damage according to cumulative ray path distance.
+    /// </summary>
+    private float CalculateDistanceDamage(float cumulativeDistance)
+    {
+        if (cumulativeDistance <= closeRangeDistance)
+        {
+            return closeDamage; // default 3
+        }
+        else if (cumulativeDistance <= mediumRangeDistance)
+        {
+            return mediumDamage; // default 1.5
+        }
+        else if (cumulativeDistance <= maxShotRange)
+        {
+            return longDamage; // default 1
+        }
+        return 0f;
+    }
+
+    // ─── Local-Only Laser Visuals ───────────────────────────────
+
+    [ClientRpc]
+    private void RenderConfirmedLaserClientRpc(Vector3[] trajectoryPoints, bool hitEnemy, bool wasRefunded)
+    {
+        // Critical: The laser beam must be visible ONLY to the player who fired it!
+        if (!IsOwner) return;
+
+        // If local prediction was off, render on server confirmation
+        if (!predictLaserLocally)
+        {
+            RenderLocalLaser(trajectoryPoints);
+        }
+
+        // Notify HUD about refund
+        if (wasRefunded)
+        {
+            OnBasicAmmoRefunded?.Invoke();
+        }
+    }
+
+    private void RenderLocalLaser(IReadOnlyList<Vector3> points)
+    {
+        if (laserBeamPrefab == null || points == null || points.Count < 2) return;
+
+        GameObject laserGO = Instantiate(laserBeamPrefab);
+        if (laserGO.TryGetComponent<LaserBeamVisual>(out var laserVisual))
+        {
+            laserVisual.AnimatePath(points);
+        }
+        else if (laserGO.TryGetComponent<LineRenderer>(out var lr))
+        {
+            lr.positionCount = points.Count;
+            for (int i = 0; i < points.Count; i++)
+            {
+                lr.SetPosition(i, points[i]);
+            }
+            Destroy(laserGO, 0.15f);
+        }
+    }
+
     private void SpawnMuzzleFlash(Vector3 position, Vector3 direction)
     {
-        if (weaponData.muzzleFlashPrefab == null) return;
+        if (muzzleFlashPrefab == null) return;
 
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        GameObject flash = Instantiate(weaponData.muzzleFlashPrefab, position, rotation);
+        Quaternion rotation = direction.sqrMagnitude > 0.001f
+            ? Quaternion.LookRotation(direction)
+            : Quaternion.identity;
 
-        // Auto-destroy after a short time
+        GameObject flash = Instantiate(muzzleFlashPrefab, position, rotation);
         Destroy(flash, 0.5f);
     }
 
-    // ─── Server RPCs ────────────────────────────────────────────
+    // ─── Authoritative Ammunition Operations ────────────────────
 
     /// <summary>
-    /// Client requests the server to spawn a real projectile.
-    /// Server validates ammo and cooldown before spawning.
+    /// Authoritative server-side pickup collection logic.
+    /// Follows exact classification: TotalAmmo < 3 => +1 Basic, else => +1 Extra.
     /// </summary>
-    [ServerRpc]
-    private void FireServerRpc(Vector3 spawnPosition, Vector3 fireDirection)
+    public void CollectAmmoPickupServer()
     {
-        // Server-side validation
-        if (isReloading.Value) return;
-        if (currentAmmo.Value <= 0) return;
+        if (!IsServer) return;
+        if (playerHealth != null && playerHealth.IsDead) return;
 
-        // Deduct ammo
-        currentAmmo.Value--;
-
-        // Spawn the networked projectile
-        SpawnNetworkProjectile(spawnPosition, fireDirection);
-
-        // Notify all OTHER clients to show the muzzle flash (the owner already showed it)
-        FireVisualsClientRpc(spawnPosition, fireDirection);
-    }
-
-    /// <summary>
-    /// Server spawns the authoritative networked projectile.
-    /// </summary>
-    private void SpawnNetworkProjectile(Vector3 position, Vector3 direction)
-    {
-        if (weaponData.networkProjectilePrefab == null) return;
-
-        GameObject projectileGO = Instantiate(
-            weaponData.networkProjectilePrefab,
-            position,
-            Quaternion.identity
-        );
-
-        NetworkProjectile netProjectile = projectileGO.GetComponent<NetworkProjectile>();
-        if (netProjectile != null)
+        int total = basicAmmo.Value + extraAmmo.Value;
+        if (total < BasicCapacity)
         {
-            netProjectile.Initialize(direction, weaponData.projectileData, OwnerClientId);
+            basicAmmo.Value = Mathf.Min(basicAmmo.Value + 1, BasicCapacity);
+        }
+        else
+        {
+            extraAmmo.Value++;
         }
 
-        if (projectileGO.TryGetComponent<Rigidbody>(out Rigidbody rb))
-        {
-            rb.linearVelocity = direction * weaponData.projectileData.speed;
-        }
-
-        // Spawn on the network so all clients see it
-        projectileGO.GetComponent<NetworkObject>().Spawn();
+        NormalizeAmmoState();
+        NotifyAmmoPickupCollectedClientRpc();
     }
 
-    /// <summary>
-    /// Shows fire visuals (muzzle flash) on non-owner clients.
-    /// The owner already spawned their own dummy + flash immediately.
-    /// </summary>
     [ClientRpc]
-    private void FireVisualsClientRpc(Vector3 position, Vector3 direction)
-    {
-        // Skip owner — they already have the visuals
-        if (IsOwner) return;
-
-        SpawnMuzzleFlash(position, direction);
-    }
-
-    // ─── Reload ─────────────────────────────────────────────────
-
-    /// <summary>
-    /// Call this from UI button (mobile) or key press to trigger reload.
-    /// Can also be called publicly from InputReader if you add a reload action.
-    /// </summary>
-    public void RequestReload()
+    private void NotifyAmmoPickupCollectedClientRpc()
     {
         if (!IsOwner) return;
-        if (isReloading.Value) return;
-        if (currentAmmo.Value >= weaponData.magazineSize) return;
-
-        RequestReloadServerRpc();
+        OnAmmoPickupCollected?.Invoke();
     }
 
-    [ServerRpc]
-    private void RequestReloadServerRpc()
+    /// <summary>
+    /// Called on server upon player respawn: resets basic ammo to 3, preserves extra ammo.
+    /// </summary>
+    public void HandleRespawnServer()
     {
-        if (isReloading.Value) return;
-        if (currentAmmo.Value >= weaponData.magazineSize) return;
-
-        isReloading.Value = true;
-
-        // Start reload coroutine on the server
-        StartCoroutine(ReloadCoroutine());
+        if (!IsServer) return;
+        basicAmmo.Value = BasicCapacity;
+        // extraAmmo.Value is intentionally preserved!
+        NormalizeAmmoState();
     }
 
-    private System.Collections.IEnumerator ReloadCoroutine()
+    /// <summary>
+    /// Guarantees the invariant: ExtraAmmo > 0 => BasicAmmo == BasicCapacity.
+    /// Eliminates impossible states like (Basic 2, Extra 1).
+    /// </summary>
+    private void NormalizeAmmoState()
     {
-        yield return new WaitForSeconds(weaponData.reloadTime);
+        if (!IsServer) return;
+        if (extraAmmo.Value > 0 && basicAmmo.Value < BasicCapacity)
+        {
+            basicAmmo.Value = BasicCapacity;
+        }
+    }
 
-        currentAmmo.Value = weaponData.magazineSize;
-        isReloading.Value = false;
+    // ─── Legacy & Utility ───────────────────────────────────────
+
+    public void RequestReload()
+    {
+        // Hitscan weapon does not use reload timer; ammo is refunded via hits or pickups
     }
 }

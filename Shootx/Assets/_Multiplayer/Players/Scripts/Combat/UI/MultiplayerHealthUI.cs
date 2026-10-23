@@ -1,24 +1,28 @@
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
-/// UI component that displays health, damage flash, and death overlay.
-/// Bind it to the local player's <see cref="PlayerHealth"/> after spawn.
-///
-/// Designed to work alongside <see cref="MultiplayerAmmoUI"/>.
+/// UI component that displays health, damage flash, 3-segment representation, and death overlay.
+/// Binds to the local player's PlayerHealth after spawn.
+/// Upgraded to support fractional health (e.g. 1.5 / 3 units) and DOTween Pro animations.
 /// </summary>
 public class MultiplayerHealthUI : MonoBehaviour
 {
-    [Header("Health Bar")]
+    [Header("Health Bar (Slider Fallback)")]
     [Tooltip("Slider that represents the health bar. Value is normalised 0-1.")]
     [SerializeField] private Slider healthBar;
 
     [Tooltip("Optional fill image inside the slider — used to tint the bar colour.")]
     [SerializeField] private Image healthBarFill;
 
+    [Header("Three-Segment Health Bars (HUD)")]
+    [Tooltip("Optional 3 segment fill images representing 1 unit each (0-1, 1-2, 2-3).")]
+    [SerializeField] private Image[] healthSegments = new Image[3];
+
     [Header("Health Text")]
-    [Tooltip("Text element showing current HP (e.g. '80 / 100').")]
+    [Tooltip("Text element showing current HP (e.g. '1.5 / 3').")]
     [SerializeField] private TextMeshProUGUI healthText;
 
     [Header("Damage Flash")]
@@ -40,19 +44,16 @@ public class MultiplayerHealthUI : MonoBehaviour
     [SerializeField] private Color hurtColor    = new Color(0.9f, 0.9f, 0.1f);
     [SerializeField] private Color criticalColor = new Color(0.9f, 0.15f, 0.1f);
 
+    [Header("Animation Durations")]
+    [SerializeField] private float barAnimDuration = 0.25f;
+    [SerializeField] private float flashDuration = 0.15f;
+
     // ─── Internal ───────────────────────────────────────────────
     private PlayerHealth playerHealth;
-    private float flashTimer;
-    private float flashDuration = 0.15f;
+    private Tween _sliderTween;
+    private Tween _flashTween;
+    private readonly Tween[] _segmentTweens = new Tween[3];
 
-    // ═══════════════════════════════════════════════════════════
-    // Public API
-    // ═══════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// Called to bind this UI to a specific player's health component.
-    /// Typically called after the local player spawns.
-    /// </summary>
     public void Initialize(PlayerHealth health)
     {
         // Unsubscribe from previous
@@ -73,10 +74,8 @@ public class MultiplayerHealthUI : MonoBehaviour
             playerHealth.OnDeath         += HandleDeath;
             playerHealth.OnRespawn       += HandleRespawn;
 
-            flashDuration = health.MaxHealth > 0 ? 0.15f : 0.15f; // fallback
-
             // Sync UI immediately
-            UpdateHealthDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+            UpdateHealthDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth, animate: false);
         }
 
         // Hide overlays initially
@@ -91,23 +90,10 @@ public class MultiplayerHealthUI : MonoBehaviour
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // Unity Lifecycle
-    // ═══════════════════════════════════════════════════════════
-
-    private void Update()
-    {
-        // Fade out damage flash
-        if (damageFlashOverlay != null && flashTimer > 0f)
-        {
-            flashTimer -= Time.deltaTime;
-            float alpha = Mathf.Clamp01(flashTimer / flashDuration) * damageFlashColor.a;
-            damageFlashOverlay.color = new Color(damageFlashColor.r, damageFlashColor.g, damageFlashColor.b, alpha);
-        }
-    }
-
     private void OnDestroy()
     {
+        KillAllTweens();
+
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged -= UpdateHealthDisplay;
@@ -117,40 +103,77 @@ public class MultiplayerHealthUI : MonoBehaviour
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // Event Handlers
-    // ═══════════════════════════════════════════════════════════
+    // ─── Event Handlers ─────────────────────────────────────────
 
-    private void UpdateHealthDisplay(int current, int max)
+    private void UpdateHealthDisplay(float current, float max)
     {
-        float normalised = max > 0 ? (float)current / max : 0f;
+        UpdateHealthDisplay(current, max, animate: true);
+    }
 
-        // Slider
+    public void UpdateHealthDisplay(float current, float max, bool animate)
+    {
+        float normalised = max > 0f ? Mathf.Clamp01(current / max) : 0f;
+
+        // Slider animation
         if (healthBar != null)
         {
-            healthBar.value = normalised;
+            if (_sliderTween != null && _sliderTween.IsActive()) _sliderTween.Kill();
+            if (animate)
+            {
+                _sliderTween = healthBar.DOValue(normalised, barAnimDuration).SetEase(Ease.OutQuad);
+            }
+            else
+            {
+                healthBar.value = normalised;
+            }
         }
 
-        // Colour
+        // Tint fill color
         if (healthBarFill != null)
         {
             healthBarFill.color = GetHealthColor(normalised);
         }
 
-        // Text
+        // 3-Segment fill calculation
+        if (healthSegments != null && healthSegments.Length >= 3)
+        {
+            Color segColor = GetHealthColor(normalised);
+            for (int i = 0; i < 3; i++)
+            {
+                Image segImg = healthSegments[i];
+                if (segImg == null) continue;
+
+                float segTarget = Mathf.Clamp01(current - i);
+                segImg.color = segColor;
+
+                if (_segmentTweens[i] != null && _segmentTweens[i].IsActive()) _segmentTweens[i].Kill();
+                if (animate)
+                {
+                    _segmentTweens[i] = segImg.DOFillAmount(segTarget, barAnimDuration).SetEase(Ease.OutQuad);
+                }
+                else
+                {
+                    segImg.fillAmount = segTarget;
+                }
+            }
+        }
+
+        // Text representation (e.g. "1.5 / 3")
         if (healthText != null)
         {
-            healthText.text = $"{current} / {max}";
+            healthText.text = $"{current:0.#} / {max:0.#}";
         }
     }
 
-    private void HandleDamage(int damage, ulong attackerClientId)
+    private void HandleDamage(float damage, ulong attackerClientId)
     {
-        // Trigger damage flash
+        // Damage flash animation using DOTween
         if (damageFlashOverlay != null)
         {
-            flashTimer = flashDuration;
+            if (_flashTween != null && _flashTween.IsActive()) _flashTween.Kill();
+
             damageFlashOverlay.color = damageFlashColor;
+            _flashTween = damageFlashOverlay.DOFade(0f, flashDuration).SetEase(Ease.InQuad);
         }
     }
 
@@ -169,35 +192,43 @@ public class MultiplayerHealthUI : MonoBehaviour
             deathOverlay.SetActive(false);
         }
 
-        // Reset flash
         if (damageFlashOverlay != null)
         {
             damageFlashOverlay.color = Color.clear;
-            flashTimer = 0f;
+        }
+
+        if (playerHealth != null)
+        {
+            UpdateHealthDisplay(playerHealth.MaxHealth, playerHealth.MaxHealth, animate: false);
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // Helpers
-    // ═══════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// Returns a colour that interpolates from red → yellow → green
-    /// based on the normalised health value.
-    /// </summary>
     private Color GetHealthColor(float normalised)
     {
         if (normalised > 0.5f)
         {
-            // Green → Yellow
             float t = (normalised - 0.5f) * 2f;
             return Color.Lerp(hurtColor, healthyColor, t);
         }
         else
         {
-            // Yellow → Red
             float t = normalised * 2f;
             return Color.Lerp(criticalColor, hurtColor, t);
+        }
+    }
+
+    private void KillAllTweens()
+    {
+        if (_sliderTween != null && _sliderTween.IsActive()) _sliderTween.Kill();
+        if (_flashTween != null && _flashTween.IsActive()) _flashTween.Kill();
+
+        for (int i = 0; i < _segmentTweens.Length; i++)
+        {
+            if (_segmentTweens[i] != null && _segmentTweens[i].IsActive())
+            {
+                _segmentTweens[i].Kill();
+                _segmentTweens[i] = null;
+            }
         }
     }
 }

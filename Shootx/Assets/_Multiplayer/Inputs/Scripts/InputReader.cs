@@ -12,7 +12,20 @@ public class InputReader : ScriptableObject, IPlayerActions
     /// <summary>Fires once when the melee button is pressed (performed phase only).</summary>
     public event Action meleeEvent;
 
+    // ─── Mobile Control Events ──────────────────────────────────
+    /// <summary>Fires continuously while aiming on mobile with the current 3D world aim direction.</summary>
+    public event Action<Vector3> mobileAimDirectionEvent;
+
+    /// <summary>Fires when the aim joystick transitions between armed (true) and disarmed/canceled (false).</summary>
+    public event Action<bool> mobileAimStateChangedEvent;
+
+    /// <summary>Fires exactly once on a valid armed release with the final 3D world aim direction.</summary>
+    public event Action<Vector3> mobileFireEvent;
+
     public Vector2 aimPostion { get; private set; }
+    public Vector3 MobileAimDirection { get; private set; }
+    public bool IsMobileAiming { get; private set; }
+    public bool IsMobileArmed { get; private set; }
 
     private Controls controls;
 
@@ -29,6 +42,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     private void OnDisable()
     {
         controls.Disable();
+        ResetMobileInput();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -63,4 +77,73 @@ public class InputReader : ScriptableObject, IPlayerActions
             meleeEvent?.Invoke();
         }
     }
+
+    // ─── Mobile Control Ingestion API ────────────────────────────
+
+    /// <summary>
+    /// Feeds movement input from the virtual joystick directly into the existing moveEvent.
+    /// </summary>
+    public void SetMoveInput(Vector2 moveInput)
+    {
+        moveEvent?.Invoke(moveInput);
+    }
+
+    /// <summary>
+    /// Updates the aim screen position (preserves compatibility with systems reading aimPostion).
+    /// </summary>
+    public void SetAimPosition(Vector2 screenPosition)
+    {
+        aimPostion = screenPosition;
+    }
+
+    /// <summary>
+    /// Updates the mobile 3D world aim direction and arming state.
+    /// </summary>
+    public void SetMobileAim(Vector3 worldDirection, bool isAiming, bool isArmed)
+    {
+        MobileAimDirection = worldDirection;
+        IsMobileAiming = isAiming;
+
+        bool armStateChanged = (IsMobileArmed != isArmed);
+        IsMobileArmed = isArmed;
+
+        mobileAimDirectionEvent?.Invoke(worldDirection);
+
+        if (armStateChanged)
+        {
+            mobileAimStateChangedEvent?.Invoke(isArmed);
+        }
+    }
+
+    /// <summary>
+    /// Requests a single authoritative shot from a valid mobile joystick release.
+    /// </summary>
+    public void RequestMobileFire(Vector3 worldDirection)
+    {
+        mobileFireEvent?.Invoke(worldDirection);
+    }
+
+    /// <summary>
+    /// Triggers one melee action from the mobile melee button.
+    /// </summary>
+    public void TriggerMelee()
+    {
+        meleeEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// Resets all mobile inputs safely to prevent stuck walking, aiming, or firing.
+    /// </summary>
+    public void ResetMobileInput()
+    {
+        moveEvent?.Invoke(Vector2.zero);
+        if (IsMobileAiming || IsMobileArmed)
+        {
+            IsMobileAiming = false;
+            IsMobileArmed = false;
+            mobileAimStateChangedEvent?.Invoke(false);
+            mobileAimDirectionEvent?.Invoke(Vector3.zero);
+        }
+    }
 }
+
