@@ -18,8 +18,10 @@ public class MobileControlsHUD : MonoBehaviour
     [Tooltip("Control mode policy. Auto enables mobile controls on Android/iOS and hides on desktop.")]
     [SerializeField] private ControlPlatformMode platformMode = ControlPlatformMode.Auto;
 
+#pragma warning disable 0414
     [Tooltip("If enabled, forces mobile controls to appear in the Unity Editor for quick testing.")]
     [SerializeField] private bool forceMobileInEditor = true;
+#pragma warning restore 0414
 
     [Header("Input Dependency")]
     [SerializeField] private InputReader inputReader;
@@ -28,6 +30,7 @@ public class MobileControlsHUD : MonoBehaviour
     [SerializeField] private FixedJoystick movementJoystick;
     [SerializeField] private AimFireJoystick aimFireJoystick;
     [SerializeField] private MobileMeleeButton meleeButton;
+    [SerializeField] private MobileDashButton dashButton;
     [SerializeField] private CanvasGroup canvasGroup;
 
     private PlayerHealth localPlayerHealth;
@@ -140,6 +143,11 @@ public class MobileControlsHUD : MonoBehaviour
         localPlayerHealth = playerHealth;
         localPlayerHealth.OnDeath += HandlePlayerDeath;
         localPlayerHealth.OnRespawn += HandlePlayerRespawn;
+
+        if (dashButton != null)
+        {
+            dashButton.BindPlayer(playerHealth.GetComponent<PlayerDash>());
+        }
     }
 
     private void UnsubscribeFromPlayer()
@@ -178,6 +186,7 @@ public class MobileControlsHUD : MonoBehaviour
         if (movementJoystick != null) movementJoystick.ResetJoystick();
         if (aimFireJoystick != null) aimFireJoystick.ResetJoystick();
         if (meleeButton != null) meleeButton.ResetButton();
+        if (dashButton != null) dashButton.ResetButton();
         if (inputReader != null) inputReader.ResetMobileInput();
     }
 }

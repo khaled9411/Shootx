@@ -60,6 +60,7 @@ public static class MultiplayerSceneSetupEditor
         SetupMultiplayerMenuScene();
         SetupMultiplayerLobbyScene();
         SetupMainMultiplayerSpawner();
+        SetupMatchManagementInMainMultiplayer();
         AddScenesToBuildSettings();
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -1044,6 +1045,81 @@ public static class MultiplayerSceneSetupEditor
         {
             Debug.Log("[MPSetup] MultiplayerSpawnManager already exists in MainMultiplayer.");
         }
+    }
+
+    [MenuItem(MenuPath + "Setup Match Management in MainMultiplayer", false, 111)]
+    public static void SetupMatchManagementInMainMultiplayer()
+    {
+        string scenePath = "Assets/_Multiplayer/Scenes/MainMultiplayer.unity";
+        if (!System.IO.File.Exists(scenePath))
+        {
+            Debug.LogWarning($"[MPSetup] Scene not found: {scenePath}");
+            return;
+        }
+
+        var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+
+        // 1. Ensure MatchUI instance exists
+        var existingHUD = Object.FindAnyObjectByType<MatchHUD>();
+        if (existingHUD == null)
+        {
+            var matchUIPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Multiplayer/Prefabs/MatchUI.prefab");
+            if (matchUIPrefab != null)
+            {
+                var instance = (GameObject)PrefabUtility.InstantiatePrefab(matchUIPrefab);
+                instance.name = "MatchUI";
+                Debug.Log("[MPSetup] Instantiated MatchUI prefab in MainMultiplayer.");
+            }
+        }
+
+        // 2. Ensure MatchManagerBootstrapper exists
+        var existingBootstrapper = Object.FindAnyObjectByType<MatchManagerBootstrapper>();
+        if (existingBootstrapper == null)
+        {
+            var bootGO = CreateGameObject("MatchBootstrapper");
+            var boot = bootGO.AddComponent<MatchManagerBootstrapper>();
+
+            var bootSO = new SerializedObject(boot);
+
+            var matchUIPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Multiplayer/Prefabs/MatchUI.prefab");
+            var matchManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Multiplayer/Prefabs/MatchManager.prefab");
+            var matchConfig = AssetDatabase.LoadAssetAtPath<MatchConfig>("Assets/_Multiplayer/Scripts/Match/DefaultMatchConfig.asset");
+
+            SetSerializedRef(bootSO, "matchUIPrefab", matchUIPrefab);
+            SetSerializedRef(bootSO, "matchManagerPrefab", matchManagerPrefab);
+            SetSerializedRef(bootSO, "matchConfig", matchConfig);
+
+            var mapPrefabsProp = bootSO.FindProperty("mapPrefabs");
+            if (mapPrefabsProp != null)
+            {
+                mapPrefabsProp.arraySize = 4;
+                string[] mapPaths = new string[]
+                {
+                    "Assets/_Multiplayer/Levels/PVP Levels/PVP Map 1.prefab",
+                    "Assets/_Multiplayer/Levels/PVP Levels/PVP Map 2.prefab",
+                    "Assets/_Multiplayer/Levels/PVP Levels/PVP Map 3.prefab",
+                    "Assets/_Multiplayer/Levels/PVP Levels/PVP Map 4.prefab"
+                };
+
+                for (int i = 0; i < 4; i++)
+                {
+                    var mapAsset = AssetDatabase.LoadAssetAtPath<GameObject>(mapPaths[i]);
+                    mapPrefabsProp.GetArrayElementAtIndex(i).objectReferenceValue = mapAsset;
+                }
+            }
+
+            var maskProp = bootSO.FindProperty("spawnObstacleMask");
+            if (maskProp != null)
+            {
+                maskProp.intValue = 1; // Default layer
+            }
+
+            bootSO.ApplyModifiedPropertiesWithoutUndo();
+            Debug.Log("[MPSetup] Created MatchBootstrapper in MainMultiplayer.");
+        }
+
+        EditorSceneManager.SaveScene(scene);
+        Debug.Log("[MPSetup] Match management setup complete in MainMultiplayer!");
     }
 }
 #endif

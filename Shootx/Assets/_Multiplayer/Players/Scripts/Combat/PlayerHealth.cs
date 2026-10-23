@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -170,7 +171,12 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         if (isDead.Value) return;
         if (damage <= 0f) return;
 
-        // Invulnerability check
+        // ─── Match-state gate ──────────────────────────────────────────────
+        // Reject damage if match isn’t active or spawn protection is active
+        if (MatchManager.Instance != null && !MatchManager.Instance.IsDamageAllowed(OwnerClientId))
+            return;
+
+        // Invulnerability check (i-frames from HealthData)
         if (healthData != null && healthData.invulnerabilityDuration > 0f && Time.time < invulnerabilityEndTime)
             return;
 
@@ -242,37 +248,76 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         if (isDead.Value) return;
         isDead.Value = true;
 
+        // Lock local player input immediately
+        if (IsOwner)
+        {
+            GetComponent<PlayerController>()?.SetInputLocked(true);
+        }
+        else
+        {
+            // On server (host-client), lock via RPC
+            LockControllerClientRpc();
+        }
+
         // Notify all clients
         NotifyDeathClientRpc(killerClientId);
 
-        // Schedule respawn
-        StartCoroutine(RespawnCoroutine());
+        // Delegate respawn to MatchManager
+        // If MatchManager is present, it handles respawn lifecycle.
+        // Fall back to the local coroutine only if no MatchManager.
+        if (MatchManager.Instance == null || !MatchManager.Instance.IsSpawned)
+        {
+            StartCoroutine(LegacyRespawnCoroutine());
+        }
+        // MatchManager subscribes to OnDeath and schedules respawn itself
     }
 
-    private System.Collections.IEnumerator RespawnCoroutine()
+    /// <summary>
+    /// Restores health on respawn. Called by MatchManager on server.
+    /// </summary>
+    public void ServerRespawnRestore()
+    {
+        if (!IsServer) return;
+        currentHealth.Value = MaxHealth;
+        isDead.Value = false;
+        invulnerabilityEndTime = float.MinValue;
+        lastDamageTime = float.MinValue;
+        NotifyRespawnClientRpc();
+    }
+
+    /// <summary>
+    /// Called on the owner client after a server-confirmed respawn.
+    /// Unlocks controller for animation/visual hooks.
+    /// </summary>
+    public void NotifyRespawnClient()
+    {
+        OnRespawn?.Invoke();
+    }
+
+    private IEnumerator LegacyRespawnCoroutine()
     {
         float delay = healthData != null ? healthData.respawnDelay : 3f;
         yield return new WaitForSeconds(delay);
 
-        // Restore health
         currentHealth.Value = MaxHealth;
         isDead.Value = false;
 
-        // Reset position to a spawn point
         Vector3 spawnPos = MultiplayerSpawnManager.GetRandomSpawnPosition();
         var cc = GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;
         transform.position = spawnPos;
         if (cc != null) cc.enabled = true;
 
-        // Reset shooter ammo for respawn (Basic 3, Extra preserved)
         if (TryGetComponent<PlayerShooting>(out var shooting))
-        {
             shooting.HandleRespawnServer();
-        }
 
-        // Notify all clients
         NotifyRespawnClientRpc();
+    }
+
+    [ClientRpc]
+    private void LockControllerClientRpc()
+    {
+        GetComponent<PlayerController>()?.SetInputLocked(true);
     }
 
     // ═══════════════════════════════════════════════════════════

@@ -38,12 +38,16 @@ public class PlayerMelee : NetworkBehaviour
     private float lastLocalMeleeTime = float.MinValue;
     private float lastServerMeleeTime = float.MinValue;
     private bool meleeRequested;
+    private PlayerHealth _playerHealth;
+    private PlayerDash _playerDash;
 
     // ─── NetworkBehaviour ───────────────────────────────────────
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        _playerHealth = GetComponent<PlayerHealth>();
+        _playerDash = GetComponent<PlayerDash>();
 
         if (!IsOwner) return;
 
@@ -83,6 +87,16 @@ public class PlayerMelee : NetworkBehaviour
 
     private void TryMelee()
     {
+        // Dead state check
+        if (_playerHealth != null && _playerHealth.IsDead) return;
+
+        // Dash state check — no melee while dashing
+        if (_playerDash != null && _playerDash.IsDashing) return;
+
+        // Match state check — no attacking outside active play
+        if (MatchManager.Instance != null &&
+            MatchManager.Instance.CurrentState != MatchState.Active) return;
+
         if (Time.time - lastLocalMeleeTime < meleeData.attackCooldown) return;
         lastLocalMeleeTime = Time.time;
 
@@ -117,8 +131,14 @@ public class PlayerMelee : NetworkBehaviour
     [ServerRpc]
     private void MeleeServerRpc(Vector3 attackerPosition, Vector3 attackerForward)
     {
+        // Server-side dead check
+        if (_playerHealth != null && _playerHealth.IsDead) return;
+
+        // Match state gate
+        if (MatchManager.Instance != null &&
+            MatchManager.Instance.CurrentState != MatchState.Active) return;
+
         // Server-side cooldown guard (prevents cheating / lag abuse)
-        // We use NetworkTime for fairness, but a simple float works well too
         if (Time.time - lastServerMeleeTime < meleeData.attackCooldown - 0.05f)
             return;
         lastServerMeleeTime = Time.time;

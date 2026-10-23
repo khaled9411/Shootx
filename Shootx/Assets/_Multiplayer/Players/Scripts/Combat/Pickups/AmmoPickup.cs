@@ -125,8 +125,9 @@ public class AmmoPickup : NetworkBehaviour
         KillTweens();
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         KillTweens();
     }
 }

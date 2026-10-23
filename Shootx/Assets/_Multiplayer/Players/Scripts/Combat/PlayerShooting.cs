@@ -140,11 +140,13 @@ public class PlayerShooting : NetworkBehaviour
     private bool isFiring;
     private Vector3 currentAimWorldPoint;
     private PlayerHealth playerHealth;
+    private PlayerDash playerDash;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         playerHealth = GetComponent<PlayerHealth>();
+        playerDash = GetComponent<PlayerDash>();
         ApplyWeaponDataDefaults();
     }
 
@@ -333,6 +335,13 @@ public class PlayerShooting : NetworkBehaviour
         // Alive check
         if (playerHealth != null && playerHealth.IsDead) return;
 
+        // Dash state check — no shooting while dashing
+        if (playerDash != null && playerDash.IsDashing) return;
+
+        // Match state check — no shooting outside active play
+        if (MatchManager.Instance != null && MatchManager.Instance.CurrentState != MatchState.Active)
+            return;
+
         // Local cooldown check
         if (Time.time - lastLocalFireTime < FireCooldown) return;
 
@@ -371,6 +380,9 @@ public class PlayerShooting : NetworkBehaviour
     {
         if (!IsOwner) return false;
         if (playerHealth != null && playerHealth.IsDead) return false;
+        if (playerDash != null && playerDash.IsDashing) return false;
+        if (MatchManager.Instance != null && MatchManager.Instance.CurrentState != MatchState.Active)
+            return false;
         if (Time.time - lastLocalFireTime < FireCooldown) return false;
         if (TotalAmmo <= 0) return false;
 
@@ -401,7 +413,9 @@ public class PlayerShooting : NetworkBehaviour
     public void UpdateAimPreview(Vector3 aimDirection)
     {
         if (!IsOwner) return;
-        if (playerHealth != null && playerHealth.IsDead)
+        if ((playerHealth != null && playerHealth.IsDead) ||
+            (playerDash != null && playerDash.IsDashing) ||
+            (MatchManager.Instance != null && MatchManager.Instance.CurrentState != MatchState.Active))
         {
             HideAimPreview(true);
             return;
@@ -480,6 +494,10 @@ public class PlayerShooting : NetworkBehaviour
     {
         // 1. Validate player is alive
         if (playerHealth != null && playerHealth.IsDead) return;
+
+        // 1b. Validate match is active
+        if (MatchManager.Instance != null && MatchManager.Instance.CurrentState != MatchState.Active)
+            return;
 
         // 2. Validate cooldown
         if (Time.time - lastServerFireTime < FireCooldown - 0.03f) return;

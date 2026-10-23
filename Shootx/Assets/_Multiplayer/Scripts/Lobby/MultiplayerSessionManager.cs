@@ -497,6 +497,50 @@ public class MultiplayerSessionManager : MonoBehaviour
     }
 
     // ═══════════════════════════════════════════════════════════
+    // Match Ended — Return to Lobby (preserve session)
+    // ═══════════════════════════════════════════════════════════
+
+    /// <summary>
+    /// Called by MatchManager when the match ends and we are returning to MultiplayerLobby.
+    /// Restores session state WITHOUT destroying the lobby, relay, or NetworkManager.
+    /// </summary>
+    public void OnMatchEnded()
+    {
+        Debug.Log("[MPSession] Match ended. Restoring InLobby state.");
+        CurrentState = SessionState.InLobby;
+
+        // Restart heartbeat and polling (were stopped on match start)
+        if (IsHost && CurrentLobby != null)
+        {
+            StartHeartbeat();
+        }
+        if (CurrentLobby != null)
+        {
+            StartLobbyPolling();
+        }
+
+        // Unlock lobby for new players if desired
+        if (IsHost && CurrentLobby != null)
+        {
+            UnlockLobbyAsync();
+        }
+    }
+
+    private async void UnlockLobbyAsync()
+    {
+        try
+        {
+            var updateOptions = new UpdateLobbyOptions { IsLocked = false };
+            CurrentLobby = await LobbyService.Instance.UpdateLobbyAsync(CurrentLobby.Id, updateOptions);
+            Debug.Log("[MPSession] Lobby unlocked after match.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"[MPSession] Failed to unlock lobby: {ex.Message}");
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
     // Leave / Cleanup
     // ═══════════════════════════════════════════════════════════
 
@@ -944,6 +988,13 @@ public class MultiplayerSessionManager : MonoBehaviour
             CurrentState = SessionState.InGame;
             Debug.Log($"[MPSession] Gameplay scene '{GameplaySceneName}' loaded.");
 
+            // Ensure LocalPlayerRecords exists on all clients
+            if (LocalPlayerRecords.Instance == null)
+            {
+                var recGo = new GameObject("LocalPlayerRecords");
+                recGo.AddComponent<LocalPlayerRecords>();
+            }
+
             // Ensure MultiplayerSpawnManager exists on Host
             if (IsHost && MultiplayerSpawnManager.Instance == null)
             {
@@ -951,6 +1002,103 @@ public class MultiplayerSessionManager : MonoBehaviour
                 go.AddComponent<MultiplayerSpawnManager>();
                 Debug.Log("[MPSession] Auto-created MultiplayerSpawnManager in gameplay scene.");
             }
+
+            // Ensure MatchManager exists on Host
+            if (IsHost && MatchManager.Instance == null)
+            {
+                EnsureMatchManagerSpawned();
+            }
+
+            // Ensure MatchUI exists on all clients
+            EnsureMatchUIExists();
+        }
+        else if (scene.name == MultiplayerLobbyScene)
+        {
+            Debug.Log($"[MPSession] Returned to lobby scene. State={CurrentState}");
+            // Reset local player's ready state so a new match doesn't auto-start
+            if (CurrentLobby != null)
+                ResetLocalReadyStateAsync();
+            // Re-fire lobby updated so LobbyUI repopulates from the cached lobby
+            if (CurrentLobby != null)
+                OnLobbyUpdated?.Invoke(CurrentLobby);
+        }
+    }
+
+    private void EnsureMatchManagerSpawned()
+    {
+        if (MatchManager.Instance != null) return;
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        GameObject prefab = null;
+        if (NetworkManager.Singleton.NetworkConfig?.Prefabs?.NetworkPrefabsLists != null)
+        {
+            foreach (var list in NetworkManager.Singleton.NetworkConfig.Prefabs.NetworkPrefabsLists)
+            {
+                if (list != null && list.PrefabList != null)
+                {
+                    foreach (var item in list.PrefabList)
+                    {
+                        if (item.Prefab != null && item.Prefab.GetComponent<MatchManager>() != null)
+                        {
+                            prefab = item.Prefab;
+                            break;
+                        }
+                    }
+                }
+                if (prefab != null) break;
+            }
+        }
+
+        if (prefab != null)
+        {
+            var go = Instantiate(prefab);
+            var netObj = go.GetComponent<Unity.Netcode.NetworkObject>();
+            if (netObj != null)
+            {
+                netObj.Spawn();
+                Debug.Log("[MPSession] MatchManager successfully spawned by Host.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[MPSession] MatchManager prefab not found in NetworkPrefabs.");
+        }
+    }
+
+    private void EnsureMatchUIExists()
+    {
+        if (MatchHUD.Instance != null && MatchResultsUI.Instance != null) return;
+        var prefab = Resources.Load<GameObject>("MatchUI");
+        if (prefab != null)
+        {
+            Instantiate(prefab);
+            Debug.Log("[MPSession] MatchUI instantiated from Resources.");
+        }
+        else
+        {
+            Debug.LogWarning("[MPSession] MatchUI prefab not found in Resources.");
+        }
+    }
+
+    private async void ResetLocalReadyStateAsync()
+    {
+        try
+        {
+            string playerId = MultiplayerServiceManager.GetPlayerId();
+            if (string.IsNullOrEmpty(playerId) || CurrentLobby == null) return;
+            var opts = new UpdatePlayerOptions
+            {
+                Data = new Dictionary<string, PlayerDataObject>
+                {
+                    { "ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0") }
+                }
+            };
+            CurrentLobby = await LobbyService.Instance.UpdatePlayerAsync(CurrentLobby.Id, playerId, opts);
+            Debug.Log("[MPSession] Local player ready state reset after match.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"[MPSession] Reset ready failed: {ex.Message}");
         }
     }
 }

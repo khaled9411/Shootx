@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.IO;
 
 /// <summary>
@@ -21,6 +22,8 @@ public static class MobileControlsSetupEditor
     {
         EditorApplication.delayCall += () =>
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+
             if (!File.Exists(PrefabPath))
             {
                 Debug.Log("[MobileControls] Prefab missing. Generating MobileControlsHUD prefab...");
@@ -41,7 +44,8 @@ public static class MobileControlsSetupEditor
             "Left Joystick: Movement\n" +
             "Right Joystick: Aim & Release-to-Fire (Hysteresis: 0.90 Armed / 0.75 Disarm)\n" +
             "Melee Button: Melee attack\n" +
-            "Desktop controls remain 100% functional.",
+            "Dash Button: 15s Cooldown Radial Ability (beside Melee)\n" +
+            "Desktop controls (Left Shift) remain 100% functional.",
             "OK");
     }
 
@@ -61,6 +65,7 @@ public static class MobileControlsSetupEditor
         Sprite handleAimSprite = LoadSprite("Assets/Cyberpunk RPG GUI Pack/Cyberpunk RPG GUI Resources/SlicedElements/22Components3/Icon_Front sight1.png");
         Sprite meleeBtnSprite = LoadSprite("Assets/Cyberpunk RPG GUI Pack/Cyberpunk RPG GUI Resources/SlicedElements/22Components3/Btn_Attack0_n.png");
         Sprite meleeIconSprite = LoadSprite("Assets/Cyberpunk RPG GUI Pack/Cyberpunk RPG GUI Resources/SlicedElements/22Components3/Icon_Attacl0.png");
+        Sprite dashIconSprite = LoadSprite("Assets/Cyberpunk RPG GUI Pack/Cyberpunk RPG GUI Resources/SlicedElements/22Components3/Icon_Run .png");
 
         // 1. Root GameObject
         GameObject rootGO = new GameObject("MobileControlsRoot", typeof(RectTransform), typeof(CanvasGroup), typeof(MobileControlsHUD));
@@ -234,12 +239,85 @@ public static class MobileControlsSetupEditor
         meleeBtnSO.FindProperty("iconImage").objectReferenceValue = meleeIconImg;
         meleeBtnSO.ApplyModifiedProperties();
 
+        // 7. Dash Button (Directly beside MeleeButton)
+        GameObject dashGO = new GameObject("DashButton", typeof(RectTransform), typeof(Image), typeof(MobileDashButton));
+        dashGO.transform.SetParent(combatGO.transform, false);
+        RectTransform dashRT = dashGO.GetComponent<RectTransform>();
+        dashRT.anchorMin = new Vector2(1f, 0f);
+        dashRT.anchorMax = new Vector2(1f, 0f);
+        dashRT.pivot = new Vector2(0.5f, 0.5f);
+        dashRT.anchoredPosition = new Vector2(-315f, 375f);
+        dashRT.sizeDelta = new Vector2(125f, 125f);
+        Image dashBgImg = dashGO.GetComponent<Image>();
+        dashBgImg.sprite = meleeBtnSprite != null ? meleeBtnSprite : circleBgSprite;
+        dashBgImg.color = new Color(0.12f, 0.7f, 0.95f, 0.9f);
+        dashBgImg.raycastTarget = true;
+
+        // Radial Cooldown Fill Indicator
+        GameObject fillGO = new GameObject("CooldownRadialFill", typeof(RectTransform), typeof(Image));
+        fillGO.transform.SetParent(dashGO.transform, false);
+        RectTransform fillRT = fillGO.GetComponent<RectTransform>();
+        fillRT.anchorMin = Vector2.zero;
+        fillRT.anchorMax = Vector2.one;
+        fillRT.offsetMin = Vector2.zero;
+        fillRT.offsetMax = Vector2.zero;
+        Image fillImg = fillGO.GetComponent<Image>();
+        fillImg.sprite = meleeBtnSprite != null ? meleeBtnSprite : circleBgSprite;
+        fillImg.color = new Color(0.06f, 0.1f, 0.16f, 0.85f);
+        fillImg.type = Image.Type.Filled;
+        fillImg.fillMethod = Image.FillMethod.Radial360;
+        fillImg.fillOrigin = (int)Image.Origin360.Top;
+        fillImg.fillClockwise = false;
+        fillImg.fillAmount = 0f;
+        fillImg.raycastTarget = false;
+
+        // Dash Icon
+        GameObject dashIconGO = new GameObject("DashIcon", typeof(RectTransform), typeof(Image));
+        dashIconGO.transform.SetParent(dashGO.transform, false);
+        RectTransform dashIconRT = dashIconGO.GetComponent<RectTransform>();
+        dashIconRT.anchorMin = new Vector2(0.5f, 0.5f);
+        dashIconRT.anchorMax = new Vector2(0.5f, 0.5f);
+        dashIconRT.pivot = new Vector2(0.5f, 0.5f);
+        dashIconRT.anchoredPosition = Vector2.zero;
+        dashIconRT.sizeDelta = new Vector2(75f, 75f);
+        Image dashIconImg = dashIconGO.GetComponent<Image>();
+        dashIconImg.sprite = dashIconSprite != null ? dashIconSprite : meleeIconSprite;
+        dashIconImg.color = Color.white;
+        dashIconImg.raycastTarget = false;
+
+        // Cooldown Text
+        GameObject cdTextGO = new GameObject("CooldownText", typeof(RectTransform), typeof(TextMeshProUGUI));
+        cdTextGO.transform.SetParent(dashGO.transform, false);
+        RectTransform cdTextRT = cdTextGO.GetComponent<RectTransform>();
+        cdTextRT.anchorMin = Vector2.zero;
+        cdTextRT.anchorMax = Vector2.one;
+        cdTextRT.offsetMin = Vector2.zero;
+        cdTextRT.offsetMax = Vector2.zero;
+        TextMeshProUGUI cdText = cdTextGO.GetComponent<TextMeshProUGUI>();
+        cdText.text = "15";
+        cdText.fontSize = 32f;
+        cdText.alignment = TextAlignmentOptions.Center;
+        cdText.color = Color.white;
+        cdText.raycastTarget = false;
+        cdTextGO.SetActive(false);
+
+        MobileDashButton dashBtn = dashGO.GetComponent<MobileDashButton>();
+        var dashBtnSO = new SerializedObject(dashBtn);
+        dashBtnSO.FindProperty("inputReader").objectReferenceValue = inputReader;
+        dashBtnSO.FindProperty("buttonRect").objectReferenceValue = dashRT;
+        dashBtnSO.FindProperty("buttonBackground").objectReferenceValue = dashBgImg;
+        dashBtnSO.FindProperty("cooldownRadialFill").objectReferenceValue = fillImg;
+        dashBtnSO.FindProperty("dashIcon").objectReferenceValue = dashIconImg;
+        dashBtnSO.FindProperty("cooldownText").objectReferenceValue = cdText;
+        dashBtnSO.ApplyModifiedProperties();
+
         // Wire HUD
         var hudSO = new SerializedObject(hud);
         hudSO.FindProperty("inputReader").objectReferenceValue = inputReader;
         hudSO.FindProperty("movementJoystick").objectReferenceValue = fixedJoy;
         hudSO.FindProperty("aimFireJoystick").objectReferenceValue = aimJoy;
         hudSO.FindProperty("meleeButton").objectReferenceValue = meleeBtn;
+        hudSO.FindProperty("dashButton").objectReferenceValue = dashBtn;
         hudSO.FindProperty("canvasGroup").objectReferenceValue = canvasGroup;
         hudSO.FindProperty("forceMobileInEditor").boolValue = true;
         hudSO.ApplyModifiedProperties();
@@ -261,6 +339,8 @@ public static class MobileControlsSetupEditor
     [MenuItem(MenuPath + "Inject Mobile Controls into MainMultiplayer Scene", false, 12)]
     public static void EnsureSceneHasMobileControls()
     {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+
         bool wasDirty = false;
         var currentScene = EditorSceneManager.GetActiveScene();
 

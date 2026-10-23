@@ -273,6 +273,31 @@ public class MultiplayerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the current spawn point collection for external use (MatchManager).
+    /// </summary>
+    public IReadOnlyList<Transform> GetSpawnPoints()
+    {
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            var list = new System.Collections.Generic.List<Transform>();
+            foreach (var sp in spawnPoints)
+                if (sp != null) list.Add(sp);
+            return list;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Allows MatchManager to override spawn points with map-specific ones.
+    /// </summary>
+    public void SetSpawnPoints(System.Collections.Generic.List<Transform> points)
+    {
+        if (points == null || points.Count == 0) return;
+        spawnPoints = points.ToArray();
+        Debug.Log($"[MPSpawn] Spawn points updated to {spawnPoints.Length} points from MatchManager.");
+    }
+
+    /// <summary>
     /// Returns a random spawn position from available spawn points (used for player respawns).
     /// </summary>
     public static Vector3 GetRandomSpawnPosition()

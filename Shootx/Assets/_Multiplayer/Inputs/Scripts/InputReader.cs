@@ -12,6 +12,9 @@ public class InputReader : ScriptableObject, IPlayerActions
     /// <summary>Fires once when the melee button is pressed (performed phase only).</summary>
     public event Action meleeEvent;
 
+    /// <summary>Fires once when the dash action is requested (performed phase only).</summary>
+    public event Action dashEvent;
+
     // ─── Mobile Control Events ──────────────────────────────────
     /// <summary>Fires continuously while aiming on mobile with the current 3D world aim direction.</summary>
     public event Action<Vector3> mobileAimDirectionEvent;
@@ -78,6 +81,17 @@ public class InputReader : ScriptableObject, IPlayerActions
         }
     }
 
+    /// <summary>
+    /// Fires once on button press (performed phase only) to trigger dash.
+    /// </summary>
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            dashEvent?.Invoke();
+        }
+    }
+
     // ─── Mobile Control Ingestion API ────────────────────────────
 
     /// <summary>
@@ -129,6 +143,14 @@ public class InputReader : ScriptableObject, IPlayerActions
     public void TriggerMelee()
     {
         meleeEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// Triggers one dash action from the mobile dash button.
+    /// </summary>
+    public void TriggerDash()
+    {
+        dashEvent?.Invoke();
     }
 
     /// <summary>
