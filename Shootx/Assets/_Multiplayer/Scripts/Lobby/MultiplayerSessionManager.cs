@@ -70,6 +70,7 @@ public class MultiplayerSessionManager : MonoBehaviour
     private Coroutine _lobbyPollCoroutine;
     private bool _isCleaningUp;
     private string _cachedPlayerName;
+    private bool _isReturningFromMatch;
 
     // ═══════════════════════════════════════════════════════════
     // Unity Lifecycle
@@ -457,6 +458,7 @@ public class MultiplayerSessionManager : MonoBehaviour
 
         if (CurrentState == SessionState.StartingMatch) return false;
         CurrentState = SessionState.StartingMatch;
+        _isReturningFromMatch = false;
 
         try
         {
@@ -508,6 +510,7 @@ public class MultiplayerSessionManager : MonoBehaviour
     {
         Debug.Log("[MPSession] Match ended. Restoring InLobby state.");
         CurrentState = SessionState.InLobby;
+        _isReturningFromMatch = true;
 
         // Restart heartbeat and polling (were stopped on match start)
         if (IsHost && CurrentLobby != null)
@@ -927,20 +930,22 @@ public class MultiplayerSessionManager : MonoBehaviour
         // If we (the local client) were disconnected
         if (NetworkManager.Singleton == null) return;
 
+        string disconnectReason = NetworkManager.Singleton.DisconnectReason;
+
         if (IsHost)
         {
             // If the local host itself was disconnected (e.g. transport failure or shutdown)
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
-                Debug.LogWarning("[MPSession] Host local client disconnected. Cleaning up...");
-                RaiseError("Host lost connection to the network.");
+                Debug.LogWarning($"[MPSession] Host local client disconnected. Reason: '{disconnectReason}'. Cleaning up...");
+                RaiseError(string.IsNullOrEmpty(disconnectReason) ? "Host lost connection to the network." : $"Host disconnected: {disconnectReason}");
                 await CleanupAsync();
                 ReturnToMenu();
                 return;
             }
 
             // A remote client disconnected — refresh lobby immediately
-            Debug.Log($"[MPSession] Remote client {clientId} disconnected from host.");
+            Debug.Log($"[MPSession] Remote client {clientId} disconnected from host. Reason: '{disconnectReason}'");
             PollLobbyAsync();
         }
         else
@@ -948,7 +953,15 @@ public class MultiplayerSessionManager : MonoBehaviour
             // We were disconnected (client)
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
-                Debug.Log("[MPSession] Local client disconnected. Cleaning up...");
+                if (!string.IsNullOrEmpty(disconnectReason))
+                {
+                    Debug.LogError($"[MPSession] Local client disconnected. Reason from server: {disconnectReason}");
+                    RaiseError($"Disconnected from host: {disconnectReason}");
+                }
+                else
+                {
+                    Debug.LogWarning("[MPSession] Local client disconnected. Cleaning up...");
+                }
                 await CleanupAsync();
                 ReturnToMenu();
             }
@@ -1014,13 +1027,84 @@ public class MultiplayerSessionManager : MonoBehaviour
         }
         else if (scene.name == MultiplayerLobbyScene)
         {
-            Debug.Log($"[MPSession] Returned to lobby scene. State={CurrentState}");
-            // Reset local player's ready state so a new match doesn't auto-start
-            if (CurrentLobby != null)
-                ResetLocalReadyStateAsync();
+            Debug.Log($"[MPSession] Entered lobby scene. State={CurrentState}, returningFromMatch={_isReturningFromMatch}");
+
+            // Ensure all match entities (lingering player objects, match manager) are cleaned up in lobby
+            CleanupLobbySceneArtifacts();
+
+            // Reset local player's ready state ONLY if returning from a match so a new match doesn't auto-start
+            if (_isReturningFromMatch)
+            {
+                _isReturningFromMatch = false;
+                if (CurrentLobby != null)
+                    ResetLocalReadyStateAsync();
+            }
+
             // Re-fire lobby updated so LobbyUI repopulates from the cached lobby
             if (CurrentLobby != null)
                 OnLobbyUpdated?.Invoke(CurrentLobby);
+        }
+    }
+
+    /// <summary>
+    /// Smoothly transitions back to the lobby scene after a match,
+    /// explicitly despawning the MatchManager so it does not persist into the lobby.
+    /// </summary>
+    public void LoadLobbySceneAndCleanupMatch(MatchManager matchManager)
+    {
+        StartCoroutine(LoadLobbySceneCoroutine(matchManager));
+    }
+
+    private IEnumerator LoadLobbySceneCoroutine(MatchManager matchManager)
+    {
+        // Brief pause to allow any pending RPCs to flush to clients
+        yield return new WaitForSeconds(0.3f);
+
+        // Explicitly despawn MatchManager so it does not persist into lobby
+        if (matchManager != null && matchManager.NetworkObject != null && matchManager.NetworkObject.IsSpawned)
+        {
+            matchManager.NetworkObject.Despawn(true);
+            Debug.Log("[MPSession] MatchManager despawned for lobby transition.");
+        }
+
+        yield return null;
+
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
+        {
+            var status = NetworkManager.Singleton.SceneManager.LoadScene(MultiplayerLobbyScene, LoadSceneMode.Single);
+            if (status != SceneEventProgressStatus.Started)
+            {
+                Debug.LogError($"[MPSession] Failed to load lobby scene: {status}");
+            }
+        }
+    }
+
+    private void CleanupLobbySceneArtifacts()
+    {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        // Clean up any lingering player objects that might have survived into the lobby
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject != null && client.PlayerObject.IsSpawned)
+            {
+                Debug.LogWarning($"[MPSession] Client {client.ClientId} had lingering PlayerObject in lobby. Despawning...");
+                client.PlayerObject.Despawn(true);
+            }
+        }
+
+        // Clean up any lingering MatchManager
+        if (MatchManager.Instance != null)
+        {
+            Debug.LogWarning("[MPSession] MatchManager lingered into lobby scene. Despawning...");
+            if (MatchManager.Instance.NetworkObject != null && MatchManager.Instance.NetworkObject.IsSpawned)
+            {
+                MatchManager.Instance.NetworkObject.Despawn(true);
+            }
+            else
+            {
+                Destroy(MatchManager.Instance.gameObject);
+            }
         }
     }
 
@@ -1028,6 +1112,12 @@ public class MultiplayerSessionManager : MonoBehaviour
     {
         if (MatchManager.Instance != null) return;
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        // If a MatchManagerBootstrapper exists in the scene, let it bootstrap MatchManager with all scene configurations
+        if (FindAnyObjectByType<MatchManagerBootstrapper>() != null)
+        {
+            return;
+        }
 
         GameObject prefab = null;
         if (NetworkManager.Singleton.NetworkConfig?.Prefabs?.NetworkPrefabsLists != null)
@@ -1055,8 +1145,8 @@ public class MultiplayerSessionManager : MonoBehaviour
             var netObj = go.GetComponent<Unity.Netcode.NetworkObject>();
             if (netObj != null)
             {
-                netObj.Spawn();
-                Debug.Log("[MPSession] MatchManager successfully spawned by Host.");
+                netObj.Spawn(destroyWithScene: true);
+                Debug.Log("[MPSession] MatchManager successfully spawned by Host (fallback, destroyWithScene=true).");
             }
         }
         else

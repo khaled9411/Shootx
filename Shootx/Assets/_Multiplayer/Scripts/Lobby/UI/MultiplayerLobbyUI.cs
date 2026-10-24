@@ -82,6 +82,9 @@ public class MultiplayerLobbyUI : MonoBehaviour
         if (copyCodeButton) copyCodeButton.onClick.AddListener(OnCopyCode);
         if (notificationDismissButton) notificationDismissButton.onClick.AddListener(DismissNotification);
 
+        // Register UI Button audio
+        Shootx.Audio.UIButtonAudio.RegisterHierarchy(transform);
+
         // Subscribe to session events
         var mgr = MultiplayerSessionManager.Instance;
         if (mgr)
@@ -395,6 +398,8 @@ public class MultiplayerLobbyUI : MonoBehaviour
 
         _isReady = !_isReady;
 
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(_isReady ? Shootx.Audio.SoundId.UI_LobbyReady : Shootx.Audio.SoundId.UI_LobbyUnready);
+
         // Optimistic UI update
         if (readyButtonText)
             readyButtonText.text = _isReady ? "Not Ready" : "Ready";
@@ -426,6 +431,7 @@ public class MultiplayerLobbyUI : MonoBehaviour
         _isStartingMatch = true;
 
         AnimatePress(startMatchButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_MatchStartButton);
 
         // Show starting state
         if (startMatchButton) startMatchButton.interactable = false;
@@ -450,6 +456,7 @@ public class MultiplayerLobbyUI : MonoBehaviour
         _isBusy = true;
 
         AnimatePress(leaveButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ButtonBack);
         ShowStatus("Leaving lobby...");
 
         var mgr = MultiplayerSessionManager.Instance;
@@ -581,6 +588,8 @@ public class MultiplayerLobbyUI : MonoBehaviour
     public void ShowNotification(string message)
     {
         if (notificationPanel == null) return;
+
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ActionFailed);
 
         _notifSeq?.Kill();
         if (notificationText) notificationText.text = message;

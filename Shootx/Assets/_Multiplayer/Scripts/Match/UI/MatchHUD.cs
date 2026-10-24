@@ -122,6 +122,10 @@ public class MatchHUD : MonoBehaviour
         if (spawnProtectionIndicator != null) spawnProtectionIndicator.SetActive(false);
         if (killNotificationPanel != null) killNotificationPanel.SetActive(false);
 
+        // Ensure MatchAudioController is present for match event sounds
+        if (GetComponent<Shootx.Audio.MatchAudioController>() == null)
+            gameObject.AddComponent<Shootx.Audio.MatchAudioController>();
+
         UpdateKillsDisplay(0);
         UpdateDeathsDisplay(0);
     }
@@ -272,6 +276,8 @@ public class MatchHUD : MonoBehaviour
         if (killNotificationPanel == null) return;
         _killNotificationTween?.Kill();
 
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Match_KillConfirmed);
+
         killNotificationPanel.SetActive(true);
         if (killNotificationText != null)
             killNotificationText.text = "Kill!";
@@ -293,6 +299,7 @@ public class MatchHUD : MonoBehaviour
     {
         // Only show for local player
         if (NetworkManager.Singleton?.LocalClientId != clientId) return;
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Player_SpawnProtection_Start, 0.85f);
         if (spawnProtectionIndicator != null)
         {
             spawnProtectionIndicator.SetActive(true);
@@ -303,6 +310,7 @@ public class MatchHUD : MonoBehaviour
     public void HideSpawnProtectionForPlayer(ulong clientId)
     {
         if (NetworkManager.Singleton?.LocalClientId != clientId) return;
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Player_SpawnProtection_End, 0.8f);
         if (spawnProtectionIndicator != null)
             spawnProtectionIndicator.SetActive(false);
     }

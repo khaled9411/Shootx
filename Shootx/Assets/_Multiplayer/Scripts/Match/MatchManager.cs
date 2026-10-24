@@ -122,6 +122,13 @@ public class MatchManager : NetworkBehaviour
     // Cached map spawn points (server only)
     private readonly List<Transform> _activeSpawnPoints = new List<Transform>();
 
+    // Crate tracking (match-scoped)
+    private readonly List<DestructibleBox> _activeCrates = new List<DestructibleBox>();
+    private readonly HashSet<int> _destroyedCrateIndices = new HashSet<int>();
+
+    public int ActiveCrateCount => _activeCrates.Count;
+    public int DestroyedCrateCount => _destroyedCrateIndices.Count;
+
     // Configurable defaults if no MatchConfig assigned
     private float KillTarget => config != null ? config.killTarget : 10;
     private float MatchDuration => config != null ? config.matchDuration : 180f;
@@ -162,6 +169,14 @@ public class MatchManager : NetworkBehaviour
 
             _matchCoroutine = StartCoroutine(MatchLifecycleCoroutine());
         }
+        else
+        {
+            // On clients: if map was already selected before we spawned, load it now
+            if (_selectedMapIndex.Value >= 0)
+            {
+                LoadMapClient(_selectedMapIndex.Value);
+            }
+        }
     }
 
     public override void OnNetworkDespawn()
@@ -181,6 +196,8 @@ public class MatchManager : NetworkBehaviour
             CancelAllRespawnCoroutines();
         }
 
+        UnloadActiveMap();
+
         if (Instance == this)
             Instance = null;
     }
@@ -188,6 +205,7 @@ public class MatchManager : NetworkBehaviour
     public override void OnDestroy()
     {
         base.OnDestroy();
+        UnloadActiveMap();
         if (Instance == this)
             Instance = null;
     }
@@ -218,11 +236,12 @@ public class MatchManager : NetworkBehaviour
         // Select and load map
         yield return StartCoroutine(SelectAndLoadMapCoroutine());
 
-        // Register all connected players
-        yield return StartCoroutine(RegisterPlayersCoroutine());
-
-        // Spawn all players
+        // Spawn all players in the selected map first
         SpawnAllPlayers();
+
+        // Wait a frame and register all connected players
+        yield return null;
+        yield return StartCoroutine(RegisterPlayersCoroutine());
 
         // Phase 2: Pre-match countdown
         SetState(MatchState.PreMatchCountdown);
@@ -253,6 +272,8 @@ public class MatchManager : NetworkBehaviour
 
     private IEnumerator SelectAndLoadMapCoroutine()
     {
+        EnsureMapPrefabsLoaded();
+
         if (mapPrefabs == null || mapPrefabs.Length == 0)
         {
             Debug.LogWarning("[MatchManager] No map prefabs configured. Using existing scene objects.");
@@ -298,20 +319,23 @@ public class MatchManager : NetworkBehaviour
         }
 
         _lastMapIndex = selectedIndex;
-        _selectedMapIndex.Value = selectedIndex;
 
         // Unload previous map if any
         if (_activeMapInstance != null)
         {
-            Destroy(_activeMapInstance);
-            _activeMapInstance = null;
+            UnloadActiveMap();
             yield return null; // Wait one frame for destruction
         }
 
-        // Instantiate the selected map
-        Debug.Log($"[MatchManager] Loading map '{mapPrefabs[selectedIndex].name}' (index {selectedIndex})");
+        // Instantiate the selected map on Server
+        Debug.Log($"[MatchManager] Server loading map '{mapPrefabs[selectedIndex].name}' (index {selectedIndex})");
         _activeMapInstance = Instantiate(mapPrefabs[selectedIndex], Vector3.zero, Quaternion.identity);
         _activeMapInstance.name = $"ActiveMap_{mapPrefabs[selectedIndex].name}";
+        CleanUpLocalMapNetworkComponents(_activeMapInstance);
+        RegisterActiveMapCrates(_activeMapInstance);
+
+        // Update NetworkVariable so clients synchronize
+        _selectedMapIndex.Value = selectedIndex;
 
         // Wait one frame for the map to initialize
         yield return null;
@@ -334,10 +358,10 @@ public class MatchManager : NetworkBehaviour
             Debug.LogWarning("[MatchManager] Map load timed out. Proceeding with available spawn points.");
         }
 
-        // Notify clients about the selected map
+        // Notify clients about the selected map via RPC
         NotifyMapSelectedClientRpc(selectedIndex);
 
-        Debug.Log($"[MatchManager] Map ready. Spawn points found: {_activeSpawnPoints.Count}");
+        Debug.Log($"[MatchManager] Map ready on server. Spawn points found: {_activeSpawnPoints.Count}");
     }
 
     private bool IsMapReady()
@@ -449,6 +473,18 @@ public class MatchManager : NetworkBehaviour
         {
             RegisterPlayer(client.ClientId);
         }
+    }
+
+    /// <summary>
+    /// Ensures that a client's player object components (health, stats, identity) are registered in MatchManager.
+    /// Safe to call multiple times.
+    /// </summary>
+    public void EnsurePlayerRegistered(ulong clientId)
+    {
+        if (_playerStatsMap.ContainsKey(clientId) && _playerHealthMap.ContainsKey(clientId))
+            return;
+
+        RegisterPlayer(clientId);
     }
 
     private void RegisterPlayer(ulong clientId)
@@ -570,21 +606,45 @@ public class MatchManager : NetworkBehaviour
     // Kill / Death Attribution
     // ═══════════════════════════════════════════════════════════════════════
 
+    /// <summary>
+    /// Explicit callback called by PlayerHealth on the server when a player dies.
+    /// Ensures victim and killer registration and schedules respawn + stats tracking.
+    /// </summary>
+    public void ReportPlayerDeath(ulong victimClientId, ulong killerClientId)
+    {
+        if (!IsServer) return;
+        HandlePlayerDeath(victimClientId, killerClientId);
+    }
+
     private void HandlePlayerDeath(ulong victimClientId, ulong killerClientId)
     {
         if (!IsServer) return;
         if (_matchState.Value != MatchState.Active) return;
 
+        // Ensure victim and killer are registered in stats maps
+        EnsurePlayerRegistered(victimClientId);
+        if (killerClientId != ulong.MaxValue && killerClientId != victimClientId)
+        {
+            EnsurePlayerRegistered(killerClientId);
+        }
+
         // Get victim stats
-        if (!_playerStatsMap.TryGetValue(victimClientId, out var victimStats)) return;
+        _playerStatsMap.TryGetValue(victimClientId, out var victimStats);
 
-        // Idempotency: only process if victim was actually alive
-        if (victimStats.LifeState != PlayerLifeState.Alive &&
-            victimStats.LifeState != PlayerLifeState.SpawnProtected) return;
+        // Idempotency: only process if victim was actually alive or protected
+        if (victimStats != null)
+        {
+            if (victimStats.LifeState != PlayerLifeState.Alive &&
+                victimStats.LifeState != PlayerLifeState.SpawnProtected)
+            {
+                Debug.Log($"[MatchManager] Victim {victimClientId} is already in state {victimStats.LifeState}. Skipping duplicate death handling.");
+                return;
+            }
 
-        // Mark victim as dead
-        victimStats.SetLifeState(PlayerLifeState.Dead);
-        victimStats.AddDeath();
+            // Mark victim as dead
+            victimStats.SetLifeState(PlayerLifeState.Dead);
+            victimStats.AddDeath();
+        }
 
         // Award kill to attacker (if not self-kill)
         bool validKill = killerClientId != victimClientId
@@ -605,9 +665,13 @@ public class MatchManager : NetworkBehaviour
             }
         }
 
-        // Schedule respawn
+        // Schedule respawn - always guarantee respawn when match is active
         if (_matchState.Value == MatchState.Active)
         {
+            if (_respawnCoroutines.TryGetValue(victimClientId, out var existingCo) && existingCo != null)
+            {
+                StopCoroutine(existingCo);
+            }
             var co = StartCoroutine(RespawnPlayerCoroutine(victimClientId));
             _respawnCoroutines[victimClientId] = co;
         }
@@ -619,9 +683,11 @@ public class MatchManager : NetworkBehaviour
 
     private IEnumerator RespawnPlayerCoroutine(ulong clientId)
     {
-        if (!_playerStatsMap.TryGetValue(clientId, out var stats)) yield break;
-
-        stats.SetLifeState(PlayerLifeState.Respawning);
+        EnsurePlayerRegistered(clientId);
+        if (_playerStatsMap.TryGetValue(clientId, out var stats))
+        {
+            stats.SetLifeState(PlayerLifeState.Respawning);
+        }
 
         yield return new WaitForSeconds(RespawnDelay);
 
@@ -651,7 +717,7 @@ public class MatchManager : NetworkBehaviour
         go.transform.rotation = spawnRot;
         if (cc != null) cc.enabled = true;
 
-        // Restore health
+        // Restore health (ServerRespawnRestore will set currentHealth to MaxHealth, isDead = false, input unlocked, and NotifyRespawnClientRpc)
         var health = go.GetComponent<PlayerHealth>();
         if (health != null)
             health.ServerRespawnRestore();
@@ -662,16 +728,17 @@ public class MatchManager : NetworkBehaviour
             shooting.HandleRespawnServer();
 
         // Apply spawn protection
-        stats.SetLifeState(PlayerLifeState.SpawnProtected);
+        if (stats != null)
+            stats.SetLifeState(PlayerLifeState.SpawnProtected);
         _spawnProtectionEndTimes[clientId] = Time.time + SpawnProtectionDuration;
 
-        // Notify respawn (clears input lock, triggers visuals)
+        // Notify respawn (clears input lock, triggers visuals on client)
         NotifyRespawnClientRpc(clientId, spawnPos, spawnRot);
 
         yield return new WaitForSeconds(SpawnProtectionDuration);
 
         // Check still in spawn protection (not killed again)
-        if (stats.LifeState == PlayerLifeState.SpawnProtected)
+        if (stats != null && stats.LifeState == PlayerLifeState.SpawnProtected)
         {
             stats.SetLifeState(PlayerLifeState.Alive);
             EndSpawnProtectionClientRpc(clientId);
@@ -945,33 +1012,73 @@ public class MatchManager : NetworkBehaviour
             _returnCoroutine = null;
         }
 
-        // Clean up map
-        if (_activeMapInstance != null)
-        {
-            Destroy(_activeMapInstance);
-            _activeMapInstance = null;
-        }
+        // Clean up map on server
+        UnloadActiveMap();
 
         OnReturningToLobby?.Invoke();
         NotifyReturnToLobbyClientRpc();
 
-        // Restore session state before scene load
-        if (MultiplayerSessionManager.Instance != null)
-            MultiplayerSessionManager.Instance.OnMatchEnded();
+        // 1. Despawn active pickups so none leak into the lobby scene
+        if (AmmoPickupSpawner.Instance != null)
+        {
+            AmmoPickupSpawner.Instance.DespawnAllPickups();
+        }
 
-        // Load lobby scene via NGO
-        StartCoroutine(LoadLobbySceneCoroutine());
+        // 2. Despawn all player avatars on server so clients don't keep old PlayerObjects
+        if (MultiplayerSpawnManager.Instance != null)
+        {
+            MultiplayerSpawnManager.Instance.DespawnAllPlayers();
+        }
+        else
+        {
+            DespawnAllConnectedPlayers();
+        }
+
+        // 3. Restore session state and let the persistent MultiplayerSessionManager load the lobby scene and despawn this MatchManager
+        if (MultiplayerSessionManager.Instance != null)
+        {
+            MultiplayerSessionManager.Instance.OnMatchEnded();
+            MultiplayerSessionManager.Instance.LoadLobbySceneAndCleanupMatch(this);
+        }
+        else
+        {
+            // Fallback if MultiplayerSessionManager is absent
+            StartCoroutine(LoadLobbySceneCoroutine());
+        }
+    }
+
+    private void DespawnAllConnectedPlayers()
+    {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject != null && client.PlayerObject.IsSpawned)
+            {
+                client.PlayerObject.Despawn(true);
+            }
+        }
     }
 
     private IEnumerator LoadLobbySceneCoroutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
 
         string lobbyScene = MultiplayerSessionManager.MultiplayerLobbyScene;
-        var status = NetworkManager.Singleton.SceneManager.LoadScene(lobbyScene, LoadSceneMode.Single);
-        if (status != SceneEventProgressStatus.Started)
+        if (NetworkObject != null && NetworkObject.IsSpawned)
         {
-            Debug.LogError($"[MatchManager] Failed to load lobby scene: {status}");
+            NetworkObject.Despawn(true);
+        }
+
+        yield return null;
+
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
+        {
+            var status = NetworkManager.Singleton.SceneManager.LoadScene(lobbyScene, LoadSceneMode.Single);
+            if (status != SceneEventProgressStatus.Started)
+            {
+                Debug.LogError($"[MatchManager] Failed to load lobby scene: {status}");
+            }
         }
     }
 
@@ -1053,7 +1160,11 @@ public class MatchManager : NetworkBehaviour
     [ClientRpc]
     private void NotifyMapSelectedClientRpc(int mapIndex)
     {
-        Debug.Log($"[MatchManager] Client: Map index {mapIndex} selected.");
+        Debug.Log($"[MatchManager] Client: Map index {mapIndex} selected via RPC.");
+        if (!IsServer && mapIndex >= 0)
+        {
+            LoadMapClient(mapIndex);
+        }
     }
 
     [ClientRpc]
@@ -1065,6 +1176,12 @@ public class MatchManager : NetworkBehaviour
             var localPlayer = NetworkManager.Singleton.LocalClient?.PlayerObject;
             if (localPlayer != null)
             {
+                var cc = localPlayer.GetComponent<CharacterController>();
+                if (cc != null) cc.enabled = false;
+                localPlayer.transform.position = spawnPos;
+                localPlayer.transform.rotation = spawnRot;
+                if (cc != null) cc.enabled = true;
+
                 localPlayer.GetComponent<PlayerController>()?.OnRespawned();
                 localPlayer.GetComponent<PlayerController>()?.SetInputLocked(false);
             }
@@ -1132,8 +1249,52 @@ public class MatchManager : NetworkBehaviour
     [ClientRpc]
     private void NotifyReturnToLobbyClientRpc()
     {
+        UnloadActiveMap();
         OnReturningToLobby?.Invoke();
         MatchResultsUI.Instance?.HideResults();
+    }
+
+    [ClientRpc]
+    private void NotifyCrateDestroyedClientRpc(int crateIndex, Vector3 hitPoint, Vector3 hitDirection)
+    {
+        if (crateIndex >= 0 && crateIndex < _activeCrates.Count)
+        {
+            var crate = _activeCrates[crateIndex];
+            if (crate != null)
+            {
+                crate.PlayDestructionSequence(hitPoint, hitDirection);
+            }
+        }
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void RequestMapCrateStateServerRpc(RpcParams rpcParams = default)
+    {
+        if (_destroyedCrateIndices.Count == 0) return;
+
+        ulong senderClientId = rpcParams.Receive.SenderClientId;
+        int[] destroyed = new int[_destroyedCrateIndices.Count];
+        _destroyedCrateIndices.CopyTo(destroyed);
+
+        SyncDestroyedCratesRpc(destroyed, RpcTarget.Single(senderClientId, RpcTargetUse.Temp));
+    }
+
+    [Rpc(SendTo.SpecifiedInParams)]
+    private void SyncDestroyedCratesRpc(int[] destroyedIndices, RpcParams rpcParams = default)
+    {
+        if (destroyedIndices == null || destroyedIndices.Length == 0) return;
+
+        foreach (int idx in destroyedIndices)
+        {
+            if (idx >= 0 && idx < _activeCrates.Count)
+            {
+                var crate = _activeCrates[idx];
+                if (crate != null)
+                {
+                    crate.ApplyImmediateDestroyedState();
+                }
+            }
+        }
     }
 
     // ─── NetworkVariable Callbacks ──────────────────────────────────────────
@@ -1146,7 +1307,11 @@ public class MatchManager : NetworkBehaviour
 
     private void HandleMapIndexChanged(int oldVal, int newVal)
     {
-        Debug.Log($"[MatchManager] Map index changed to {newVal}");
+        Debug.Log($"[MatchManager] Map index changed from {oldVal} to {newVal}");
+        if (!IsServer && newVal >= 0)
+        {
+            LoadMapClient(newVal);
+        }
     }
 
     private void HandleResultFinalizedChanged(bool oldVal, bool newVal)
@@ -1169,6 +1334,8 @@ public class MatchManager : NetworkBehaviour
     public bool IsDraw => _isDraw.Value;
     public string WinnerName => _winnerName.Value.ToString();
     public ulong WinnerClientId => _winnerClientId.Value;
+    public GameObject ActiveMapInstance => _activeMapInstance;
+    public int SelectedMapIndex => _selectedMapIndex.Value;
 
     /// <summary>Returns remaining match time in seconds (client-derived).</summary>
     public float GetRemainingTime()
@@ -1192,11 +1359,186 @@ public class MatchManager : NetworkBehaviour
     /// <summary>Inject MatchConfig at runtime (before OnNetworkSpawn).</summary>
     public void SetConfig(MatchConfig cfg) => config = cfg;
 
-    /// <summary>Inject map prefabs at runtime (before OnNetworkSpawn).</summary>
+    /// <summary>Inject map prefabs at runtime (before or after OnNetworkSpawn).</summary>
     public void SetMapPrefabs(GameObject[] prefabs, LayerMask obstacleMask)
     {
         mapPrefabs = prefabs;
         spawnObstacleMask = obstacleMask;
+
+        // If client was waiting for map prefabs and map index was already received, load now
+        if (!IsServer && _selectedMapIndex.Value >= 0 && _activeMapInstance == null)
+        {
+            LoadMapClient(_selectedMapIndex.Value);
+        }
+    }
+
+    // ─── Client-side Map Loading & Helpers ──────────────────────────────────
+
+    /// <summary>
+    /// Loads the selected map prefab locally on a client.
+    /// Idempotent: will not reload if the requested map is already loaded.
+    /// </summary>
+    private void LoadMapClient(int mapIndex)
+    {
+        if (IsServer) return;
+        if (mapIndex < 0) return;
+
+        // Already loaded this map
+        if (_activeMapInstance != null && _lastMapIndex == mapIndex)
+        {
+            return;
+        }
+
+        EnsureMapPrefabsLoaded();
+
+        if (mapPrefabs == null || mapIndex >= mapPrefabs.Length || mapPrefabs[mapIndex] == null)
+        {
+            Debug.LogError($"[MatchManager] Client failed to load map at index {mapIndex}: invalid index or null prefab reference.");
+            return;
+        }
+
+        // Unload previous map if any
+        UnloadActiveMap();
+
+        _lastMapIndex = mapIndex;
+        Debug.Log($"[MatchManager] Client loading map '{mapPrefabs[mapIndex].name}' (index {mapIndex})");
+        _activeMapInstance = Instantiate(mapPrefabs[mapIndex], Vector3.zero, Quaternion.identity);
+        _activeMapInstance.name = $"ActiveMap_{mapPrefabs[mapIndex].name}";
+        CleanUpLocalMapNetworkComponents(_activeMapInstance);
+        RegisterActiveMapCrates(_activeMapInstance);
+        if (!IsServer)
+        {
+            RequestMapCrateStateServerRpc();
+        }
+    }
+
+    /// <summary>
+    /// Destroys the currently active map instance if present.
+    /// </summary>
+    private void UnloadActiveMap()
+    {
+        if (_activeMapInstance != null)
+        {
+            Destroy(_activeMapInstance);
+            _activeMapInstance = null;
+        }
+        _lastMapIndex = -1;
+        _activeCrates.Clear();
+        _destroyedCrateIndices.Clear();
+    }
+
+    /// <summary>
+    /// Discovers and registers all DestructibleBox components on the newly instantiated map root.
+    /// Hierarchy preorder traversal ensures deterministic index matching on server and clients.
+    /// </summary>
+    private void RegisterActiveMapCrates(GameObject mapRoot)
+    {
+        _activeCrates.Clear();
+        _destroyedCrateIndices.Clear();
+
+        if (mapRoot == null) return;
+
+        var crates = mapRoot.GetComponentsInChildren<DestructibleBox>(true);
+        for (int i = 0; i < crates.Length; i++)
+        {
+            crates[i].Initialize(i, this);
+            _activeCrates.Add(crates[i]);
+        }
+
+        Debug.Log($"[MatchManager] Registered {_activeCrates.Count} destructible crates on map '{mapRoot.name}' (IsServer: {IsServer}).");
+    }
+
+    /// <summary>
+    /// Server-authoritative report of a crate hit by firearm or melee.
+    /// Validates match state and crate state before transitioning to destroyed and notifying clients.
+    /// </summary>
+    public void ReportCrateHit(int crateIndex, Vector3 hitPoint, Vector3 hitDirection)
+    {
+        if (!IsServer) return;
+
+        // Only active match or countdown allows crate destruction
+        if (_matchState.Value != MatchState.Active && _matchState.Value != MatchState.PreMatchCountdown)
+            return;
+
+        if (crateIndex < 0 || crateIndex >= _activeCrates.Count)
+            return;
+
+        var crate = _activeCrates[crateIndex];
+        if (crate == null || crate.IsDestroyed)
+            return;
+
+        crate.SetDestroyedAuthoritative();
+        _destroyedCrateIndices.Add(crateIndex);
+
+        NotifyCrateDestroyedClientRpc(crateIndex, hitPoint, hitDirection);
+    }
+
+    /// <summary>
+    /// Explicit reset mechanism for in-place match restart without map reload.
+    /// </summary>
+    public void ResetAllActiveCrates()
+    {
+        _destroyedCrateIndices.Clear();
+        for (int i = 0; i < _activeCrates.Count; i++)
+        {
+            if (_activeCrates[i] != null)
+            {
+                _activeCrates[i].ResetCrate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Strips NetworkTransform and NetworkObject components from the locally instantiated map instance
+    /// so that NGO does not treat it as an unspawned rogue network entity.
+    /// </summary>
+    private void CleanUpLocalMapNetworkComponents(GameObject mapInstance)
+    {
+        if (mapInstance == null) return;
+
+        var netTransforms = mapInstance.GetComponentsInChildren<Unity.Netcode.Components.NetworkTransform>(true);
+        foreach (var nt in netTransforms)
+        {
+            nt.enabled = false;
+            Destroy(nt);
+        }
+
+        var netObjs = mapInstance.GetComponentsInChildren<NetworkObject>(true);
+        foreach (var no in netObjs)
+        {
+            no.enabled = false;
+            Destroy(no);
+        }
+    }
+
+    /// <summary>
+    /// Ensures mapPrefabs array is populated, falling back to MatchManagerBootstrapper if needed.
+    /// </summary>
+    public void EnsureMapPrefabsLoaded()
+    {
+        if (mapPrefabs != null && mapPrefabs.Length > 0 && mapPrefabs[0] != null)
+            return;
+
+        if (MatchManagerBootstrapper.Instance != null &&
+            MatchManagerBootstrapper.Instance.MapPrefabs != null &&
+            MatchManagerBootstrapper.Instance.MapPrefabs.Length > 0)
+        {
+            mapPrefabs = MatchManagerBootstrapper.Instance.MapPrefabs;
+            spawnObstacleMask = MatchManagerBootstrapper.Instance.SpawnObstacleMask;
+            Debug.Log($"[MatchManager] Injected {mapPrefabs.Length} map prefabs from MatchManagerBootstrapper.Instance.");
+            return;
+        }
+
+        var bootstrapper = FindAnyObjectByType<MatchManagerBootstrapper>();
+        if (bootstrapper != null &&
+            bootstrapper.MapPrefabs != null &&
+            bootstrapper.MapPrefabs.Length > 0)
+        {
+            mapPrefabs = bootstrapper.MapPrefabs;
+            spawnObstacleMask = bootstrapper.SpawnObstacleMask;
+            Debug.Log($"[MatchManager] Injected {mapPrefabs.Length} map prefabs from scene MatchManagerBootstrapper.");
+            return;
+        }
     }
 }
 

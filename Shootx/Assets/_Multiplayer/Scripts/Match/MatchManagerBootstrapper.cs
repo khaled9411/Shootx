@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MatchManagerBootstrapper : MonoBehaviour
 {
+    public static MatchManagerBootstrapper Instance { get; private set; }
+
     [Header("Match UI Prefab")]
     [Tooltip("UI Canvas with MatchHUD and MatchResultsUI. Created on all clients if missing.")]
     [SerializeField] private GameObject matchUIPrefab;
@@ -29,7 +31,26 @@ public class MatchManagerBootstrapper : MonoBehaviour
     [Header("Spawn Validation")]
     [SerializeField] private UnityEngine.LayerMask spawnObstacleMask;
 
+    public GameObject[] MapPrefabs => mapPrefabs;
+    public UnityEngine.LayerMask SpawnObstacleMask => spawnObstacleMask;
+
     private bool _bootstrapped;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 
     private void Start()
     {
@@ -57,13 +78,27 @@ public class MatchManagerBootstrapper : MonoBehaviour
             }
         }
 
+        // On clients: if MatchManager already exists, ensure map prefabs are passed
+        if (NetworkManager.Singleton != null && !NetworkManager.Singleton.IsServer)
+        {
+            if (MatchManager.Instance != null && mapPrefabs != null && mapPrefabs.Length > 0)
+            {
+                MatchManager.Instance.SetMapPrefabs(mapPrefabs, spawnObstacleMask);
+            }
+            return;
+        }
+
         // Only the host/server creates the MatchManager
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
 
         // Create MatchManager
         if (MatchManager.Instance != null)
         {
-            Debug.Log("[Bootstrapper] MatchManager already exists.");
+            Debug.Log("[Bootstrapper] MatchManager already active; injecting map prefabs & config.");
+            if (mapPrefabs != null && mapPrefabs.Length > 0)
+                MatchManager.Instance.SetMapPrefabs(mapPrefabs, spawnObstacleMask);
+            if (matchConfig != null)
+                MatchManager.Instance.SetConfig(matchConfig);
             return;
         }
 
@@ -81,8 +116,8 @@ public class MatchManagerBootstrapper : MonoBehaviour
             }
             var netObj = go.GetComponent<NetworkObject>();
             if (netObj != null)
-                netObj.Spawn();
-            Debug.Log("[Bootstrapper] MatchManager spawned from prefab.");
+                netObj.Spawn(destroyWithScene: true);
+            Debug.Log("[Bootstrapper] MatchManager spawned from prefab (destroyWithScene=true).");
         }
         else
         {
@@ -96,8 +131,8 @@ public class MatchManagerBootstrapper : MonoBehaviour
             if (mapPrefabs != null && mapPrefabs.Length > 0)
                 InjectMapPrefabs(mm, mapPrefabs, spawnObstacleMask);
 
-            netObj.Spawn();
-            Debug.Log("[Bootstrapper] MatchManager created inline and spawned.");
+            netObj.Spawn(destroyWithScene: true);
+            Debug.Log("[Bootstrapper] MatchManager created inline and spawned (destroyWithScene=true).");
         }
     }
 

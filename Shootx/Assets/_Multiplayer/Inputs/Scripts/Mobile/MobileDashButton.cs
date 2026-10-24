@@ -152,7 +152,11 @@ public class MobileDashButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         if (activePointerId != -1) return; // Dedicated finger only
 
         // Reject if ability is not ready
-        if (boundPlayerDash != null && !boundPlayerDash.IsReady) return;
+        if (boundPlayerDash != null && !boundPlayerDash.IsReady)
+        {
+            Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ActionFailed, 0.4f);
+            return;
+        }
 
         activePointerId = eventData.pointerId;
 

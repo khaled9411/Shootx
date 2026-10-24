@@ -71,8 +71,21 @@ public class AmmoPickupSpawner : MonoBehaviour
 
     private IEnumerator InitialSpawnCoroutine()
     {
-        // Wait 1 frame for network & scene objects to settle
-        yield return null;
+        // Wait until map is ready before attempting placement raycasts
+        float timeout = 15f;
+        float elapsed = 0f;
+        while (elapsed < timeout)
+        {
+            if (MatchManager.Instance != null && MatchManager.Instance.ActiveMapInstance != null)
+            {
+                break;
+            }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Wait a couple frames for physics colliders to update
+        yield return new WaitForSeconds(0.2f);
 
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) yield break;
 
@@ -82,6 +95,37 @@ public class AmmoPickupSpawner : MonoBehaviour
             SpawnSinglePickup();
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    /// <summary>
+    /// Despawns and cleans up all active pickups on the server.
+    /// Called when returning to the lobby.
+    /// </summary>
+    public void DespawnAllPickups()
+    {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        StopAllCoroutines();
+
+        for (int i = _activePickups.Count - 1; i >= 0; i--)
+        {
+            var pickup = _activePickups[i];
+            if (pickup != null)
+            {
+                pickup.OnConsumedByServer -= HandlePickupConsumed;
+                var netObj = pickup.GetComponent<NetworkObject>();
+                if (netObj != null && netObj.IsSpawned)
+                {
+                    netObj.Despawn(true);
+                }
+                else
+                {
+                    Destroy(pickup.gameObject);
+                }
+            }
+        }
+        _activePickups.Clear();
+        Debug.Log("[AmmoSpawner] All active pickups despawned for lobby return.");
     }
 
     /// <summary>
@@ -218,6 +262,8 @@ public class AmmoPickupSpawner : MonoBehaviour
     private void OnDestroy()
     {
         if (Instance == this) Instance = null;
+        StopAllCoroutines();
+        _activePickups.Clear();
     }
 
 #if UNITY_EDITOR

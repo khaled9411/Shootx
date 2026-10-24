@@ -94,6 +94,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1161,8 +1165,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5885914180551122200}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 750754164949613301}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &6044537993807649588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 567756073430370597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5885914180551122200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044537993807649588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &750754164949613301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044537993807649588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &8893405460390470594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -1245,6 +1301,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1639,8 +1699,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2586408795297680417}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7496637136749909361}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &6838267736786231370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 785306548137816667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2586408795297680417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6838267736786231370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7496637136749909361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6838267736786231370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &8534130135819770044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -2118,6 +2230,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -2187,6 +2303,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -2473,8 +2593,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1658846511635326361}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4283621363314672681}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &6550109536150253371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 1073327346729155882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1658846511635326361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6550109536150253371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4283621363314672681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6550109536150253371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &8245971660976707533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -3491,8 +3663,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5044343681844655095}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4811058770366922544}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &4634683199072227932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 1464272084523368525}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5044343681844655095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634683199072227932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4811058770366922544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634683199072227932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &7554939774415268522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -3733,8 +3957,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5452986207267051256}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7028650873679167727}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &4728251186246178336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 1557558296681333809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5452986207267051256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728251186246178336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7028650873679167727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728251186246178336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &7572562002444545750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -4118,6 +4394,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -4371,8 +4651,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3365095297924826948}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4803787466619156663}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &5575390492327710351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 1827428454332243102}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3365095297924826948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575390492327710351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4803787466619156663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575390492327710351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &7338332463675913849 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -4682,6 +5014,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -4751,6 +5087,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -5040,6 +5380,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5254,6 +5598,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5383,8 +5731,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5108489976012364337}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 454443666301954845}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &5360626427687892878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2190813435100063135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5108489976012364337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5360626427687892878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &454443666301954845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5360626427687892878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &7128634399666360184 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -5465,8 +5865,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6500390937836897211}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4240352705460798548}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &5382023470334391282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2212210486390956515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6500390937836897211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382023470334391282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4240352705460798548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382023470334391282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &7077956256363612932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -6173,13 +6625,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8136886874160971500}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1564600823020073786}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &6754522946074566300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2393180329613161595}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8445894957594175082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2393180329613161595}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8136886874160971500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445894957594175082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &1564600823020073786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445894957594175082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &2393606931381511488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6195,6 +6699,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6325,13 +6833,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7885307616378166900}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6802776681057343780}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &6760484749488717449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2402876071068095598}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8456400474834093695 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2402876071068095598}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7885307616378166900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456400474834093695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6802776681057343780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456400474834093695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &2461193854511362385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6422,6 +6982,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6492,6 +7056,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6561,6 +7129,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6773,13 +7345,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1474091485290577531}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6869213562254054022}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &6914384667238138425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2557620422054488286}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8610300135692647119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2557620422054488286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1474091485290577531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610300135692647119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6869213562254054022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610300135692647119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &2573573981808879299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7171,13 +7795,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5464108545400498542}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6642742558635112971}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &6446954610535016739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2734394219110400964}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8210367156695044565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2734394219110400964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5464108545400498542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210367156695044565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6642742558635112971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210367156695044565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &2758353898436323434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7193,6 +7869,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -7405,13 +8085,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6996879591454440563}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1261004548622099785}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &6540217144224222897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2758787746864768086}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8235604555299141191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 2758787746864768086}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6996879591454440563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235604555299141191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &1261004548622099785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235604555299141191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &2801243873393957921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7883,6 +8615,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -8667,13 +9403,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4471598334953259542}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7786611896480954111}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &5914471541529771191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 3359340653023417936}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8835313588963886145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 3359340653023417936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4471598334953259542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835313588963886145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7786611896480954111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835313588963886145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &3374404678469877537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9165,13 +9953,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7879108386504483727}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5931993811036215341}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &5512190908050995936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 3527891276088266759}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7275008910611857942 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 3527891276088266759}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7879108386504483727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7275008910611857942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &5931993811036215341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7275008910611857942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &3595401483915161620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9457,13 +10297,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2088506148221030908}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6993535337272186712}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &5742046802464468439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 3685478474794616624}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7432878128144962849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 3685478474794616624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2088506148221030908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7432878128144962849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6993535337272186712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7432878128144962849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &3688787771573434308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9553,6 +10445,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -9685,6 +10581,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -11080,6 +11980,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -11715,13 +12619,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6685574758157115554}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1930401771434842694}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &4658134340882558529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 4336876836558390438}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7506443823565526711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 4336876836558390438}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6685574758157115554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7506443823565526711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &1930401771434842694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7506443823565526711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &4341410616529814944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12221,13 +13177,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5169595823870474944}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5774589335374259270}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &4795468989077728770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 4469338444620203237}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7639749568832673524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 4469338444620203237}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5169595823870474944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639749568832673524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &5774589335374259270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639749568832673524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &4475693668145281504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12637,13 +13645,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3665353768325748605}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5187446120948324264}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &4844188219145732067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 4589354407218681092}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7760610247810877205 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 4589354407218681092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3665353768325748605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760610247810877205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &5187446120948324264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760610247810877205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &4622384274865080502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12659,6 +13719,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -12863,8 +13927,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4697127577200270917}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1311558264241776427}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1458679474423628913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 4629090339809793632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4697127577200270917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458679474423628913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &1311558264241776427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458679474423628913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &4375105350315719815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -13037,6 +14153,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -13845,8 +14965,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2775975651846679379}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6833941657377651862}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1269342731645069628 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5016460360246311725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2775975651846679379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269342731645069628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6833941657377651862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269342731645069628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &4113095012168470986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -14273,8 +15445,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2837241776634733524}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2717538738360015295}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1387613927758571217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5134767543907366080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2837241776634733524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387613927758571217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &2717538738360015295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387613927758571217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &4307958995994877479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -14604,6 +15828,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -14733,8 +15961,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5269525076128300455}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 584910329226483883}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &2114372022210614692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5283938720884574133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5269525076128300455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114372022210614692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &584910329226483883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114372022210614692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3881812903886941522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -15353,8 +16633,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074407228466096256}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7491959088410320670}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1734916575833356078 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5480943473347093823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2074407228466096256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734916575833356078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7491959088410320670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734916575833356078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3502273344935153624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -15437,6 +16769,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -16077,8 +17413,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7066088407416473613}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 340312595450425145}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1965554746908500007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5711863690130813494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7066088407416473613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965554746908500007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &340312595450425145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965554746908500007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3732982451564599505 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -16159,8 +17547,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7094410882845408951}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8250186166319713077}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1982830002786959900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5730827237993222157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7094410882845408951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982830002786959900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &8250186166319713077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982830002786959900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3678692144791206634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -16319,8 +17759,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2229582047048987731}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6125029400736383958}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1999225437005356741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5745815301602381012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2229582047048987731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999225437005356741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6125029400736383958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999225437005356741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3690583979384579635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -16701,8 +18193,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2231240686124972281}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4249437802556756396}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &409181904722049110 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 5885682056471194183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2231240686124972281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409181904722049110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4249437802556756396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409181904722049110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3252881666182447264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -17149,8 +18693,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1261867123127866086}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6258034664618774175}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &544658665528526435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6020349839266026610}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1261867123127866086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544658665528526435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6258034664618774175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544658665528526435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3388464255127568021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -17171,6 +18767,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -18379,8 +19979,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6215281764827091092}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4258423253761170909}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &215944294962475977 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6268061057640571352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6215281764827091092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215944294962475977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4258423253761170909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215944294962475977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &3059644348960639807 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -18683,8 +20335,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4622283903912252907}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3187883478903035195}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &941372187241458464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6418752516889458993}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4622283903912252907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941372187241458464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &3187883478903035195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941372187241458464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &2709292748244227030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -18845,6 +20549,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -19127,8 +20835,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7681696882054758250}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7150075027193077196}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &1086077015110981084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6562049401379522509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7681696882054758250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086077015110981084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7150075027193077196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086077015110981084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &2854084968768744746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -19302,6 +21062,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -19453,6 +21217,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -19883,8 +21651,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7084043957040889100}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7357211910473352443}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &773255959283225548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6825407893414953437}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7084043957040889100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773255959283225548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7357211910473352443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773255959283225548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &2464052083545991994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -20089,8 +21909,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7737839450941376864}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 467606999009702960}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+--- !u!1 &782008235429302550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 6834722863473427207}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7737839450941376864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782008235429302550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &467606999009702960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782008235429302550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!4 &2473455013681670624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
@@ -20111,6 +21983,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -20556,6 +22432,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -20770,6 +22650,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -20917,6 +22801,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -21342,6 +23230,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -21490,6 +23382,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -21559,6 +23455,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -22055,13 +23955,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7086224484681713120}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2423916863063453694}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &1484427634165281777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 7499360963381254422}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4328105973746486023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 7499360963381254422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7086224484681713120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328105973746486023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &2423916863063453694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328105973746486023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &7559427198520567177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22573,13 +24525,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2223754894155090695}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8358491734057504553}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &1549038504898949706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 7635255384962488493}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4464879440864823996 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 7635255384962488493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2223754894155090695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4464879440864823996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &8358491734057504553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4464879440864823996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &7638545368161534442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22733,13 +24737,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5418278065423155361}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 639900344614761601}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &1622965879467017428 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 7642402820557286963}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4471182435977018402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 7642402820557286963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5418278065423155361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4471182435977018402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &639900344614761601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4471182435977018402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &7644686192622308757
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23527,13 +25583,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1672042462209429574}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7843633131129337590}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &1351158796330961757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 7947425925623652794}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4200026279755756459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 7947425925623652794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1672042462209429574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200026279755756459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7843633131129337590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200026279755756459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &7982742076900087477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23685,6 +25793,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -23989,6 +26101,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -24477,13 +26593,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1424593576403180595}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6084609105226639769}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &1082778066755452299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 8326142973464958828}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2850768153558697341 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 8326142973464958828}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1424593576403180595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850768153558697341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6084609105226639769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850768153558697341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &8430781072632403905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24893,13 +27061,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4260453227566175268}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4450661465169011018}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &792132689617409057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 8535608248175853254}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2483456029502270679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 8535608248175853254}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4260453227566175268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2483456029502270679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4450661465169011018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2483456029502270679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &8549462873909548699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25571,13 +27791,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6553077481102745139}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2616754382143410265}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &345749817322456468 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 8666882406262632307}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3190065598839094626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 8666882406262632307}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6553077481102745139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3190065598839094626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &2616754382143410265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3190065598839094626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &8729636833033524015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25824,6 +28096,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -25893,6 +28169,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -26023,13 +28303,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1689393610341113139}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6456230311446259756}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &448786082385850319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 8840780000602604840}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3365124547034044217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 8840780000602604840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1689393610341113139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365124547034044217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &6456230311446259756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365124547034044217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &8928814705610771282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26057,6 +28389,10 @@ PrefabInstance:
     - target: {fileID: 673804678365119991, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 673804678365119991, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 809358858002061908, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -26101,6 +28437,10 @@ PrefabInstance:
     - target: {fileID: 1403088948813835078, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1403088948813835078, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 1428608022030493734, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -26154,6 +28494,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2124817778362888039, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 2154289695395785309, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -26174,6 +28518,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2344400327428446738, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 2357869840356770313, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -26193,6 +28541,10 @@ PrefabInstance:
     - target: {fileID: 2625187020746667268, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625187020746667268, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 2722800492438037635, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26234,6 +28586,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3094977286820544145, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 3157221223415509365, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -26241,6 +28597,10 @@ PrefabInstance:
     - target: {fileID: 3415564150692095649, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3415564150692095649, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 3516627563196828221, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26278,6 +28638,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3793468337711503120, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 4125123082971010697, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -26289,6 +28653,10 @@ PrefabInstance:
     - target: {fileID: 4591551135344315739, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591551135344315739, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 4596128410324186041, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26317,6 +28685,10 @@ PrefabInstance:
     - target: {fileID: 4701334437226153964, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701334437226153964, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 4714735698185818702, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -26374,9 +28746,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5022341703385939318, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5053892051165293962, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053892051165293962, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5140514642477983360, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26402,9 +28782,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5322904075909775547, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5328907558018048444, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5328907558018048444, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5331716243163792352, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26422,6 +28810,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5461747140187947137, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5500073315505527516, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -26429,6 +28821,10 @@ PrefabInstance:
     - target: {fileID: 5635852328247199103, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5635852328247199103, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5738949631418217465, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26446,9 +28842,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5799125769005891278, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 5888760019312475560, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5888760019312475560, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 6063634883865015678, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26465,6 +28869,10 @@ PrefabInstance:
     - target: {fileID: 6259604563483588365, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6259604563483588365, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 6265552577743591480, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26490,9 +28898,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6406486273558934902, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 6416811120225975890, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416811120225975890, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 6629528500052689265, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26542,9 +28958,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7282044080316326676, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 7299181493624756998, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7299181493624756998, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 7327745174619840984, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26557,6 +28981,10 @@ PrefabInstance:
     - target: {fileID: 7328812769404149026, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328812769404149026, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 7668362692128897418, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -26585,6 +29013,10 @@ PrefabInstance:
     - target: {fileID: 7988622383139106398, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988622383139106398, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8048280105156707791, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26662,6 +29094,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8949386745648810402, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 8969813280743984005, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.034169
@@ -26677,6 +29113,10 @@ PrefabInstance:
     - target: {fileID: 9182090139151186402, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182090139151186402, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -27812,8 +30252,92 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5208081595642677738, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       insertIndex: 79
       addedObject: {fileID: 7016584015460761568}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7812466618132425015, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6907608752639457525}
+    - targetCorrespondingSourceObject: {fileID: 7812466618132425015, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2775187186487980883}
   m_SourcePrefab: {fileID: 100100000, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+--- !u!1 &1694181760446210661 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7812466618132425015, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
+  m_PrefabInstance: {fileID: 8928814705610771282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6907608752639457525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694181760446210661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2027223482
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &2775187186487980883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694181760446210661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!4 &3724291301546312376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5208081595642677738, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
@@ -27839,6 +30363,10 @@ PrefabInstance:
     - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 828864176870713982, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 5660265866882725205, guid: 6979361871ed3dc4293f6f802f109f3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -28179,13 +30707,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4094420416808097182}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4980631506245986640}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &21295266151336108 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 8989481651820929611}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2937083134439534682 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 8989481651820929611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4094420416808097182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2937083134439534682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &4980631506245986640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2937083134439534682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &9062864473526384366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28631,13 +31211,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6064538063713855469}
+    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7493326359679861173}
   m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
 --- !u!4 &287515610417721154 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 9185056175113586085}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3131215114582480820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
+  m_PrefabInstance: {fileID: 9185056175113586085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6064538063713855469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131215114582480820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 1
+--- !u!114 &7493326359679861173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131215114582480820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &9197678740180796252
 PrefabInstance:
   m_ObjectHideFlags: 0

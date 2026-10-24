@@ -99,6 +99,9 @@ public class MultiplayerMenuUI : MonoBehaviour
         if (createBackButton) createBackButton.onClick.AddListener(OnCreateBack);
         if (notificationDismissButton) notificationDismissButton.onClick.AddListener(DismissNotification);
 
+        // Register UI Button audio
+        Shootx.Audio.UIButtonAudio.RegisterHierarchy(transform);
+
         // Subscribe to session errors
         if (MultiplayerSessionManager.Instance)
         {
@@ -261,6 +264,8 @@ public class MultiplayerMenuUI : MonoBehaviour
     {
         if (notificationPanel == null) return;
 
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ActionFailed);
+
         _notifSeq?.Kill();
         if (notificationText) notificationText.text = message;
 
@@ -354,6 +359,7 @@ public class MultiplayerMenuUI : MonoBehaviour
     private void OnBack()
     {
         AnimatePress(backButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ButtonBack);
 
         // Clean up persistent objects before leaving multiplayer flow
         if (MultiplayerSessionManager.Instance)
@@ -375,6 +381,7 @@ public class MultiplayerMenuUI : MonoBehaviour
     private void OnBrowserBack()
     {
         AnimatePress(browserBackButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ButtonBack);
         HidePanel(browserPanel, browserPanelRect, ShowMainMenu);
     }
 
@@ -486,6 +493,7 @@ public class MultiplayerMenuUI : MonoBehaviour
     private void OnJoinCodeBack()
     {
         AnimatePress(joinCodeBackButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ButtonBack);
         HidePanel(joinCodePanel, joinCodePanelRect, ShowMainMenu);
     }
 
@@ -522,6 +530,7 @@ public class MultiplayerMenuUI : MonoBehaviour
     private void OnCreateBack()
     {
         AnimatePress(createBackButton);
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.UI_ButtonBack);
         HidePanel(createPanel, createPanelRect, ShowMainMenu);
     }
 

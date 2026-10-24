@@ -143,11 +143,18 @@ public class PlayerMelee : NetworkBehaviour
             return;
         lastServerMeleeTime = Time.time;
 
-        // Find all colliders in range
+        // Find all colliders in range (ensure Box layer is included)
+        int boxLayer = LayerMask.NameToLayer("Box");
+        LayerMask combinedMask = meleeData.hitLayers;
+        if (boxLayer != -1)
+        {
+            combinedMask |= (1 << boxLayer);
+        }
+
         Collider[] hits = Physics.OverlapSphere(
             attackerPosition,
             meleeData.attackRange,
-            meleeData.hitLayers
+            combinedMask
         );
 
         bool landedHit = false;
@@ -170,7 +177,15 @@ public class PlayerMelee : NetworkBehaviour
             INetworkDamageable damageable = col.GetComponentInParent<INetworkDamageable>();
             if (damageable == null) continue;
             Debug.Log($"Melee hit {col.name} for {meleeData.damage} damage.");
-            damageable.TakeDamage(meleeData.damage, OwnerClientId);
+
+            if (damageable is DestructibleBox destructibleBox)
+            {
+                destructibleBox.TakeDamageWithHitInfo(meleeData.damage, OwnerClientId, col.bounds.center, attackerForward);
+            }
+            else
+            {
+                damageable.TakeDamage(meleeData.damage, OwnerClientId);
+            }
 
             if (!landedHit)
             {
@@ -197,9 +212,12 @@ public class PlayerMelee : NetworkBehaviour
         Vector3 hitPoint,
         bool landedHit)
     {
-        // Non-owners see the slash VFX here (owner already played it locally)
+        // Non-owners see the slash VFX and swing animation here (owner already played it locally)
         if (!IsOwner)
         {
+            GetComponent<PlayerAnimationController>()?.TriggerRemoteMelee();
+            GetComponent<Shootx.Audio.PlayerAudioController>()?.PlayMeleeSwingAudio(isLocalOwner: false);
+
             if (meleeData.localSlashVfxPrefab != null)
             {
                 Quaternion rot = attackerForward != Vector3.zero

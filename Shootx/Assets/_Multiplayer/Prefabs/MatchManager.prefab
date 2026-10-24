@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3847291054
+  GlobalObjectIdHash: 3973207767
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -72,13 +72,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976d2e8d40095e4d908bf259c106cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchManager
+  ShowTopMostFoldoutHeaderGroup: 1
   config: {fileID: 11400000, guid: 57fa120281b34335804369a8385e00b1, type: 2}
   mapPrefabs:
-  - {fileID: 4392466251947367619, guid: 6eb05fb7f2d70e445b203901fae54384, type: 3}
-  - {fileID: 7113255260047443, guid: 3c83ff1afb208f149bf21d5e2b3f7a2a, type: 3}
-  - {fileID: 7113255260047443, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
-  - {fileID: 7113255260047443, guid: e2d80f440ee76644caee07a26962c26c, type: 3}
+  - {fileID: 1790333312747682846, guid: 6eb05fb7f2d70e445b203901fae54384, type: 3}
+  - {fileID: 1982546034243866811, guid: 3c83ff1afb208f149bf21d5e2b3f7a2a, type: 3}
+  - {fileID: 1694181760446210661, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
+  - {fileID: 1694181760446210661, guid: e2d80f440ee76644caee07a26962c26c, type: 3}
   spawnObstacleMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
   spawnCheckRadius: 0.5

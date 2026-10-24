@@ -30,6 +30,7 @@ public class MultiplayerNetworkRoot : MonoBehaviour
         if (nm != null && nm.NetworkConfig != null)
         {
             nm.NetworkConfig.ConnectionApproval = true;
+            nm.NetworkConfig.ForceSamePrefabs = false;
         }
 
         Debug.Log("[MPNetRoot] Initialized and set to persist.");

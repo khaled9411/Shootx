@@ -259,17 +259,21 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
             LockControllerClientRpc();
         }
 
+        // Fire death events on server directly
+        OnDeath?.Invoke(killerClientId);
+
         // Notify all clients
         NotifyDeathClientRpc(killerClientId);
 
-        // Delegate respawn to MatchManager
-        // If MatchManager is present, it handles respawn lifecycle.
-        // Fall back to the local coroutine only if no MatchManager.
-        if (MatchManager.Instance == null || !MatchManager.Instance.IsSpawned)
+        // Delegate respawn directly to MatchManager on server
+        if (MatchManager.Instance != null && MatchManager.Instance.IsSpawned)
+        {
+            MatchManager.Instance.ReportPlayerDeath(OwnerClientId, killerClientId);
+        }
+        else
         {
             StartCoroutine(LegacyRespawnCoroutine());
         }
-        // MatchManager subscribes to OnDeath and schedules respawn itself
     }
 
     /// <summary>
@@ -282,6 +286,7 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         isDead.Value = false;
         invulnerabilityEndTime = float.MinValue;
         lastDamageTime = float.MinValue;
+        GetComponent<PlayerController>()?.SetInputLocked(false);
         NotifyRespawnClientRpc();
     }
 

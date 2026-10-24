@@ -49,6 +49,7 @@ public class MultiplayerSpawnManager : MonoBehaviour
             return;
         }
         Instance = this;
+        _spawnedClientIds.Clear();
     }
 
     private void OnDestroy()
@@ -58,6 +59,7 @@ public class MultiplayerSpawnManager : MonoBehaviour
             Instance = null;
         }
 
+        _spawnedClientIds.Clear();
         UnsubscribeNetworkEvents();
     }
 
@@ -182,6 +184,27 @@ public class MultiplayerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Despawns and destroys all active player avatars across all connected clients.
+    /// Called when returning to lobby so character avatars do not persist outside matches.
+    /// </summary>
+    public void DespawnAllPlayers()
+    {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
+
+        _spawnedClientIds.Clear();
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject != null && client.PlayerObject.IsSpawned)
+            {
+                client.PlayerObject.Despawn(true);
+            }
+        }
+
+        Debug.Log("[MPSpawn] Despawned all player objects for lobby transition.");
+    }
+
+    /// <summary>
     /// Spawns a player avatar for a specific client if not already spawned.
     /// </summary>
     public void SpawnPlayerForClient(ulong clientId)
@@ -195,17 +218,34 @@ public class MultiplayerSpawnManager : MonoBehaviour
             return;
         }
 
-        // Check if player object already exists
-        if (client.PlayerObject != null)
+        // Check if player object is already properly spawned in this match session
+        if (_spawnedClientIds.Contains(clientId) && client.PlayerObject != null)
         {
-            Debug.Log($"[MPSpawn] Client {clientId} already has PlayerObject ({client.PlayerObject.name}).");
-            _spawnedClientIds.Add(clientId);
             return;
         }
 
-        if (_spawnedClientIds.Contains(clientId))
+        // If client already has a valid PlayerObject in the current scene, mark as spawned and keep it
+        if (client.PlayerObject != null)
         {
-            return;
+            string playerSceneName = client.PlayerObject.gameObject.scene.name;
+            string activeSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+            if (playerSceneName == MultiplayerSessionManager.GameplaySceneName || playerSceneName == activeSceneName)
+            {
+                _spawnedClientIds.Add(clientId);
+                return;
+            }
+
+            // Only despawn if it is truly a lingering object from a previous scene
+            Debug.LogWarning($"[MPSpawn] Client {clientId} had lingering PlayerObject from scene '{playerSceneName}' (Current: '{activeSceneName}'). Despawning...");
+            if (client.PlayerObject.IsSpawned)
+            {
+                client.PlayerObject.Despawn(true);
+            }
+            else
+            {
+                Destroy(client.PlayerObject.gameObject);
+            }
         }
 
         // Determine spawn transform

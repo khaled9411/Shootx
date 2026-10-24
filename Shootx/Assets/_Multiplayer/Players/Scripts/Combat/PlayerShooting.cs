@@ -28,6 +28,15 @@ public class PlayerShooting : NetworkBehaviour
     [Tooltip("Transform at the weapon muzzle where the hitscan trace begins. Assign in Inspector.")]
     [SerializeField] private Transform muzzlePoint;
 
+    /// <summary>
+    /// Updates the active muzzle point when a new character visual or weapon is attached.
+    /// </summary>
+    public void SetMuzzlePoint(Transform point)
+    {
+        muzzlePoint = point;
+        playerAudioController?.SetMuzzleTransform(point);
+    }
+
     [Header("Camera & Aim Reference")]
     [SerializeField] private LayerMask groundLayer = 513;
 
@@ -141,12 +150,16 @@ public class PlayerShooting : NetworkBehaviour
     private Vector3 currentAimWorldPoint;
     private PlayerHealth playerHealth;
     private PlayerDash playerDash;
+    private PlayerAnimationController animationController;
+    private Shootx.Audio.PlayerAudioController playerAudioController;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         playerHealth = GetComponent<PlayerHealth>();
         playerDash = GetComponent<PlayerDash>();
+        animationController = GetComponent<PlayerAnimationController>();
+        playerAudioController = GetComponent<Shootx.Audio.PlayerAudioController>();
         ApplyWeaponDataDefaults();
     }
 
@@ -346,7 +359,11 @@ public class PlayerShooting : NetworkBehaviour
         if (Time.time - lastLocalFireTime < FireCooldown) return;
 
         // Local ammo prediction check
-        if (TotalAmmo <= 0) return;
+        if (TotalAmmo <= 0)
+        {
+            playerAudioController?.PlayDryFireAudio();
+            return;
+        }
 
         lastLocalFireTime = Time.time;
 
@@ -356,8 +373,10 @@ public class PlayerShooting : NetworkBehaviour
         if (fireDirection.sqrMagnitude < 0.001f) fireDirection = transform.forward;
         fireDirection.Normalize();
 
-        // Local-only instant muzzle flash
+        // Local-only instant muzzle flash, predicted shoot animation, and gunshot sound
         SpawnMuzzleFlash(spawnPos, fireDirection);
+        animationController?.TriggerLocalShoot();
+        playerAudioController?.PlayGunshotAudio(isLocalOwner: true);
 
         // Optional local-only predicted laser visual
         if (predictLaserLocally)
@@ -384,7 +403,11 @@ public class PlayerShooting : NetworkBehaviour
         if (MatchManager.Instance != null && MatchManager.Instance.CurrentState != MatchState.Active)
             return false;
         if (Time.time - lastLocalFireTime < FireCooldown) return false;
-        if (TotalAmmo <= 0) return false;
+        if (TotalAmmo <= 0)
+        {
+            playerAudioController?.PlayDryFireAudio();
+            return false;
+        }
 
         lastLocalFireTime = Time.time;
         HideAimPreview(true);
@@ -395,6 +418,8 @@ public class PlayerShooting : NetworkBehaviour
         aimDirection.Normalize();
 
         SpawnMuzzleFlash(spawnPos, aimDirection);
+        animationController?.TriggerLocalShoot();
+        playerAudioController?.PlayGunshotAudio(isLocalOwner: true);
 
         if (predictLaserLocally)
         {
@@ -535,7 +560,11 @@ public class PlayerShooting : NetworkBehaviour
         bool wasRefunded = false;
         List<Vector3> trajectory = CalculateTrajectory(spawnPos, fireDirection, out hitEnemyPlayer, out wasRefunded, firedType);
 
-        // 6. Notify the SHOOTER CLIENT ONLY about the result and confirmed laser trajectory
+        // 6. Broadcast confirmed shoot animation to remote clients
+        if (animationController == null) animationController = GetComponent<PlayerAnimationController>();
+        animationController?.PlayShootClientRpc();
+
+        // 7. Notify the SHOOTER CLIENT ONLY about the result and confirmed laser trajectory
         // Other clients NEVER see this player's laser visual!
         RenderConfirmedLaserClientRpc(trajectory.ToArray(), hitEnemyPlayer, wasRefunded);
     }
@@ -611,7 +640,14 @@ public class PlayerShooting : NetworkBehaviour
                     if (serverFiredType.HasValue && IsServer)
                     {
                         float damage = CalculateDistanceDamage(cumulativeDistance);
-                        damageable.TakeDamage(damage, OwnerClientId);
+                        if (damageable is DestructibleBox destructibleBox)
+                        {
+                            destructibleBox.TakeDamageWithHitInfo(damage, OwnerClientId, hit.point, currentDir);
+                        }
+                        else
+                        {
+                            damageable.TakeDamage(damage, OwnerClientId);
+                        }
                     }
 
                     // Stop ray immediately: do not penetrate or bounce off destructibles
@@ -685,6 +721,22 @@ public class PlayerShooting : NetworkBehaviour
         {
             OnBasicAmmoRefunded?.Invoke();
         }
+
+        // Play confirmed ricochet / wall impacts for shooter
+        if (trajectoryPoints != null && trajectoryPoints.Length > 1)
+        {
+            for (int i = 1; i < trajectoryPoints.Length; i++)
+            {
+                if (i < trajectoryPoints.Length - 1)
+                {
+                    Shootx.Audio.AudioManager.Instance?.PlaySound3D(Shootx.Audio.SoundId.Impact_Ricochet, trajectoryPoints[i]);
+                }
+                else if (!hitEnemy)
+                {
+                    Shootx.Audio.AudioManager.Instance?.PlaySound3D(Shootx.Audio.SoundId.Impact_Wall, trajectoryPoints[i]);
+                }
+            }
+        }
     }
 
     private void RenderLocalLaser(IReadOnlyList<Vector3> points)
@@ -748,6 +800,7 @@ public class PlayerShooting : NetworkBehaviour
     private void NotifyAmmoPickupCollectedClientRpc()
     {
         if (!IsOwner) return;
+        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Pickup_Ammo_Local);
         OnAmmoPickupCollected?.Invoke();
     }
 

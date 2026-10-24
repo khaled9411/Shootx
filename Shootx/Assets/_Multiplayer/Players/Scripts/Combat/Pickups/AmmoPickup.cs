@@ -113,6 +113,8 @@ public class AmmoPickup : NetworkBehaviour
     [ClientRpc]
     private void PlayCollectionFeedbackClientRpc(Vector3 position)
     {
+        Shootx.Audio.AudioManager.Instance?.PlaySound3D(Shootx.Audio.SoundId.Pickup_Ammo_World, position);
+
         if (collectionVfxPrefab != null)
         {
             GameObject vfx = Instantiate(collectionVfxPrefab, position, Quaternion.identity);

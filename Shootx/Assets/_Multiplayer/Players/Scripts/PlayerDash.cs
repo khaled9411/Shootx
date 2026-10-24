@@ -311,6 +311,7 @@ public class PlayerDash : NetworkBehaviour
     /// </summary>
     public void OnDashObstacleEncountered()
     {
+        GetComponent<Shootx.Audio.PlayerAudioController>()?.PlayDashImpactAudio(transform.position);
         EndDashMovement();
     }
 
@@ -401,6 +402,7 @@ public class PlayerDash : NetworkBehaviour
         if (IsOwner) return; // Owner already played zero-latency local visuals
 
         PlayRemoteDashVisual();
+        GetComponent<Shootx.Audio.PlayerAudioController>()?.PlayDashWhooshAudio(isLocalOwner: false);
     }
 
     private void PlayRemoteDashVisual()
