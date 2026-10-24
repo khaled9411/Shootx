@@ -45,6 +45,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
     [SerializeField] private float punchScaleAmount = 0.15f;
 
     // ─── Internal References ────────────────────────────────────
+    private Canvas _worldCanvas;
     private PlayerHealth _playerHealth;
     private PlayerShooting _playerShooting;
     private PlayerIdentity _playerIdentity;
@@ -55,6 +56,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
     private void Awake()
     {
+        _worldCanvas = GetComponent<Canvas>();
         _mainCamera = Camera.main;
         _followTarget = transform.parent;
 
@@ -206,6 +208,15 @@ public class PlayerWorldStatusUI : MonoBehaviour
         {
             UpdateNameDisplay(_playerIdentity.PlayerName);
         }
+
+        if (_playerHealth != null && _playerHealth.IsDead)
+        {
+            SetStatusUIVisible(false);
+        }
+        else
+        {
+            SetStatusUIVisible(true);
+        }
     }
 
     private void InitializeComponents()
@@ -264,6 +275,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_worldCanvas != null && !_worldCanvas.enabled) return;
         if (_followTarget == null) return;
 
         // Position strictly below player root
@@ -395,11 +407,14 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
     private void HandleDeath(ulong killerId)
     {
-        UpdateHealthDisplay(0f, 3f, animate: true);
+        UpdateHealthDisplay(0f, 3f, animate: false);
+        SetStatusUIVisible(false);
     }
 
     private void HandleRespawn()
     {
+        SetStatusUIVisible(true);
+
         if (_playerHealth != null)
         {
             UpdateHealthDisplay(_playerHealth.MaxHealth, _playerHealth.MaxHealth, animate: false);
@@ -408,6 +423,18 @@ public class PlayerWorldStatusUI : MonoBehaviour
         if (_playerShooting != null)
         {
             UpdateAmmoDisplay(_playerShooting.BasicAmmo, _playerShooting.ExtraAmmo, animate: false);
+        }
+    }
+
+    /// <summary>
+    /// Sets world-space status canvas active or inactive (hidden while dead).
+    /// </summary>
+    public void SetStatusUIVisible(bool visible)
+    {
+        if (_worldCanvas == null) _worldCanvas = GetComponent<Canvas>();
+        if (_worldCanvas != null)
+        {
+            _worldCanvas.enabled = visible;
         }
     }
 

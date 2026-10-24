@@ -1170,24 +1170,49 @@ public class MatchManager : NetworkBehaviour
     [ClientRpc]
     private void NotifyRespawnClientRpc(ulong clientId, Vector3 spawnPos, Quaternion spawnRot)
     {
-        // Unlock local player if this is for us
-        if (NetworkManager.Singleton.LocalClientId == clientId)
+        GameObject targetPlayerGo = null;
+
+        if (NetworkManager.Singleton != null)
         {
-            var localPlayer = NetworkManager.Singleton.LocalClient?.PlayerObject;
-            if (localPlayer != null)
+            if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client) && client.PlayerObject != null)
             {
-                var cc = localPlayer.GetComponent<CharacterController>();
-                if (cc != null) cc.enabled = false;
-                localPlayer.transform.position = spawnPos;
-                localPlayer.transform.rotation = spawnRot;
-                if (cc != null) cc.enabled = true;
-
-                localPlayer.GetComponent<PlayerController>()?.OnRespawned();
-                localPlayer.GetComponent<PlayerController>()?.SetInputLocked(false);
+                targetPlayerGo = client.PlayerObject.gameObject;
             }
+            else if (NetworkManager.Singleton.SpawnManager != null)
+            {
+                foreach (var no in NetworkManager.Singleton.SpawnManager.SpawnedObjectsList)
+                {
+                    if (no != null && no.IsPlayerObject && no.OwnerClientId == clientId)
+                    {
+                        targetPlayerGo = no.gameObject;
+                        break;
+                    }
+                }
+            }
+        }
 
-            // Notify respawn to shooting/visual systems
-            localPlayer?.GetComponent<PlayerHealth>()?.NotifyRespawnClient();
+        if (targetPlayerGo != null)
+        {
+            var cc = targetPlayerGo.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+            targetPlayerGo.transform.position = spawnPos;
+            targetPlayerGo.transform.rotation = spawnRot;
+            if (cc != null) cc.enabled = true;
+
+            // Ensure visuals and world status are visible on ALL client screens
+            targetPlayerGo.GetComponent<PlayerVisualManager>()?.SetVisualsActive(true);
+            targetPlayerGo.GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(true);
+        }
+
+        // Unlock local player if this is for us
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            if (targetPlayerGo != null)
+            {
+                targetPlayerGo.GetComponent<PlayerController>()?.OnRespawned();
+                targetPlayerGo.GetComponent<PlayerController>()?.SetInputLocked(false);
+                targetPlayerGo.GetComponent<PlayerHealth>()?.NotifyRespawnClient();
+            }
 
             MatchHUD.Instance?.OnLocalPlayerRespawned();
         }

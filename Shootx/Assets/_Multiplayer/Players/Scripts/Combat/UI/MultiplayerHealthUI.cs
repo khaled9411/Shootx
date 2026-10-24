@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -52,6 +53,8 @@ public class MultiplayerHealthUI : MonoBehaviour
     private PlayerHealth playerHealth;
     private Tween _sliderTween;
     private Tween _flashTween;
+    private Tween _timerPunchTween;
+    private Coroutine _respawnCountdownCoroutine;
     private readonly Tween[] _segmentTweens = new Tween[3];
 
     public void Initialize(PlayerHealth health)
@@ -177,16 +180,92 @@ public class MultiplayerHealthUI : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (_respawnCountdownCoroutine != null)
+        {
+            StopCoroutine(_respawnCountdownCoroutine);
+            _respawnCountdownCoroutine = null;
+        }
+        KillAllTweens();
+    }
+
     private void HandleDeath(ulong killerClientId)
     {
         if (deathOverlay != null)
         {
             deathOverlay.SetActive(true);
         }
+
+        float delay = playerHealth != null ? playerHealth.RespawnDelay : 3f;
+        if (delay <= 0.1f) delay = 3f;
+
+        if (_respawnCountdownCoroutine != null)
+        {
+            StopCoroutine(_respawnCountdownCoroutine);
+        }
+        _respawnCountdownCoroutine = StartCoroutine(RespawnCountdownRoutine(delay));
+    }
+
+    private IEnumerator RespawnCountdownRoutine(float duration)
+    {
+        float remaining = duration;
+        int lastDisplayedSecond = -1;
+
+        while (remaining > 0f)
+        {
+            int displaySecond = Mathf.CeilToInt(remaining);
+            if (displaySecond <= 0) displaySecond = 1;
+
+            if (displaySecond != lastDisplayedSecond)
+            {
+                lastDisplayedSecond = displaySecond;
+                if (respawnTimerText != null)
+                {
+                    respawnTimerText.text = displaySecond.ToString();
+
+                    _timerPunchTween?.Kill();
+                    respawnTimerText.transform.localScale = Vector3.one;
+                    _timerPunchTween = respawnTimerText.transform
+                        .DOPunchScale(Vector3.one * 0.35f, 0.4f, 6, 0.5f)
+                        .SetEase(Ease.OutQuart);
+
+                    if (displaySecond > 1)
+                    {
+                        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Match_CountdownTick, 0.9f);
+                    }
+                    else
+                    {
+                        Shootx.Audio.AudioManager.Instance?.PlaySound2D(Shootx.Audio.SoundId.Match_CountdownFinal, 1.0f);
+                    }
+                }
+            }
+
+            yield return null;
+            remaining -= Time.deltaTime;
+        }
+
+        if (respawnTimerText != null)
+        {
+            respawnTimerText.text = "1";
+        }
     }
 
     private void HandleRespawn()
     {
+        if (_respawnCountdownCoroutine != null)
+        {
+            StopCoroutine(_respawnCountdownCoroutine);
+            _respawnCountdownCoroutine = null;
+        }
+
+        _timerPunchTween?.Kill();
+
+        if (respawnTimerText != null)
+        {
+            respawnTimerText.transform.localScale = Vector3.one;
+        }
+
         if (deathOverlay != null)
         {
             deathOverlay.SetActive(false);
@@ -221,6 +300,13 @@ public class MultiplayerHealthUI : MonoBehaviour
     {
         if (_sliderTween != null && _sliderTween.IsActive()) _sliderTween.Kill();
         if (_flashTween != null && _flashTween.IsActive()) _flashTween.Kill();
+        _timerPunchTween?.Kill();
+
+        if (_respawnCountdownCoroutine != null)
+        {
+            StopCoroutine(_respawnCountdownCoroutine);
+            _respawnCountdownCoroutine = null;
+        }
 
         for (int i = 0; i < _segmentTweens.Length; i++)
         {

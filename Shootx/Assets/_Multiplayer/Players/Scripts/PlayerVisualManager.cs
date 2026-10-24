@@ -136,15 +136,21 @@ public class PlayerVisualManager : NetworkBehaviour
             selectedCharacterIndex.Value = assignedIndex;
         }
 
-        // Apply immediately if already set (e.g. late-joining clients or server local init)
-        if (selectedCharacterIndex.Value >= 0)
-        {
-            ApplyCharacterVisual(selectedCharacterIndex.Value);
-        }
 
         if (playerHealth != null)
         {
+            playerHealth.OnDeath += HandleDeath;
             playerHealth.OnRespawn += HandleRespawn;
+        }
+
+        // Apply immediately if already set (e.g. late-joining clients or server local init)
+        if (playerHealth != null && playerHealth.IsDead)
+        {
+            SetVisualsActive(false);
+        }
+        else if (selectedCharacterIndex.Value >= 0)
+        {
+            ApplyCharacterVisual(selectedCharacterIndex.Value);
         }
     }
 
@@ -154,6 +160,7 @@ public class PlayerVisualManager : NetworkBehaviour
 
         if (playerHealth != null)
         {
+            playerHealth.OnDeath -= HandleDeath;
             playerHealth.OnRespawn -= HandleRespawn;
         }
 
@@ -162,18 +169,66 @@ public class PlayerVisualManager : NetworkBehaviour
 
     private void HandleCharacterIndexChanged(int previousIndex, int newIndex)
     {
+        if (playerHealth != null && playerHealth.IsDead)
+        {
+            return;
+        }
+
         if (newIndex >= 0)
         {
             ApplyCharacterVisual(newIndex);
         }
     }
 
+    private void HandleDeath(ulong killerClientId)
+    {
+        SetVisualsActive(false);
+    }
+
     private void HandleRespawn()
     {
-        // On respawn, revalidate that the active character visual and weapon attachment remain intact
-        if (selectedCharacterIndex.Value >= 0)
+        SetVisualsActive(true);
+    }
+
+    /// <summary>
+    /// Shows or hides the active character model and weapon (e.g. during death / respawn).
+    /// </summary>
+    public void SetVisualsActive(bool active)
+    {
+        if (!active)
         {
-            ApplyCharacterVisual(selectedCharacterIndex.Value);
+            if (characterConfigs != null)
+            {
+                for (int i = 0; i < characterConfigs.Length; i++)
+                {
+                    if (characterConfigs[i] != null)
+                    {
+                        if (characterConfigs[i].visualRoot != null)
+                        {
+                            characterConfigs[i].visualRoot.SetActive(false);
+                        }
+                        if (characterConfigs[i].animator != null)
+                        {
+                            characterConfigs[i].animator.enabled = false;
+                        }
+                    }
+                }
+            }
+
+            if (weaponRoot != null)
+            {
+                weaponRoot.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            int index = selectedCharacterIndex.Value >= 0 ? selectedCharacterIndex.Value : 0;
+            ApplyCharacterVisual(index);
+
+            if (weaponRoot != null)
+            {
+                weaponRoot.gameObject.SetActive(true);
+            }
         }
     }
 

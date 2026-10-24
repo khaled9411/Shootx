@@ -87,6 +87,9 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     /// <summary>Read max health (units) from the data asset.</summary>
     public float MaxHealth => healthData != null ? healthData.maxHealth : 3f;
 
+    /// <summary>Respawn delay in seconds.</summary>
+    public float RespawnDelay => healthData != null ? healthData.respawnDelay : 3f;
+
     /// <summary>Backward-compatibility integer health.</summary>
     public int CurrentHealthInt => Mathf.RoundToInt(currentHealth.Value);
     public int MaxHealthInt => healthData != null ? healthData.maxHealthInt : 3;
@@ -248,6 +251,14 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         if (isDead.Value) return;
         isDead.Value = true;
 
+        // Disable collision immediately so dead body doesn't block players or projectiles
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        // Hide visuals and status UI immediately on server
+        GetComponent<PlayerVisualManager>()?.SetVisualsActive(false);
+        GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(false);
+
         // Lock local player input immediately
         if (IsOwner)
         {
@@ -286,6 +297,12 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         isDead.Value = false;
         invulnerabilityEndTime = float.MinValue;
         lastDamageTime = float.MinValue;
+
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = true;
+
+        GetComponent<PlayerVisualManager>()?.SetVisualsActive(true);
+        GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(true);
         GetComponent<PlayerController>()?.SetInputLocked(false);
         NotifyRespawnClientRpc();
     }
@@ -296,6 +313,12 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     /// </summary>
     public void NotifyRespawnClient()
     {
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = true;
+
+        GetComponent<PlayerVisualManager>()?.SetVisualsActive(true);
+        GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(true);
+
         OnRespawn?.Invoke();
     }
 
@@ -358,12 +381,25 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     [ClientRpc]
     private void NotifyDeathClientRpc(ulong killerClientId)
     {
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        GetComponent<PlayerVisualManager>()?.SetVisualsActive(false);
+        GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(false);
+
+        if (IsServer) return; // Server already invoked OnDeath locally
         OnDeath?.Invoke(killerClientId);
     }
 
     [ClientRpc]
     private void NotifyRespawnClientRpc()
     {
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = true;
+
+        GetComponent<PlayerVisualManager>()?.SetVisualsActive(true);
+        GetComponent<PlayerWorldStatusUI>()?.SetStatusUIVisible(true);
+
         OnRespawn?.Invoke();
     }
 }

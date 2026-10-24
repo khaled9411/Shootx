@@ -533,11 +533,23 @@ public class PlayerAnimationController : NetworkBehaviour
         currentUpperState = UpperBodyState.Inactive;
         targetUpperWeight = 0f;
         currentUpperWeight = 0f;
+        shootStartTime = -1f;
+        meleeStartTime = -1f;
+        isCurrentlyMoving = false;
+        currentMoveX = 0f;
+        currentMoveZ = 0f;
+
+        if (IsOwner)
+        {
+            isAimingNetwork.Value = false;
+        }
 
         if (activeAnimator != null && activeAnimator.enabled)
         {
             activeAnimator.SetLayerWeight(upperLayerIndex, 0f);
             activeAnimator.Play(upperEmptyHash, upperLayerIndex, 0f);
+            activeAnimator.SetFloat(moveXParamHash, 0f);
+            activeAnimator.SetFloat(moveZParamHash, 0f);
         }
     }
 

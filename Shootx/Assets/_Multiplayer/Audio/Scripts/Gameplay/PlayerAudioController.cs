@@ -301,12 +301,18 @@ namespace Shootx.Audio
             }
         }
 
+        private float _lastRespawnSoundTime = -1f;
+
         private void HandleRespawn()
         {
             _accumulatedStepDistance = 0f;
             _lastTrackedPosition = transform.position;
 
-            AudioManager.Instance?.PlaySound3D(SoundId.Player_Respawn, transform.position, volumeMultiplier: 1.0f);
+            if (Time.time - _lastRespawnSoundTime > 0.5f)
+            {
+                _lastRespawnSoundTime = Time.time;
+                AudioManager.Instance?.PlaySound3D(SoundId.Player_Respawn, transform.position, volumeMultiplier: 1.0f);
+            }
         }
 
         public void PlaySpawnProtectionStarted()
