@@ -21,7 +21,6 @@ namespace Shootx.Store
                     {
                         var go = new GameObject("StorePreviewManager");
                         _instance = go.AddComponent<StorePreviewManager>();
-                        DontDestroyOnLoad(go);
                     }
                 }
                 return _instance;
@@ -52,7 +51,6 @@ namespace Shootx.Store
                 return;
             }
             _instance = this;
-            DontDestroyOnLoad(gameObject);
 
             InitializeStage();
         }
