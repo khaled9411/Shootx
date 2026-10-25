@@ -222,7 +222,6 @@ public class PlayerController : NetworkBehaviour
 
     private void ProcessRotation()
     {
-        // 1. Mobile touch aiming takes precedence when active
         if (inputReader != null && inputReader.IsMobileAiming && latestMobileAimDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(latestMobileAimDir);
@@ -230,7 +229,14 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        // 2. Desktop mouse aiming via ground plane raycast
+        if (CurrentMoveDirection.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(CurrentMoveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            return;
+        }
+
+#if UNITY_EDITOR || UNITY_STANDALONE
         if (mainCamera == null) mainCamera = Camera.main;
         if (mainCamera == null) return;
 
@@ -247,5 +253,6 @@ public class PlayerController : NetworkBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
+#endif
     }
 }
