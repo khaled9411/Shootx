@@ -999,7 +999,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 9.72
+  m_PixelsPerUnitMultiplier: 1.05
 --- !u!222 &1348845936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2475,10 +2475,10 @@ MonoBehaviour:
   matchManagerPrefab: {fileID: 30000000, guid: 8b74621908ef483b8a129487563d08e1, type: 3}
   matchConfig: {fileID: 11400000, guid: 57fa120281b34335804369a8385e00b1, type: 2}
   mapPrefabs:
-  - {fileID: 1790333312747682846, guid: 6eb05fb7f2d70e445b203901fae54384, type: 3}
-  - {fileID: 1982546034243866811, guid: 3c83ff1afb208f149bf21d5e2b3f7a2a, type: 3}
   - {fileID: 1694181760446210661, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
-  - {fileID: 1694181760446210661, guid: e2d80f440ee76644caee07a26962c26c, type: 3}
+  - {fileID: 1694181760446210661, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
+  - {fileID: 1694181760446210661, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
+  - {fileID: 1694181760446210661, guid: 5e2f9932f79b23943ac447105ce37404, type: 3}
   spawnObstacleMask:
     serializedVersion: 2
     m_Bits: 512
