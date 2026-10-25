@@ -851,20 +851,25 @@ MonoBehaviour:
   - title: Main Menu Theme
     trackId: 1
     clip: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
-    volume: 0.2
+    volume: 0.75
     loop: 1
   - title: Multiplayer Lobby Theme
     trackId: 2
     clip: {fileID: 8300000, guid: 6483d6cea870f1f4e8c7629b6a4ea0fd, type: 3}
-    volume: 0.2
+    volume: 0.75
     loop: 1
   - title: Gameplay Arena Ambience
-    trackId: 3
+    trackId: 0
     clip: {fileID: 8300000, guid: 592def5be8ed2de4697eb274c98e787c, type: 3}
-    volume: 0.3
+    volume: 0.7
     loop: 1
   - title: Match Results Theme
     trackId: 4
     clip: {fileID: 8300000, guid: 12a4e25fbe505b049a5938082125a3d6, type: 3}
-    volume: 0.2
+    volume: 0.8
+    loop: 1
+  - title: Gameplay Arena Ambience
+    trackId: 3
+    clip: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
+    volume: 0.7
     loop: 1

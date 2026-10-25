@@ -9,10 +9,14 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     [Header("Health Configuration")]
     [SerializeField] private HealthData healthData;
 
-    [Header("Damage Flash Settings (UI)")]
+    [Header("Damage Flash Settings (Local UI)")]
     [SerializeField] private string damageFlashObjectName = "DamageFlash";
     [SerializeField] private float flashDuration = 0.2f;
     [SerializeField] private Color flashColor = new Color(1f, 0f, 0f, 0.4f);
+
+    [Header("World Visual Effects (All Clients)")]
+    [SerializeField] private GameObject bloodEffectPrefab;
+    [SerializeField] private Transform bloodSpawnPoint;
 
     private NetworkVariable<float> currentHealth = new NetworkVariable<float>(
         3f,
@@ -44,7 +48,6 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     public int CurrentHealthInt => Mathf.RoundToInt(currentHealth.Value);
     public int MaxHealthInt => healthData != null ? healthData.maxHealthInt : 3;
     public bool IsDead => isDead.Value || currentHealth.Value <= 0.001f;
-
 
     public override void OnNetworkSpawn()
     {
@@ -292,6 +295,8 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
             flashCoroutine = StartCoroutine(DamageFlashRoutine());
         }
+
+        SpawnBloodEffect();
     }
 
     [ClientRpc]
@@ -326,7 +331,7 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
     }
 
     // ═══════════════════════════════════════════════════════════
-    // UI Effects
+    // UI Effects & Visuals
     // ═══════════════════════════════════════════════════════════
 
     private IEnumerator DamageFlashRoutine()
@@ -344,5 +349,16 @@ public class PlayerHealth : NetworkBehaviour, INetworkDamageable
         }
 
         damageFlashImage.color = new Color(flashColor.r, flashColor.g, flashColor.b, 0f);
+    }
+
+    private void SpawnBloodEffect()
+    {
+        if (bloodEffectPrefab == null) return;
+
+        Vector3 spawnPos = bloodSpawnPoint != null ? bloodSpawnPoint.position : transform.position + Vector3.up * 1f;
+
+        GameObject bloodInstance = Instantiate(bloodEffectPrefab, spawnPos, Quaternion.identity);
+
+        Destroy(bloodInstance, 2f);
     }
 }

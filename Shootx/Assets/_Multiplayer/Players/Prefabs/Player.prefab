@@ -267,6 +267,7 @@ Transform:
   - {fileID: 8468791079355347718}
   - {fileID: 55000002}
   - {fileID: 5150414930821867839}
+  - {fileID: 1402149315741894720}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1362937543798299257
@@ -475,6 +476,8 @@ MonoBehaviour:
   damageFlashObjectName: DamageFlash
   flashDuration: 0.2
   flashColor: {r: 1, g: 0, b: 0, a: 1}
+  bloodEffectPrefab: {fileID: 6823200998282874702, guid: 8f8fe12323625f5499b2853dd2ad3e58, type: 3}
+  bloodSpawnPoint: {fileID: 1402149315741894720}
 --- !u!114 &33000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,6 +766,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.53, y: 1.0674088, z: 0.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1174762673626342989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9028412918245221407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1402149315741894720}
+  m_Layer: 0
+  m_Name: BloodPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1402149315741894720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028412918245221407}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.55, z: 0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1355,15 +1389,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6825915605197088694, guid: 1c82de24a261f764d8169099dece1047, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6825915605197088694, guid: 1c82de24a261f764d8169099dece1047, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6825915605197088694, guid: 1c82de24a261f764d8169099dece1047, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6825915605197088694, guid: 1c82de24a261f764d8169099dece1047, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,20 +1,9 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>
-/// Specialized fixed virtual joystick for 3D aiming, laser trajectory preview,
-/// hysteresis-based arming/cancellation, and release-to-fire execution.
-///
-/// States:
-///   - Idle: No active touch.
-///   - Aiming: Dragging joystick, but has not reached arming threshold.
-///   - Armed: Reached arming threshold (>= 0.90). Laser preview is active.
-///            Hysteresis allows pulling slightly back (>= 0.75) while remaining armed.
-///   - Canceled: Dropped below disarming threshold (< 0.75). Laser hides, release cannot fire.
-///               Must reach >= 0.90 again to re-arm.
-/// </summary>
 public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public enum AimState
@@ -39,22 +28,16 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     [SerializeField] private Image armedIndicatorImage;
 
     [Header("Hysteresis & Aim Thresholds")]
-    [Tooltip("Normalized magnitude (0.1 - 1.0) required to arm the shot and trigger the laser preview.")]
     [Range(0.5f, 1.0f)]
     [SerializeField] private float armingThreshold = 0.90f;
 
-    [Tooltip("Normalized magnitude below which an armed shot is canceled and the laser is hidden.")]
     [Range(0.2f, 0.95f)]
     [SerializeField] private float disarmThreshold = 0.75f;
 
-    [Tooltip("Normalized dead zone (0.0 - 0.4). Input below this magnitude is ignored.")]
     [Range(0f, 0.4f)]
     [SerializeField] private float deadZone = 0.15f;
 
-    [Tooltip("Maximum handle radius in pixels/canvas units.")]
     [SerializeField] private float handleRange = 90f;
-
-    [Tooltip("Smooth return duration when joystick is released.")]
     [SerializeField] private float resetDuration = 0.12f;
 
     [Header("Color Palette Feedback")]
@@ -69,6 +52,10 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public Vector3 CurrentWorldAimDirection { get; private set; } = Vector3.forward;
     public bool IsArmed => CurrentState == AimState.Armed;
     public bool IsDragging => activePointerId != -1;
+
+    // ─── Global State For Local Player Ammo ─────────────────────
+    public static bool LocalPlayerHasAmmo = true;
+    public static event Action OnLocalDryFireAttempt;
 
     // ─── Internal State ─────────────────────────────────────────
     private int activePointerId = -1;
@@ -101,7 +88,6 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     private void OnValidate()
     {
-        // Enforce valid hysteresis relationship: disarmThreshold < armingThreshold
         if (disarmThreshold >= armingThreshold)
         {
             disarmThreshold = Mathf.Max(0.1f, armingThreshold - 0.1f);
@@ -136,8 +122,24 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     {
         if (activePointerId != -1) return; // Dedicated finger only
 
-        activePointerId = eventData.pointerId;
+        if (!LocalPlayerHasAmmo)
+        {
+            if (backgroundRect != null)
+            {
+                backgroundRect.DOComplete();
+                backgroundRect.DOPunchPosition(new Vector3(15f, 0f, 0f), 0.3f, 10, 1f).SetUpdate(true);
+            }
+            if (handleImage != null)
+            {
+                handleImage.DOComplete();
+                handleImage.DOColor(Color.red, 0.15f).OnComplete(() => handleImage.color = idleColor).SetUpdate(true);
+            }
 
+            OnLocalDryFireAttempt?.Invoke();
+            return;
+        }
+
+        activePointerId = eventData.pointerId;
         KillTweens();
         SetState(AimState.Aiming);
         ProcessDrag(eventData);
@@ -172,10 +174,8 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
             RawInput = clampedPoint / radius;
             float rawMag = RawInput.magnitude;
 
-            // Dead zone check
             if (rawMag <= deadZone)
             {
-                // In dead zone: remain in Aiming or Canceled, do not update direction
                 if (CurrentState == AimState.Armed)
                 {
                     SetState(AimState.Canceled);
@@ -183,10 +183,8 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
                 return;
             }
 
-            // Calculate world aim direction relative to camera
             UpdateWorldAimDirection(RawInput);
 
-            // Hysteresis State Machine
             if (CurrentState == AimState.Aiming || CurrentState == AimState.Canceled)
             {
                 if (rawMag >= armingThreshold)
@@ -202,7 +200,6 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
                 }
             }
 
-            // Continuously push aim direction and arm state to InputReader
             if (inputReader != null)
             {
                 bool armed = (CurrentState == AimState.Armed);
@@ -249,23 +246,19 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
         if (CurrentState == AimState.Armed)
         {
-            // Valid armed release: request EXACTLY ONE shot!
             if (inputReader != null)
             {
                 inputReader.RequestMobileFire(CurrentWorldAimDirection);
             }
 
-            // Subtle firing punch on background
             if (backgroundRect != null)
             {
                 backgroundRect.DOPunchScale(Vector3.one * 0.1f, 0.15f, 8, 1f).SetUpdate(true);
             }
         }
 
-        // Return to Idle
         SetState(AimState.Idle);
 
-        // Reset handle position
         if (handleRect != null)
         {
             if (resetDuration > 0f)
@@ -280,7 +273,6 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
             }
         }
 
-        // Notify input reader that aiming ended
         if (inputReader != null)
         {
             inputReader.SetMobileAim(Vector3.zero, isAiming: false, isArmed: false);
@@ -315,26 +307,22 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
                 indicatorAlpha = 0f;
                 indicatorScale = 0.85f;
                 break;
-
             case AimState.Aiming:
                 targetColor = aimingColor;
                 indicatorAlpha = 0.25f;
                 indicatorScale = 0.95f;
                 break;
-
             case AimState.Armed:
                 targetColor = armedColor;
                 indicatorAlpha = 1f;
                 indicatorScale = 1.12f;
 
-                // Subtle punch scale on handle when entering armed state
                 if (!immediate && handleRect != null)
                 {
                     if (punchTween != null && punchTween.IsActive()) punchTween.Kill();
                     punchTween = handleRect.DOPunchScale(Vector3.one * 0.15f, 0.2f, 10, 1f).SetUpdate(true);
                 }
                 break;
-
             case AimState.Canceled:
                 targetColor = canceledColor;
                 indicatorAlpha = 0f;
@@ -391,27 +379,15 @@ public class AimFireJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
         if (indicatorTween != null && indicatorTween.IsActive()) indicatorTween.Kill();
     }
 
-    /// <summary>
-    /// Forces complete disarm, preview cancellation, and handle reset.
-    /// Safe to call on death, pause, or scene change.
-    /// </summary>
     public void ResetJoystick()
     {
         activePointerId = -1;
         RawInput = Vector2.zero;
         KillTweens();
-
         SetState(AimState.Idle);
 
-        if (handleRect != null)
-        {
-            handleRect.anchoredPosition = Vector2.zero;
-        }
-
-        if (inputReader != null)
-        {
-            inputReader.SetMobileAim(Vector3.zero, isAiming: false, isArmed: false);
-        }
+        if (handleRect != null) handleRect.anchoredPosition = Vector2.zero;
+        if (inputReader != null) inputReader.SetMobileAim(Vector3.zero, isAiming: false, isArmed: false);
 
         ApplyStateVisuals(AimState.Idle, true);
     }

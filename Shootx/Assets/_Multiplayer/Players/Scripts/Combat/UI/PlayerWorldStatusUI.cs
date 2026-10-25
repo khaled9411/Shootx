@@ -4,28 +4,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// World-space player status UI positioned strictly BELOW each character.
-/// Displays synchronized player name, three-segment health bar (with fractional fill),
-/// basic ammunition count, and extra ammunition count.
-/// 
-/// Billboards/locks rotation to maintain readable presentation for the top-down camera
-/// regardless of the character's movement and aiming orientation.
-/// </summary>
 public class PlayerWorldStatusUI : MonoBehaviour
 {
     [Header("Placement Configuration")]
-    [Tooltip("Local position offset positioned strictly BELOW the character on the ground plane.")]
     [SerializeField] private Vector3 localOffset = new Vector3(0f, 0.05f, -1.0f);
-
-    [Tooltip("Lock rotation so that character spinning does not rotate the status UI.")]
     [SerializeField] private bool lockRotationToCamera = true;
 
     [Header("Player Name")]
     [SerializeField] private TextMeshProUGUI playerNameText;
 
     [Header("Three-Segment Health Bars")]
-    [Tooltip("The three health fill images representing health units 0-1, 1-2, and 2-3.")]
     [SerializeField] private Image[] healthSegments = new Image[3];
 
     [Header("Health Bar Colors")]
@@ -34,10 +22,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
     [SerializeField] private Color criticalColor = new Color(0.95f, 0.2f, 0.2f, 1f);
 
     [Header("Ammunition Displays")]
-    [Tooltip("Displays basic ammunition (e.g. '3/3' or 'B: 3').")]
     [SerializeField] private TextMeshProUGUI basicAmmoText;
-
-    [Tooltip("Displays extra ammunition (e.g. '+2 Extra').")]
     [SerializeField] private TextMeshProUGUI extraAmmoText;
 
     [Header("Animation")]
@@ -86,7 +71,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         Sprite whiteSprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 4, 4), Vector2.one * 0.5f, 100f);
 
-        // 1. Player Name
         if (playerNameText == null)
         {
             GameObject nameObj = new GameObject("PlayerNameText", typeof(RectTransform), typeof(TextMeshProUGUI));
@@ -101,7 +85,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
             playerNameText.text = "Player";
         }
 
-        // 2. Health Segment Bars
         if (healthSegments == null || healthSegments.Length < 3 || healthSegments[0] == null)
         {
             healthSegments = new Image[3];
@@ -119,8 +102,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 float x = startX + i * (segWidth + segSpacing);
-
-                // Slot background
                 GameObject bgObj = new GameObject($"HealthBg_{i}", typeof(RectTransform), typeof(Image));
                 bgObj.transform.SetParent(barContainer.transform, false);
                 RectTransform bgRt = bgObj.GetComponent<RectTransform>();
@@ -130,7 +111,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
                 bgImg.sprite = whiteSprite;
                 bgImg.color = new Color(0.12f, 0.12f, 0.14f, 0.85f);
 
-                // Fill image
                 GameObject fillObj = new GameObject($"HealthFill_{i}", typeof(RectTransform), typeof(Image));
                 fillObj.transform.SetParent(bgObj.transform, false);
                 RectTransform fillRt = fillObj.GetComponent<RectTransform>();
@@ -149,7 +129,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
             }
         }
 
-        // 3. Ammunition Text
         if (basicAmmoText == null)
         {
             GameObject ammoContainer = new GameObject("AmmoDisplay", typeof(RectTransform));
@@ -193,7 +172,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         SubscribeEvents();
 
-        // Initial sync
         if (_playerHealth != null)
         {
             UpdateHealthDisplay(_playerHealth.CurrentHealth, _playerHealth.MaxHealth, animate: false);
@@ -202,6 +180,11 @@ public class PlayerWorldStatusUI : MonoBehaviour
         if (_playerShooting != null)
         {
             UpdateAmmoDisplay(_playerShooting.BasicAmmo, _playerShooting.ExtraAmmo, animate: false);
+
+            if (_playerShooting.IsOwner)
+            {
+                AimFireJoystick.LocalPlayerHasAmmo = (_playerShooting.BasicAmmo + _playerShooting.ExtraAmmo) > 0;
+            }
         }
 
         if (_playerIdentity != null)
@@ -244,6 +227,11 @@ public class PlayerWorldStatusUI : MonoBehaviour
         {
             _playerShooting.OnAmmoChanged += HandleAmmoChanged;
             _playerShooting.OnBasicAmmoRefunded += HandleAmmoRefunded;
+
+            if (_playerShooting.IsOwner)
+            {
+                AimFireJoystick.OnLocalDryFireAttempt += TriggerEmptyAmmoEffect;
+            }
         }
 
         if (_playerIdentity != null)
@@ -265,6 +253,11 @@ public class PlayerWorldStatusUI : MonoBehaviour
         {
             _playerShooting.OnAmmoChanged -= HandleAmmoChanged;
             _playerShooting.OnBasicAmmoRefunded -= HandleAmmoRefunded;
+
+            if (_playerShooting.IsOwner)
+            {
+                AimFireJoystick.OnLocalDryFireAttempt -= TriggerEmptyAmmoEffect;
+            }
         }
 
         if (_playerIdentity != null)
@@ -278,34 +271,24 @@ public class PlayerWorldStatusUI : MonoBehaviour
         if (_worldCanvas != null && !_worldCanvas.enabled) return;
         if (_followTarget == null) return;
 
-        // Position strictly below player root
         transform.position = _followTarget.position + localOffset;
 
-        // Maintain fixed readable orientation facing camera
         if (lockRotationToCamera)
         {
             if (_mainCamera == null) _mainCamera = Camera.main;
             if (_mainCamera != null)
             {
-                // Top-down camera: face directly upward / toward camera tilt
                 transform.rotation = Quaternion.Euler(60f, 0f, 0f);
             }
         }
     }
 
-    // ─── Health Presentation (Fractional 3-Segment) ─────────────
-
+    // ─── Health Presentation ─────────────
     private void HandleHealthChanged(float currentHealth, float maxHealth)
     {
         UpdateHealthDisplay(currentHealth, maxHealth, animate: true);
     }
 
-    /// <summary>
-    /// Updates the three health segments with exact fractional fill.
-    /// Segment 0: 0.0 -> 1.0
-    /// Segment 1: 1.0 -> 2.0
-    /// Segment 2: 2.0 -> 3.0
-    /// </summary>
     public void UpdateHealthDisplay(float currentHealth, float maxHealth, bool animate = true)
     {
         if (healthSegments == null || healthSegments.Length < 3) return;
@@ -314,7 +297,6 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            // Segment i covers the range [i, i + 1]
             float segmentTargetFill = Mathf.Clamp01(currentHealth - i);
             Image img = healthSegments[i];
             if (img == null) continue;
@@ -353,10 +335,14 @@ public class PlayerWorldStatusUI : MonoBehaviour
     }
 
     // ─── Ammunition Presentation ────────────────────────────────
-
     private void HandleAmmoChanged(int basic, int extra)
     {
         UpdateAmmoDisplay(basic, extra, animate: true);
+
+        if (_playerShooting != null && _playerShooting.IsOwner)
+        {
+            AimFireJoystick.LocalPlayerHasAmmo = (basic + extra) > 0;
+        }
     }
 
     public void UpdateAmmoDisplay(int basic, int extra, bool animate = true)
@@ -396,6 +382,20 @@ public class PlayerWorldStatusUI : MonoBehaviour
             _ammoSeq.Append(basicAmmoText.transform.DOPunchScale(Vector3.one * (punchScaleAmount * 1.5f), 0.25f, 6, 0.6f));
         }
     }
+    private void TriggerEmptyAmmoEffect()
+    {
+        if (basicAmmoText == null) return;
+
+        KillAmmoTween();
+        _ammoSeq = DOTween.Sequence();
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1.5f, 0.15f));
+        _ammoSeq.Join(basicAmmoText.transform.DOPunchRotation(new Vector3(0, 0, 15f), 0.35f, 10, 1f));
+        _ammoSeq.Join(basicAmmoText.DOColor(Color.red, 0.15f));
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1f, 0.15f));
+        _ammoSeq.Join(basicAmmoText.DOColor(new Color(0.3f, 0.8f, 1f, 1f), 0.15f));
+    }
 
     private void UpdateNameDisplay(string newName)
     {
@@ -423,12 +423,13 @@ public class PlayerWorldStatusUI : MonoBehaviour
         if (_playerShooting != null)
         {
             UpdateAmmoDisplay(_playerShooting.BasicAmmo, _playerShooting.ExtraAmmo, animate: false);
+            if (_playerShooting.IsOwner)
+            {
+                AimFireJoystick.LocalPlayerHasAmmo = (_playerShooting.BasicAmmo + _playerShooting.ExtraAmmo) > 0;
+            }
         }
     }
 
-    /// <summary>
-    /// Sets world-space status canvas active or inactive (hidden while dead).
-    /// </summary>
     public void SetStatusUIVisible(bool visible)
     {
         if (_worldCanvas == null) _worldCanvas = GetComponent<Canvas>();
@@ -442,7 +443,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
     {
         if (_ammoSeq != null && _ammoSeq.IsActive())
         {
-            _ammoSeq.Kill();
+            _ammoSeq.Kill(complete: true);
             _ammoSeq = null;
         }
     }
