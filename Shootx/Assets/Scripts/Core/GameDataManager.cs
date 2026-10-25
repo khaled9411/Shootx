@@ -13,6 +13,7 @@ public class GameDataManager : MonoBehaviour
     public static event Action OnCurrencyChanged;
     public static event Action OnLevelChanged;
     public static event Action OnMissionsUpdated;
+    public static event Action OnEquipmentChanged;
 
     // ===================================================================
     #endregion
@@ -87,9 +88,11 @@ public class GameDataManager : MonoBehaviour
     [Header("=== IAP & Ownership ===")]
     [SerializeField] private bool adsRemoved = false;
     [SerializeField] private bool multiplayerUnlocked = false;
+    [SerializeField] private int saveSchemaVersion = 2;
     private HashSet<int> ownedGuns = new HashSet<int>();
     private HashSet<int> ownedOutfits = new HashSet<int>();
     private HashSet<string> processedTransactions = new HashSet<string>();
+    private HashSet<int> claimedLevelRewards = new HashSet<int>();
 
     [Header("=== Zone Sprites ===")]
     [SerializeField] private List<Sprite> zoneSprites;
@@ -235,12 +238,16 @@ public class GameDataManager : MonoBehaviour
     {
         equippedGunId = id;
         PlayerPrefs.SetInt("equippedGun", id);
+        SaveData();
+        OnEquipmentChanged?.Invoke();
     }
 
     public void EquipOutfit(int id)
     {
         equippedOutfitId = id;
         PlayerPrefs.SetInt("equippedOutfit", id);
+        SaveData();
+        OnEquipmentChanged?.Invoke();
     }
 
     // ===================================================================
@@ -300,10 +307,19 @@ public class GameDataManager : MonoBehaviour
     {
         adsRemoved = true;
         SaveData();
-        // Fire event or update Ad Manager directly
-        if (GameAdManager.Instance != null && GameAdManager.Instance.IsBannerVisible())
+
+        if (GameAdManager.Instance != null)
         {
-            GameAdManager.Instance.HideBanner();
+            if (GameAdManager.Instance.IsBannerVisible())
+                GameAdManager.Instance.HideBanner();
+
+            GameAdManager.Instance.StopAutoInterstitial();
+        }
+
+        // Purchasing remove_ads grants BOTH ad removal and permanent online access
+        if (Shootx.Store.MultiplayerAccessManager.Instance != null)
+        {
+            Shootx.Store.MultiplayerAccessManager.Instance.GrantPermanentAccess();
         }
     }
 
@@ -311,6 +327,11 @@ public class GameDataManager : MonoBehaviour
     {
         multiplayerUnlocked = true;
         SaveData();
+
+        if (Shootx.Store.MultiplayerAccessManager.Instance != null)
+        {
+            Shootx.Store.MultiplayerAccessManager.Instance.GrantPermanentAccess();
+        }
     }
 
     public void AddOwnedGun(int id)
@@ -327,14 +348,105 @@ public class GameDataManager : MonoBehaviour
 
     public bool IsGunOwned(int id)
     {
-        // By default, if we don't have a strict inventory system initially, 
-        // we might consider some default items owned. We can just check the HashSet.
+        // Gun 0 is the starting free pistol, always owned
+        if (id == 0) return true;
         return ownedGuns.Contains(id);
     }
 
     public bool IsOutfitOwned(int id)
     {
+        // Outfit 0 is the starting free outfit, always owned
+        if (id == 0) return true;
         return ownedOutfits.Contains(id);
+    }
+
+    public bool TryPurchaseItem(Shootx.Store.StoreItemDefinition item)
+    {
+        if (item == null)
+        {
+            Debug.LogError("[GameDataManager] Purchase failed: item is null.");
+            return false;
+        }
+
+        if (item.itemType == Shootx.Store.StoreItemType.Weapon && IsGunOwned(item.numericId))
+        {
+            Debug.LogWarning($"[GameDataManager] Weapon {item.displayName} is already owned.");
+            return false;
+        }
+
+        if (item.itemType == Shootx.Store.StoreItemType.Outfit && IsOutfitOwned(item.numericId))
+        {
+            Debug.LogWarning($"[GameDataManager] Outfit {item.displayName} is already owned.");
+            return false;
+        }
+
+        if (item.purchaseCurrency == Shootx.Store.CurrencyType.SoftCurrency)
+        {
+            if (softCurrency < item.softCurrencyPrice)
+            {
+                Debug.LogWarning($"[GameDataManager] Insufficient Soft Currency: have {softCurrency}, need {item.softCurrencyPrice}");
+                return false;
+            }
+
+            if (!SpendSoftCurrency(item.softCurrencyPrice))
+                return false;
+        }
+        else
+        {
+            if (hardCurrency < item.hardCurrencyPrice)
+            {
+                Debug.LogWarning($"[GameDataManager] Insufficient Hard Currency: have {hardCurrency}, need {item.hardCurrencyPrice}");
+                return false;
+            }
+
+            if (!SpendHardCurrency(item.hardCurrencyPrice))
+                return false;
+        }
+
+        if (item.itemType == Shootx.Store.StoreItemType.Weapon)
+        {
+            AddOwnedGun(item.numericId);
+        }
+        else
+        {
+            AddOwnedOutfit(item.numericId);
+        }
+
+        SaveData();
+        Debug.Log($"[GameDataManager] Successfully purchased {item.displayName}!");
+        return true;
+    }
+
+    // ===================================================================
+    #endregion
+
+    // ===================================================================
+    #region Level Completion Rewards
+    // ===================================================================
+
+    public int CalculateLevelReward(int level)
+    {
+        // 500 levels in the game. Expected earnings between 50 and 150 soft currency per level.
+        // Formula: 50 + (level * 100 / 500). Average is 100.
+        int bonus = Mathf.RoundToInt((Mathf.Clamp(level, 1, 500) - 1) * (100f / 499f));
+        return Mathf.Clamp(50 + bonus, 50, 150);
+    }
+
+    public int ClaimLevelReward(int level, int defaultReward = 0)
+    {
+        if (claimedLevelRewards.Contains(level))
+        {
+            Debug.Log($"[GameDataManager] Level {level} reward has already been claimed. Preventing duplicate grant.");
+            return 0;
+        }
+
+        int reward = defaultReward > 0 ? defaultReward : CalculateLevelReward(level);
+        claimedLevelRewards.Add(level);
+        AddSoftCurrency(reward);
+        SaveData();
+
+        Debug.Log($"[GameDataManager] Granted {reward} Soft Currency for level {level}.");
+        return reward;
     }
 
     public bool IsTransactionProcessed(string transactionId)
@@ -361,9 +473,11 @@ public class GameDataManager : MonoBehaviour
         PlayerPrefs.SetInt("hardCurrency", hardCurrency);
         PlayerPrefs.SetInt("adsRemoved", adsRemoved ? 1 : 0);
         PlayerPrefs.SetInt("multiplayerUnlocked", multiplayerUnlocked ? 1 : 0);
+        PlayerPrefs.SetInt("saveSchemaVersion", saveSchemaVersion);
         PlayerPrefs.SetString("ownedGuns", string.Join(",", ownedGuns));
         PlayerPrefs.SetString("ownedOutfits", string.Join(",", ownedOutfits));
         PlayerPrefs.SetString("processedTransactions", string.Join(",", processedTransactions));
+        PlayerPrefs.SetString("claimedLevelRewards", string.Join(",", claimedLevelRewards));
         PlayerPrefs.Save();
     }
 
@@ -376,10 +490,16 @@ public class GameDataManager : MonoBehaviour
         equippedOutfitId = PlayerPrefs.GetInt("equippedOutfit", 0);
         adsRemoved = PlayerPrefs.GetInt("adsRemoved", 0) == 1;
         multiplayerUnlocked = PlayerPrefs.GetInt("multiplayerUnlocked", 0) == 1;
+        saveSchemaVersion = PlayerPrefs.GetInt("saveSchemaVersion", saveSchemaVersion);
 
         LoadIntHashSet("ownedGuns", ownedGuns);
         LoadIntHashSet("ownedOutfits", ownedOutfits);
         LoadStringHashSet("processedTransactions", processedTransactions);
+        LoadIntHashSet("claimedLevelRewards", claimedLevelRewards);
+
+        // Ensure default items are always owned
+        ownedGuns.Add(0);
+        ownedOutfits.Add(0);
     }
 
     private void LoadIntHashSet(string key, HashSet<int> set)

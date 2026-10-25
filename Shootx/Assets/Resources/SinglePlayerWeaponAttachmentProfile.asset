@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f04452a2a944f5fa625c3ee894ad2d7, type: 3}
+  m_Name: SinglePlayerWeaponAttachmentProfile
+  m_EditorClassIdentifier: Assembly-CSharp::Shootx.Store::SinglePlayerWeaponAttachmentProfile
+  characterSettings:
+  - characterName: MainCharacter
+    socketName: Wrist_R
+    positionOffset: {x: 0.05, y: -0.04, z: 0.12}
+    rotationOffset: {x: -90, y: 0, z: 90}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: RangerCharacter
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Barbarian
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Druid
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Knight
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Rogue_Hooded
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Animatronic_Creepy
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Animatronic_Normal
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Clown
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Monster
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: MonsterCostume
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Paladin
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Paladin_with_Helmet
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Survivalist
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Werewolf_Man
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  - characterName: Werewolf_Wolf
+    socketName: handslot.r
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+  weaponSettings:
+  - weaponId: wep_pistol_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.28}
+  - weaponId: wep_revolver_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.09, z: 0.32}
+  - weaponId: wep_machine_pistol_gen1
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.35}
+  - weaponId: wep_machine_pistol_gen2
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.35}
+  - weaponId: wep_rifle_small_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.02}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.5}
+  - weaponId: wep_smg_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.42}
+  - weaponId: wep_rifle_base_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.03}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.7}
+  - weaponId: wep_syringe_gun_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.38}
+  - weaponId: wep_sniper_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.05}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.09, z: 0.98}
+  - weaponId: wep_rifle_laser_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.03}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.65}
+  - weaponId: wep_rifle_plasma_01
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.03}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.68}
+  - weaponId: wep_rifle_plasma_02
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.03}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.7}
+  - weaponId: wep_rifle_plasma_03
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.03}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.08, z: 0.72}
+  - weaponId: wep_sniper_plasma_02
+    characterName: All
+    positionOffset: {x: 0, y: 0, z: 0.05}
+    rotationOffset: {x: 0, y: -90, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    muzzleOffset: {x: 0, y: 0.09, z: 0.95}

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -142,7 +142,7 @@ public class LevelLoader : MonoBehaviour
 
         yield return FadeLoading(0f);
 
-        Debug.Log($"[LevelLoader] Level ready � Display:{_currentDisplayLevel} Base:{baseLevelNumber}");
+        Debug.Log($"[LevelLoader] Level ready — Display:{_currentDisplayLevel} Base:{baseLevelNumber}");
     }
 
 
@@ -169,7 +169,7 @@ public class LevelLoader : MonoBehaviour
 
         LevelStateManager.SaveWin(_currentDisplayLevel);
         LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
-        UIManager.Instance?.ShowWinScreen();
+        int earnedReward = 50; if (GameDataManager.Instance != null) { earnedReward = GameDataManager.Instance.CalculateLevelReward(_currentDisplayLevel); } UIManager.Instance?.ShowWinScreen(earnedReward);
 
         Debug.Log($"[LevelLoader] Win! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");
     }
@@ -202,7 +202,7 @@ public class LevelLoader : MonoBehaviour
 
         LevelStateManager.SaveWin(_currentDisplayLevel);
         LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
-        UIManager.Instance?.ShowWinScreen();
+        int earnedReward = 50; if (GameDataManager.Instance != null) { earnedReward = GameDataManager.Instance.CalculateLevelReward(_currentDisplayLevel); } UIManager.Instance?.ShowWinScreen(earnedReward);
 
         Debug.Log($"[LevelLoader] Skip! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");
     }

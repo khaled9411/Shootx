@@ -9,6 +9,19 @@ public class ShootingSystem : MonoBehaviour
     [Header("Player & Weapon Setup")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform weaponFirePoint;
+    public Transform WeaponFirePoint
+    {
+        get => weaponFirePoint;
+        set
+        {
+            weaponFirePoint = value;
+            if (weaponFirePoint != null)
+            {
+                initialXRotation = NormalizeAngle(weaponFirePoint.localEulerAngles.x);
+                currentXRotation = initialXRotation;
+            }
+        }
+    }
     [SerializeField] private AudioClip shootSound;
     [SerializeField] private GameObject shootEfect;
 
@@ -23,6 +36,11 @@ public class ShootingSystem : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private Animator animator;
+    public Animator PlayerAnimator
+    {
+        get => animator;
+        set => animator = value;
+    }
 
     [Header("Horizontal Rotation Settings")]
     [SerializeField] private float horizontalRotationSpeed = 10f;
@@ -79,10 +97,19 @@ public class ShootingSystem : MonoBehaviour
     private readonly int shootHash = Animator.StringToHash("Shoot");
     private readonly int reloadHash = Animator.StringToHash("Reload");
 
+    private void Awake()
+    {
+        if (GetComponent<PlayerEquipmentApplier>() == null)
+            gameObject.AddComponent<PlayerEquipmentApplier>();
+    }
+
     void Start()
     {
         InitializeSystem();
         mainCamera = Camera.main;
+
+        if (GetComponent<PlayerEquipmentApplier>() == null)
+            gameObject.AddComponent<PlayerEquipmentApplier>();
 
         if (weaponFirePoint == null)
             Debug.LogWarning("Weapon Fire Point is not specified!");

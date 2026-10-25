@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using Unity.Services.Core;
+using Shootx.Store;
 
 public class IAPManager : MonoBehaviour
 {
     public static IAPManager Instance { get; private set; }
+
+    public static event Action<string> OnPurchaseSuccess;
+    public static event Action<string, string> OnPurchaseFailedEvent;
+    public static event Action OnInitializedEvent;
 
     [Header("=== Product Database ===")]
     [Tooltip("Add all IAP Product Definitions here")]
@@ -17,6 +23,23 @@ public class IAPManager : MonoBehaviour
     private StoreController storeController;
 
     public bool IsInitialized => storeController != null;
+
+    // The official 12 products required by specification
+    private static readonly (string id, ProductType type)[] DefaultProducts = new (string, ProductType)[]
+    {
+        ("package_01", ProductType.NonConsumable),
+        ("package_02", ProductType.NonConsumable),
+        ("package_03", ProductType.NonConsumable),
+        ("package_04", ProductType.NonConsumable),
+        ("package_05", ProductType.NonConsumable),
+        ("package_06", ProductType.NonConsumable),
+        ("online_access", ProductType.NonConsumable),
+        ("remove_ads", ProductType.NonConsumable),
+        ("coins_200", ProductType.Consumable),
+        ("coins_500", ProductType.Consumable),
+        ("coins_1200", ProductType.Consumable),
+        ("coins_2500", ProductType.Consumable)
+    };
 
     private void Awake()
     {
@@ -85,17 +108,23 @@ public class IAPManager : MonoBehaviour
             // ----------------------------------------------------
 
             var productDefs = new List<ProductDefinition>();
+            var registeredIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+            // Add inspector products first
             foreach (var p in products)
             {
-                if (p != null && !string.IsNullOrEmpty(p.productId))
+                if (p != null && !string.IsNullOrEmpty(p.productId) && registeredIds.Add(p.productId))
                 {
-                    productDefs.Add(
-                        new ProductDefinition(
-                            p.productId,
-                            p.productType
-                        )
-                    );
+                    productDefs.Add(new ProductDefinition(p.productId, p.productType));
+                }
+            }
+
+            // Ensure all 12 official products are present
+            foreach (var def in DefaultProducts)
+            {
+                if (registeredIds.Add(def.id))
+                {
+                    productDefs.Add(new ProductDefinition(def.id, def.type));
                 }
             }
 
@@ -103,7 +132,7 @@ public class IAPManager : MonoBehaviour
             // Fetch products
             // ----------------------------------------------------
 
-            Debug.Log("[IAP] Fetching Products...");
+            Debug.Log($"[IAP] Fetching {productDefs.Count} Products...");
 
             storeController.FetchProducts(productDefs);
 
@@ -118,12 +147,11 @@ public class IAPManager : MonoBehaviour
             storeController.FetchPurchases();
 
             Debug.Log("[IAP] Initialization successful.");
+            OnInitializedEvent?.Invoke();
         }
         catch (Exception e)
         {
-            Debug.LogError(
-                $"[IAP] Initialization Failed:\n{e}"
-            );
+            Debug.LogError($"[IAP] Initialization Failed:\n{e}");
         }
     }
 
@@ -135,26 +163,18 @@ public class IAPManager : MonoBehaviour
     {
         if (!IsInitialized)
         {
-            Debug.LogError(
-                "[IAP] Purchase failed: IAP is not initialized."
-            );
-
+            Debug.LogError("[IAP] Purchase failed: IAP is not initialized.");
+            OnPurchaseFailedEvent?.Invoke(productId, "Store not initialized. Please try again in a moment.");
             return;
         }
 
         if (string.IsNullOrEmpty(productId))
         {
-            Debug.LogError(
-                "[IAP] Purchase failed: Product ID is empty."
-            );
-
+            Debug.LogError("[IAP] Purchase failed: Product ID is empty.");
             return;
         }
 
-        Debug.Log(
-            $"[IAP] Initiating purchase for: {productId}"
-        );
-
+        Debug.Log($"[IAP] Initiating purchase for: {productId}");
         storeController.PurchaseProduct(productId);
     }
 
@@ -166,119 +186,203 @@ public class IAPManager : MonoBehaviour
     {
         if (!IsInitialized)
         {
-            Debug.LogError(
-                "[IAP] Restore failed: IAP is not initialized."
-            );
-
+            Debug.LogError("[IAP] Restore failed: IAP is not initialized.");
             return;
         }
 
         Debug.Log("[IAP] Restoring Purchases...");
-
         storeController.FetchPurchases();
     }
 
     // ============================================================
-    // PURCHASE PENDING
+    // PRODUCT QUERIES & LOCALIZED PRICES
+    // ============================================================
+
+    public Product GetProduct(string productId)
+    {
+        if (!IsInitialized || storeController == null)
+            return null;
+
+        var products = storeController.GetProducts();
+        if (products == null) return null;
+
+        return products.FirstOrDefault(p => p != null && p.definition != null &&
+            p.definition.id.Equals(productId, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public string GetLocalizedPrice(string productId)
+    {
+        var product = GetProduct(productId);
+        if (product != null && product.metadata != null && !string.IsNullOrEmpty(product.metadata.localizedPriceString))
+        {
+            return product.metadata.localizedPriceString;
+        }
+
+        // Return empty or fallback indicator if store metadata is not loaded yet
+        return "";
+    }
+
+    // ============================================================
+    // PURCHASE PENDING & CONFIRMATION
     // ============================================================
 
     private void OnPurchasePending(PendingOrder order)
     {
         if (order == null)
         {
-            Debug.LogError(
-                "[IAP] Pending order is null."
-            );
-
+            Debug.LogError("[IAP] Pending order is null.");
             return;
         }
 
-        Debug.Log(
-            "[IAP] Purchase pending."
-        );
-
-        /*
-         * IMPORTANT:
-         *
-         * In IAP 5, PendingOrder does not have:
-         *
-         * order.ProductId
-         * order.TransactionId
-         *
-         * Instead, products are obtained from:
-         *
-         * order.CartOrdered.Items()
-         *
-         * and the product ID is obtained from the Product.
-         */
-
         var cart = order.CartOrdered;
-
         if (cart == null)
         {
-            Debug.LogError(
-                "[IAP] Pending order has no cart."
-            );
-
+            Debug.LogError("[IAP] Pending order has no cart.");
             return;
         }
 
         foreach (var item in cart.Items())
         {
             Product product = item.Product;
-
-            if (product == null)
-                continue;
+            if (product == null) continue;
 
             string productId = product.definition.id;
+            Debug.Log($"[IAP] Processing purchased product: {productId}");
 
-            Debug.Log(
-                $"[IAP] Processing purchase: {productId}"
-            );
-
-            ProcessPurchasedProduct(productId);
+            ProcessPurchasedProduct(product);
         }
 
-        // Confirm the pending order after granting rewards.
+        // Authoritatively confirm the pending order after rewards are granted and saved
         storeController.ConfirmPurchase(order);
-
-        Debug.Log(
-            "[IAP] Purchase confirmed."
-        );
+        Debug.Log("[IAP] Purchase confirmed successfully.");
     }
 
     // ============================================================
-    // PROCESS PURCHASE
+    // PROCESS PURCHASE & DEDUPLICATION
     // ============================================================
 
-    private void ProcessPurchasedProduct(string productId)
+    private void ProcessPurchasedProduct(Product product)
     {
-        if (string.IsNullOrEmpty(productId))
-        {
-            Debug.LogError(
-                "[IAP] Product ID is empty."
-            );
+        if (product == null || product.definition == null) return;
 
+        string productId = product.definition.id;
+
+        // Transaction Deduplication
+#pragma warning disable CS0618
+        string txId = !string.IsNullOrEmpty(product.transactionID) ? product.transactionID : product.receipt;
+#pragma warning restore CS0618
+
+        if (!string.IsNullOrEmpty(txId) && GameDataManager.Instance != null && GameDataManager.Instance.IsTransactionProcessed(txId))
+        {
+            Debug.LogWarning($"[IAP] Transaction {txId} for product {productId} already processed. Skipping duplicate grant.");
             return;
         }
 
-        IAPProductDefinition def =
-            GetProductDefinition(productId);
-
-        if (def == null)
+        if (!string.IsNullOrEmpty(txId) && GameDataManager.Instance != null)
         {
-            Debug.LogError(
-                $"[IAP] Unknown Product ID: {productId}"
-            );
-
-            return;
+            GameDataManager.Instance.RecordTransaction(txId);
         }
 
-        Debug.Log(
-            $"[IAP] Granting rewards for: {productId}"
-        );
+        GrantRewards(productId);
+        OnPurchaseSuccess?.Invoke(productId);
+    }
 
-        GrantRewards(def);
+    // ============================================================
+    // GRANT REWARDS
+    // ============================================================
+
+    public void GrantRewards(string productId)
+    {
+        if (string.IsNullOrEmpty(productId)) return;
+
+        Debug.Log($"[IAP] Granting rewards for Product ID: {productId}");
+
+        // 1. Check Consumable Coin Packs
+        switch (productId.ToLowerInvariant())
+        {
+            case "coins_200":
+                GameDataManager.Instance?.AddHardCurrency(200);
+                Debug.Log("[IAP] Granted 200 Hard Currency.");
+                return;
+
+            case "coins_500":
+                GameDataManager.Instance?.AddHardCurrency(500);
+                Debug.Log("[IAP] Granted 500 Hard Currency.");
+                return;
+
+            case "coins_1200":
+                GameDataManager.Instance?.AddHardCurrency(1200);
+                Debug.Log("[IAP] Granted 1,200 Hard Currency.");
+                return;
+
+            case "coins_2500":
+                GameDataManager.Instance?.AddHardCurrency(2500);
+                Debug.Log("[IAP] Granted 2,500 Hard Currency.");
+                return;
+
+            case "online_access":
+                MultiplayerAccessManager.Instance?.GrantPermanentAccess();
+                GameDataManager.Instance?.UnlockMultiplayer();
+                Debug.Log("[IAP] Granted Permanent Online Access.");
+                return;
+
+            case "remove_ads":
+                GameDataManager.Instance?.RemoveAds();
+                MultiplayerAccessManager.Instance?.GrantPermanentAccess();
+                Debug.Log("[IAP] Granted Remove Ads AND Permanent Online Access.");
+                return;
+        }
+
+        // 2. Check Bundles (package_01 through package_06)
+        if (productId.StartsWith("package_", StringComparison.OrdinalIgnoreCase))
+        {
+            var bundle = StoreCatalogDatabase.Instance != null
+                ? StoreCatalogDatabase.Instance.GetBundleByProductId(productId)
+                : null;
+
+            if (bundle != null)
+            {
+                bundle.GrantBundleRewards();
+                Debug.Log($"[IAP] Granted Bundle {productId} via StoreCatalogDatabase ({bundle.bundleName}).");
+                return;
+            }
+
+            // Fallback to IAPProductDefinition if configured
+            var def = GetProductDefinition(productId);
+            if (def != null)
+            {
+                GrantDefinitionFallback(def);
+                return;
+            }
+
+            Debug.LogWarning($"[IAP] Bundle definition for {productId} not found in database.");
+        }
+    }
+
+    private void GrantDefinitionFallback(IAPProductDefinition def)
+    {
+        if (def == null || GameDataManager.Instance == null) return;
+
+        if (def.hardCoinsAmount > 0)
+            GameDataManager.Instance.AddHardCurrency(def.hardCoinsAmount);
+
+        if (def.removesAds)
+            GameDataManager.Instance.RemoveAds();
+
+        if (def.unlocksMultiplayer)
+            MultiplayerAccessManager.Instance?.GrantPermanentAccess();
+
+        if (def.unlockGunIds != null)
+        {
+            foreach (var gunId in def.unlockGunIds)
+                GameDataManager.Instance.AddOwnedGun(gunId);
+        }
+
+        if (def.unlockOutfitIds != null)
+        {
+            foreach (var outfitId in def.unlockOutfitIds)
+                GameDataManager.Instance.AddOwnedOutfit(outfitId);
+        }
     }
 
     // ============================================================
@@ -287,77 +391,36 @@ public class IAPManager : MonoBehaviour
 
     private void OnPurchasesFetched(Orders orders)
     {
-        Debug.Log(
-            "[IAP] Purchases fetched."
-        );
+        Debug.Log("[IAP] Purchases fetched.");
 
-        /*
-         * IMPORTANT:
-         *
-         * Orders is NOT directly enumerable.
-         *
-         * Therefore:
-         *
-         * foreach (var order in orders)
-         *
-         * is invalid.
-         *
-         * We access the completed orders through:
-         *
-         * orders.ConfirmedOrders
-         */
-
-        if (orders == null)
+        if (orders == null || orders.ConfirmedOrders == null)
         {
-            Debug.LogWarning(
-                "[IAP] Orders is null."
-            );
-
+            Debug.LogWarning("[IAP] Orders is null.");
             return;
         }
 
         foreach (var order in orders.ConfirmedOrders)
         {
-            if (order == null)
+            if (order == null || order.CartOrdered == null)
                 continue;
 
             foreach (var item in order.CartOrdered.Items())
             {
                 Product product = item.Product;
+                if (product == null || product.definition == null) continue;
 
-                if (product == null)
-                    continue;
+                string productId = product.definition.id;
 
-                string productId =
-                    product.definition.id;
-
-                IAPProductDefinition def =
-                    GetProductDefinition(productId);
-
-                if (def == null)
-                    continue;
-
-                /*
-                 * Only restore Non-Consumables.
-                 *
-                 * Consumables such as coins should NOT be
-                 * granted again during restore.
-                 */
-
-                if (def.productType == ProductType.NonConsumable)
+                // Only restore Non-Consumable products
+                if (product.definition.type == ProductType.NonConsumable)
                 {
-                    Debug.Log(
-                        $"[IAP] Restoring Non-Consumable: {productId}"
-                    );
-
-                    GrantRewards(def);
+                    Debug.Log($"[IAP] Restoring Non-Consumable: {productId}");
+                    GrantRewards(productId);
                 }
             }
         }
 
-        Debug.Log(
-            "[IAP] Purchases restored successfully."
-        );
+        Debug.Log("[IAP] Purchases restored successfully.");
     }
 
     // ============================================================
@@ -366,141 +429,17 @@ public class IAPManager : MonoBehaviour
 
     private void OnPurchaseFailed(FailedOrder failedOrder)
     {
-        if (failedOrder == null)
-        {
-            Debug.LogError(
-                "[IAP] Purchase failed: Unknown order."
-            );
-
-            return;
-        }
-
-        Debug.LogError(
-            $"[IAP] Purchase Failed: {failedOrder}"
-        );
-    }
-
-    // ============================================================
-    // GRANT REWARDS
-    // ============================================================
-
-    private void GrantRewards(IAPProductDefinition def)
-    {
-        if (def == null)
-            return;
-
-        if (GameDataManager.Instance == null)
-        {
-            Debug.LogError(
-                "[IAP] GameDataManager.Instance is null."
-            );
-
-            return;
-        }
-
-        // --------------------------------------------------------
-        // Hard Currency
-        // --------------------------------------------------------
-
-        if (def.hardCoinsAmount > 0)
-        {
-            GameDataManager.Instance.AddHardCurrency(
-                def.hardCoinsAmount
-            );
-
-            Debug.Log(
-                $"[IAP] Granted {def.hardCoinsAmount} Hard Coins."
-            );
-        }
-
-        // --------------------------------------------------------
-        // Remove Ads
-        // --------------------------------------------------------
-
-        if (def.removesAds)
-        {
-            GameDataManager.Instance.RemoveAds();
-
-            Debug.Log(
-                "[IAP] Ads removed."
-            );
-        }
-
-        // --------------------------------------------------------
-        // Multiplayer
-        // --------------------------------------------------------
-
-        if (def.unlocksMultiplayer)
-        {
-            if (!GameDataManager.Instance.MultiplayerUnlocked)
-            {
-                GameDataManager.Instance.UnlockMultiplayer();
-
-                Debug.Log(
-                    "[IAP] Multiplayer unlocked."
-                );
-            }
-            else
-            {
-                Debug.Log(
-                    "[IAP] Multiplayer already unlocked."
-                );
-            }
-        }
-
-        // --------------------------------------------------------
-        // Guns
-        // --------------------------------------------------------
-
-        if (def.unlockGunIds != null)
-        {
-            foreach (var gunId in def.unlockGunIds)
-            {
-                if (string.IsNullOrEmpty(gunId.ToString()))
-                    continue;
-
-                GameDataManager.Instance.AddOwnedGun(gunId);
-
-                Debug.Log(
-                    $"[IAP] Unlocked Gun ID: {gunId}"
-                );
-            }
-        }
-
-        // --------------------------------------------------------
-        // Outfits
-        // --------------------------------------------------------
-
-        if (def.unlockOutfitIds != null)
-        {
-            foreach (var outfitId in def.unlockOutfitIds)
-            {
-                if (string.IsNullOrEmpty(outfitId.ToString()))
-                    continue;
-
-                GameDataManager.Instance.AddOwnedOutfit(
-                    outfitId
-                );
-
-                Debug.Log(
-                    $"[IAP] Unlocked Outfit ID: {outfitId}"
-                );
-            }
-        }
+        string reason = failedOrder != null ? failedOrder.ToString() : "Unknown purchase error";
+        Debug.LogError($"[IAP] Purchase Failed: {reason}");
+        OnPurchaseFailedEvent?.Invoke("", reason);
     }
 
     // ============================================================
     // PRODUCT DATABASE
     // ============================================================
 
-    private IAPProductDefinition GetProductDefinition(
-        string productId
-    )
+    private IAPProductDefinition GetProductDefinition(string productId)
     {
-        return products.Find(
-            p =>
-                p != null &&
-                p.productId == productId
-        );
+        return products.Find(p => p != null && p.productId.Equals(productId, StringComparison.OrdinalIgnoreCase));
     }
 }

@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private Animator animator;
+    public Animator PlayerAnimator
+    {
+        get => animator;
+        set => animator = value;
+    }
     [SerializeField] private string walkAnimationName = "Running";
     [SerializeField] private string idleAnimationName = "Idle";
 

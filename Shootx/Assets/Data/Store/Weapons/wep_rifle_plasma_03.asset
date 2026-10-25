@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362648e2b36f4b14da67c89d37d5981a, type: 3}
+  m_Name: wep_rifle_plasma_03
+  m_EditorClassIdentifier: Assembly-CSharp::Shootx.Store::StoreItemDefinition
+  id: wep_rifle_plasma_03
+  numericId: 12
+  displayName: Plasma Rifle Omega
+  description: 
+  itemType: 0
+  rarity: 4
+  purchaseCurrency: 0
+  softCurrencyPrice: 7500
+  hardCurrencyPrice: 0
+  isDefaultOwned: 0
+  itemPrefab: {fileID: 1394443505563386, guid: 41a9d81204108284aa45cedf471ef5e6, type: 3}
+  itemIcon: {fileID: 0}

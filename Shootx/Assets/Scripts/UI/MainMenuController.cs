@@ -194,7 +194,25 @@ public class MainMenuController : MonoBehaviour
 
     private void OnOnlinePressed()
     {
-        Debug.Log("[MainMenu] Online button pressed - not implemented yet.");
+        var accessMgr = Shootx.Store.MultiplayerAccessManager.Instance;
+        if (accessMgr != null && accessMgr.HasAccess())
+        {
+            Debug.Log("[MainMenu] Player has valid multiplayer access. Transitioning to MultiplayerMenu scene...");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MultiplayerMenu");
+        }
+        else
+        {
+            Debug.Log("[MainMenu] Player does not have multiplayer access. Showing access gate modal...");
+            if (Shootx.Store.MultiplayerAccessGateModal.Instance != null)
+            {
+                Shootx.Store.MultiplayerAccessGateModal.Instance.Show();
+            }
+            else
+            {
+                Debug.LogWarning("[MainMenu] MultiplayerAccessGateModal instance not found. Opening shop as fallback.");
+                UIManager.Instance?.ShowShopPopup();
+            }
+        }
     }
 
     // ===================================================================

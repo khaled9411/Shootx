@@ -5422,8 +5422,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopPopupController
   closeButton: {fileID: 678579322}
   titleText: {fileID: 1790998311}
+  restorePurchasesButton: {fileID: 0}
+  softCurrencyText: {fileID: 0}
+  hardCurrencyText: {fileID: 0}
+  coinsTabButton: {fileID: 0}
+  bundlesTabButton: {fileID: 0}
+  accessTabButton: {fileID: 0}
+  coinsPanel: {fileID: 0}
+  bundlesPanel: {fileID: 0}
+  accessPanel: {fileID: 0}
   offers: []
-  isSoftCurrencyShop: 1
+  bundlePreview:
+    root: {fileID: 0}
+    bundleTitleText: {fileID: 0}
+    bundleDescriptionText: {fileID: 0}
+    itemsContainer: {fileID: 0}
+    bundleItemPrefab: {fileID: 0}
+    buyBundleButton: {fileID: 0}
+    bundlePriceText: {fileID: 0}
+  feedbackText: {fileID: 0}
+  loadingOverlay: {fileID: 0}
 --- !u!224 &250355902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7317,7 +7335,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
+  weight: 0.5
   sharedProfile: {fileID: 11400000, guid: a77af5c0f4d12824e945550ab261b73f, type: 2}
 --- !u!4 &360323624
 Transform:
@@ -9753,7 +9771,6 @@ MonoBehaviour:
   popInDuration: 0.5
   punchStrength: 0.25
   moneyCountDuration: 1.2
-  elementEaseIn: 27
   elementEaseOut: 26
 --- !u!114 &566614608
 MonoBehaviour:
@@ -11704,6 +11721,7 @@ MonoBehaviour:
   musicToggle: {fileID: 1930526906}
   closeButton: {fileID: 413235010}
   noAdsButton: {fileID: 409411420}
+  noAdsText: {fileID: 0}
   supportButton: {fileID: 931070019}
   restorePurchasesButton: {fileID: 1728504180}
 --- !u!1 &739010390
@@ -13998,7 +14016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.21100001, y: 0.082}
   m_AnchorMax: {x: 0.78571165, y: 0.3271001}
-  m_AnchoredPosition: {x: -3.5, y: 1.0001945}
+  m_AnchoredPosition: {x: -3.5, y: 1.0002098}
   m_SizeDelta: {x: -13.581787, y: -8.761002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893408390
@@ -16800,6 +16818,7 @@ GameObject:
   - component: {fileID: 1090203114}
   - component: {fileID: 1090203115}
   - component: {fileID: 1090203116}
+  - component: {fileID: 1090203117}
   m_Layer: 0
   m_Name: GameDataManager
   m_TagString: Untagged
@@ -16841,6 +16860,7 @@ MonoBehaviour:
   equippedOutfitId: 0
   adsRemoved: 0
   multiplayerUnlocked: 0
+  saveSchemaVersion: 2
   zoneSprites:
   - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
   - {fileID: 21300000, guid: b9db78ecefe1843fc9a3c5568d6e55a6, type: 3}
@@ -16926,6 +16946,20 @@ MonoBehaviour:
   shootingSystem: {fileID: 0}
   loseCheckDelay: 1.5
   winCheckDelay: 2
+--- !u!114 &1090203117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090203112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d4754c77deb8d46b9df8da5ed6398e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shootx.Store.MultiplayerAccessManager
+  hasPermanentAccess: 0
+  temporaryExpiryString: 
 --- !u!1 &1096972057
 GameObject:
   m_ObjectHideFlags: 0
@@ -19336,6 +19370,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutfitsPanelController
   characterHolder: {fileID: 151583209}
+  actionButton: {fileID: 0}
+  actionButtonText: {fileID: 0}
+  softCurrencyText: {fileID: 0}
+  hardCurrencyText: {fileID: 0}
   categoryNameText: {fileID: 849548341}
   categoryIndicators:
   - {fileID: 1901533384}
@@ -24631,7 +24669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.21289466, y: 0}
   m_AnchorMax: {x: 0.7906525, y: 1}
-  m_AnchoredPosition: {x: -1.4999847, y: 0.000030517578}
+  m_AnchoredPosition: {x: -1.4999695, y: 0.000030517578}
   m_SizeDelta: {x: -1, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1671625791
@@ -25651,6 +25689,10 @@ MonoBehaviour:
   skinIndexText: {fileID: 1045098010}
   skinPrevButton: {fileID: 1665245978}
   skinNextButton: {fileID: 1998093684}
+  actionButton: {fileID: 0}
+  actionButtonText: {fileID: 0}
+  softCurrencyText: {fileID: 0}
+  hardCurrencyText: {fileID: 0}
   characterHolder: {fileID: 309030432}
   categoryNameText: {fileID: 1301557785}
   categoryIndicators:
@@ -26170,8 +26212,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 79.9
-  m_fontSizeBase: 79.9
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

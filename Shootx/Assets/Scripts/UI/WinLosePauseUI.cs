@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -163,7 +163,7 @@ public class WinLosePauseUI : MonoBehaviour
     public void ShowWin(int earnedMoney)
     {
         _currentMoney = earnedMoney;
-        GameDataManager.Instance.AddSoftCurrency(earnedMoney);
+        if (GameDataManager.Instance != null && earnedMoney > 0) { GameDataManager.Instance.ClaimLevelReward(GameDataManager.Instance.CurrentLevel, earnedMoney); }
 
         HideInstant(winPanel);
         winPanel.alpha = 0f;
@@ -586,7 +586,7 @@ public class WinLosePauseUI : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("[WinLosePauseUI] Ad not completed – no double.");
+                    Debug.Log("[WinLosePauseUI] Ad not completed â€“ no double.");
                     if (doubleMoneyButton) doubleMoneyButton.interactable = true;
                 }
             });
@@ -624,7 +624,7 @@ public class WinLosePauseUI : MonoBehaviour
                     if (watched) { ResumeGame(); OnSkipLevel?.Invoke(); }
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] Ad not completed – no skip.");
+                        Debug.Log("[WinLosePauseUI] Ad not completed â€“ no skip.");
                         if (skipLevelPauseButton) skipLevelPauseButton.interactable = true;
                     }
                 });
@@ -640,7 +640,7 @@ public class WinLosePauseUI : MonoBehaviour
                     if (watched) HideLose(() => OnSkipLevel?.Invoke());
                     else
                     {
-                        Debug.Log("[WinLosePauseUI] Ad not completed – no skip.");
+                        Debug.Log("[WinLosePauseUI] Ad not completed â€“ no skip.");
                         if (skipLevelButton) skipLevelButton.interactable = true;
                     }
                 });
