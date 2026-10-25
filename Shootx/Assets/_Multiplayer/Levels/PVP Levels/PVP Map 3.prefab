@@ -586,7 +586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.13
+      value: -8.690001
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1120,7 +1120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.17000031
+      value: -0.5606391
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1190,8 +1190,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &750754164949613301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,7 +1208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 116522598
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -1724,8 +1728,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7496637136749909361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,7 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3959440124
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -2556,7 +2564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.067134
+      value: -7.2499957
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2618,8 +2626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4283621363314672681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2632,7 +2644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4232585473
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -3688,8 +3700,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4811058770366922544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3702,7 +3718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1020770876
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -3982,8 +3998,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7028650873679167727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3996,7 +4016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2585300545
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -4100,7 +4120,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.8214283
+      value: -7.3814282
       objectReference: {fileID: 0}
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4606,7 +4626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.312265
+      value: -10.660006
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4676,8 +4696,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4803787466619156663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4690,7 +4714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4064635137
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -5756,8 +5780,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &454443666301954845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5770,7 +5798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 811476107
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -5789,140 +5817,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
   m_PrefabInstance: {fileID: 2190813435100063135}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &2212210486390956515
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4193105212175746293}
-    m_Modifications:
-    - target: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_Name
-      value: SM_PolygonPrototype_Prop_Crate_03 (39)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.684996
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.7179985
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 4.6828585
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.0000029504295
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6500390937836897211}
-    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4240352705460798548}
-  m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
---- !u!1 &5382023470334391282 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-  m_PrefabInstance: {fileID: 2212210486390956515}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6500390937836897211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5382023470334391282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 1
---- !u!114 &4240352705460798548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5382023470334391282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  m_InScenePlacedDisabledByDefault: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  m_InScenePlaced: 0
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
---- !u!4 &7077956256363612932 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-  m_PrefabInstance: {fileID: 2212210486390956515}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2215790163864715866
 PrefabInstance:
@@ -6098,7 +5992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.75
+      value: -8.309999
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6655,8 +6549,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1564600823020073786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6669,7 +6567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1018322052
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -6863,8 +6761,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6802776681057343780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6877,7 +6779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1747140716
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -7375,8 +7277,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6869213562254054022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7389,7 +7295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3486304804
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -7825,8 +7731,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6642742558635112971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7839,7 +7749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 724581763
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -8040,7 +7950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4377022
+      value: 2.6099617
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8115,8 +8025,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1261004548622099785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8129,7 +8043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1209820625
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -9433,8 +9347,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7786611896480954111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9447,7 +9365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1957043055
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -9908,7 +9826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4377346
+      value: 2.6099942
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9983,8 +9901,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5931993811036215341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9997,7 +9919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 326618894
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -10327,8 +10249,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6993535337272186712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10341,7 +10267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2219220136
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -10518,7 +10444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.25
+      value: -1.6406388
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12278,7 +12204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9
+      value: -8.559999
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12649,8 +12575,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1930401771434842694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12663,7 +12593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2483805082
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -12976,7 +12906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.75
+      value: -8.309999
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13132,7 +13062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4377403
+      value: 2.61
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13207,8 +13137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5774589335374259270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13221,7 +13155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4154448390
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -13386,7 +13320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.25
+      value: -5.81
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13675,8 +13609,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5187446120948324264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13689,7 +13627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2784359553
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -13952,8 +13890,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1311558264241776427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13966,7 +13908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2828528931
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -14928,7 +14870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.1828637
+      value: 6.7500024
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14990,8 +14932,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6833941657377651862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15004,7 +14950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3702227160
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -15408,7 +15354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.182856
+      value: 6.7499948
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15470,8 +15416,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2717538738360015295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15484,7 +15434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1147435951
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -15924,7 +15874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.5671425
+      value: -8.750004
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15986,8 +15936,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &584910329226483883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16000,7 +15954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3819825936
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -16658,8 +16612,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7491959088410320670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16672,7 +16630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2953418429
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -17438,8 +17396,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &340312595450425145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17452,7 +17414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3264388373
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -17510,7 +17472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.567135
+      value: -8.749996
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17572,8 +17534,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8250186166319713077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17586,7 +17552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3253291475
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -17784,8 +17750,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6125029400736383958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17798,7 +17768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3474874116
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -18218,8 +18188,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4249437802556756396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18232,7 +18206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2395380030
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -18648,7 +18622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.31226
+      value: -10.66
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18718,8 +18692,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6258034664618774175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18732,7 +18710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1050076847
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -20004,8 +19982,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4258423253761170909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20018,7 +20000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2655520880
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -20259,140 +20241,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4756262757966062, guid: 1ce022d65e1e7b84d9e5ae4a479c39ba, type: 3}
   m_PrefabInstance: {fileID: 6398698806287991297}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6418752516889458993
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4193105212175746293}
-    m_Modifications:
-    - target: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_Name
-      value: SM_PolygonPrototype_Prop_Crate_03 (36)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.684925
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.7179985
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7.067142
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.0000029504295
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4622283903912252907}
-    - targetCorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3187883478903035195}
-  m_SourcePrefab: {fileID: 100100000, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
---- !u!1 &941372187241458464 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6053841082006016529, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-  m_PrefabInstance: {fileID: 6418752516889458993}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4622283903912252907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941372187241458464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 1
---- !u!114 &3187883478903035195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941372187241458464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  m_InScenePlacedDisabledByDefault: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  m_InScenePlaced: 0
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
---- !u!4 &2709292748244227030 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
-  m_PrefabInstance: {fileID: 6418752516889458993}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6478486501577979130
 PrefabInstance:
@@ -20860,8 +20708,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7150075027193077196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20874,7 +20726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1667353800
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -21676,8 +21528,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7357211910473352443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21690,7 +21546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4132610630
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -21864,7 +21720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.16999364
+      value: -0.5606324
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21934,8 +21790,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &467606999009702960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21948,7 +21808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3224854033
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -22204,7 +22064,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.32142854
+      value: -0.7120673
       objectReference: {fileID: 0}
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22586,7 +22446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.75
+      value: -8.309999
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22874,7 +22734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.5
+      value: -8.059999
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23684,7 +23544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.4915653
+      value: -1.882204
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23824,7 +23684,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.32142854
+      value: -0.7120673
       objectReference: {fileID: 0}
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23985,8 +23845,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2423916863063453694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23999,7 +23863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1300938937
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -24555,8 +24419,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8358491734057504553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24569,7 +24437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 337717627
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -24767,8 +24635,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &639900344614761601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24781,7 +24653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4007115710
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -25122,7 +24994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.75
+      value: -6.31
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25613,8 +25485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7843633131129337590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25627,7 +25503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2185451856
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -26470,7 +26346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.5
+      value: -6.06
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26548,7 +26424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.312298
+      value: -10.660038
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26623,8 +26499,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6084609105226639769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26637,7 +26517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1079282596
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -26938,7 +26818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.25
+      value: -5.81
       objectReference: {fileID: 0}
     - target: {fileID: 413014, guid: cc7144ff9653031498f244b1df8c8fa9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27016,7 +26896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.312304
+      value: -10.660044
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27091,8 +26971,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4450661465169011018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27105,7 +26989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1073776226
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -27598,7 +27482,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.8214283
+      value: -7.3814282
       objectReference: {fileID: 0}
     - target: {fileID: 8911171822654368399, guid: 2f7f1671408938c468a55f9cdd0f8946, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27754,7 +27638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.682867
+      value: 5.2500057
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -27821,8 +27705,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2616754382143410265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27835,7 +27723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 602153533
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -28258,7 +28146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4376965
+      value: 2.609956
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28333,8 +28221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6456230311446259756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28347,7 +28239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3473335628
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -29582,9 +29474,6 @@ PrefabInstance:
       addedObject: {fileID: 3252881666182447264}
     - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2709292748244227030}
-    - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3059644348960639807}
     - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       insertIndex: -1
@@ -29631,9 +29520,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3502273344935153624}
-    - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7077956256363612932}
     - targetCorrespondingSourceObject: {fileID: 4744932892904640423, guid: 5a9106a32fdeb804680568f7fbdc5f36, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4658134340882558529}
@@ -30737,8 +30623,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4980631506245986640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30751,7 +30641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1954028542
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -31241,8 +31131,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7493326359679861173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31255,7 +31149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2983590596
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
