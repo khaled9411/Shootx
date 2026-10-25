@@ -256,7 +256,7 @@ public class MatchHUD : MonoBehaviour
         int target = MatchManager.Instance != null ? (int)MatchManager.Instance.GetRemainingTime() : 10;
         // Show kill target from MatchConfig
         int killTarget = 10;
-        killsText.text = $"kills: {kills} / {killTarget}";
+        killsText.text = $"{kills} / {killTarget}";
 
         // Punch scale on kill
         killsText.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f, 5, 0.5f);
@@ -268,7 +268,7 @@ public class MatchHUD : MonoBehaviour
     private void UpdateDeathsDisplay(int deaths)
     {
         if (deathsText == null) return;
-        deathsText.text = $"Death: {deaths}";
+        deathsText.text = $"{deaths}";
     }
 
     private void ShowKillNotification()
