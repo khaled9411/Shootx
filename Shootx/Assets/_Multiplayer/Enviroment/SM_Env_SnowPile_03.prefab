@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1868892609412275639}
   - component: {fileID: 1868892609413103855}
   - component: {fileID: 1868892609414288289}
-  - component: {fileID: 1804312996731876815}
+  - component: {fileID: 2151454141698294083}
   m_Layer: 0
   m_Name: SM_Env_SnowPile_03
   m_TagString: Untagged
@@ -91,8 +91,8 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1804312996731876815
-MeshCollider:
+--- !u!65 &2151454141698294083
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,7 +109,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43157699122956274, guid: 8808d42381bd97f4b9bbb6cb5652cfe9, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 8.885635, y: 1.415796, z: 2.596266}
+  m_Center: {x: -0.057660103, y: 0.4439615, z: -0.03832352}

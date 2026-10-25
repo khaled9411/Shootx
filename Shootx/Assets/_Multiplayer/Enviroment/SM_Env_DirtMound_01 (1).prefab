@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7286802271803662225}
   - component: {fileID: 7286802271804354235}
   - component: {fileID: 7286802271805845697}
-  - component: {fileID: 7348529072157683651}
+  - component: {fileID: 1716181633574929565}
   m_Layer: 0
   m_Name: SM_Env_DirtMound_01 (1)
   m_TagString: Untagged
@@ -91,8 +91,8 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7348529072157683651
-MeshCollider:
+--- !u!65 &1716181633574929565
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,7 +109,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 4ebf2f57fae79244db298b7ff25391b8, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 6.249322, y: 2.970475, z: 5.518208}
+  m_Center: {x: 0.079557456, y: 0.8476375, z: 0.19591431}
