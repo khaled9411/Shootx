@@ -25,9 +25,14 @@ public class PlayerWorldStatusUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI basicAmmoText;
     [SerializeField] private TextMeshProUGUI extraAmmoText;
 
+    [Header("Ammunition Effects Colors")]
+    [SerializeField] private Color ammoDefaultColor = new Color(0.3f, 0.8f, 1f, 1f);
+    [SerializeField] private Color ammoIncreaseColor = new Color(0.2f, 1f, 0.4f, 1f);
+    [SerializeField] private Color ammoDecreaseColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+    [SerializeField] private Color ammoEmptyColor = Color.red;
+
     [Header("Animation")]
     [SerializeField] private float fillAnimDuration = 0.25f;
-    [SerializeField] private float punchScaleAmount = 0.15f;
 
     // ─── Internal References ────────────────────────────────────
     private Canvas _worldCanvas;
@@ -36,8 +41,11 @@ public class PlayerWorldStatusUI : MonoBehaviour
     private PlayerIdentity _playerIdentity;
     private Transform _followTarget;
     private Camera _mainCamera;
+
     private readonly Tween[] _healthTweens = new Tween[3];
     private Sequence _ammoSeq;
+
+    private int _lastTotalAmmo = -1;
 
     private void Awake()
     {
@@ -145,7 +153,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
             basicAmmoText = basicObj.GetComponent<TextMeshProUGUI>();
             basicAmmoText.fontSize = 1.4f;
             basicAmmoText.alignment = TextAlignmentOptions.Center;
-            basicAmmoText.color = new Color(0.3f, 0.8f, 1f, 1f);
+            basicAmmoText.color = ammoDefaultColor;
             basicAmmoText.text = "B: 3/3";
 
             GameObject extraObj = new GameObject("ExtraAmmoText", typeof(RectTransform), typeof(TextMeshProUGUI));
@@ -179,11 +187,12 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         if (_playerShooting != null)
         {
+            _lastTotalAmmo = _playerShooting.BasicAmmo + _playerShooting.ExtraAmmo;
             UpdateAmmoDisplay(_playerShooting.BasicAmmo, _playerShooting.ExtraAmmo, animate: false);
 
             if (_playerShooting.IsOwner)
             {
-                AimFireJoystick.LocalPlayerHasAmmo = (_playerShooting.BasicAmmo + _playerShooting.ExtraAmmo) > 0;
+                AimFireJoystick.LocalPlayerHasAmmo = (_lastTotalAmmo) > 0;
             }
         }
 
@@ -192,14 +201,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
             UpdateNameDisplay(_playerIdentity.PlayerName);
         }
 
-        if (_playerHealth != null && _playerHealth.IsDead)
-        {
-            SetStatusUIVisible(false);
-        }
-        else
-        {
-            SetStatusUIVisible(true);
-        }
+        SetStatusUIVisible(_playerHealth == null || !_playerHealth.IsDead);
     }
 
     private void InitializeComponents()
@@ -334,7 +336,7 @@ public class PlayerWorldStatusUI : MonoBehaviour
         }
     }
 
-    // ─── Ammunition Presentation ────────────────────────────────
+    // ─── Ammunition Presentation & Effects ────────────────────────
     private void HandleAmmoChanged(int basic, int extra)
     {
         UpdateAmmoDisplay(basic, extra, animate: true);
@@ -365,23 +367,64 @@ public class PlayerWorldStatusUI : MonoBehaviour
             }
         }
 
-        if (animate && basicAmmoText != null)
+        int currentTotal = basic + extra;
+
+        if (animate && basicAmmoText != null && _lastTotalAmmo != -1)
         {
-            KillAmmoTween();
-            _ammoSeq = DOTween.Sequence();
-            _ammoSeq.Append(basicAmmoText.transform.DOPunchScale(Vector3.one * punchScaleAmount, 0.15f, 5, 0.5f));
+            if (currentTotal > _lastTotalAmmo)
+            {
+                TriggerAmmoIncreaseEffect();
+            }
+            else if (currentTotal < _lastTotalAmmo)
+            {
+                TriggerAmmoDecreaseEffect();
+            }
         }
+
+        _lastTotalAmmo = currentTotal;
+    }
+
+    private void TriggerAmmoDecreaseEffect()
+    {
+        if (basicAmmoText == null) return;
+
+        KillAmmoTween();
+        _ammoSeq = DOTween.Sequence();
+
+        _ammoSeq.Append(basicAmmoText.transform.DOPunchScale(Vector3.one * -0.15f, 0.15f, 1, 0.5f));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoDecreaseColor, 0.05f));
+        _ammoSeq.Append(basicAmmoText.DOColor(ammoDefaultColor, 0.15f));
+    }
+
+    private void TriggerAmmoIncreaseEffect()
+    {
+        if (basicAmmoText == null) return;
+
+        KillAmmoTween();
+        _ammoSeq = DOTween.Sequence();
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1.3f, 0.15f));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoIncreaseColor, 0.15f));
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoDefaultColor, 0.2f));
     }
 
     private void HandleAmmoRefunded()
     {
-        if (basicAmmoText != null)
-        {
-            KillAmmoTween();
-            _ammoSeq = DOTween.Sequence();
-            _ammoSeq.Append(basicAmmoText.transform.DOPunchScale(Vector3.one * (punchScaleAmount * 1.5f), 0.25f, 6, 0.6f));
-        }
+        if (basicAmmoText == null) return;
+
+        KillAmmoTween();
+        _ammoSeq = DOTween.Sequence();
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1.4f, 0.1f));
+        _ammoSeq.Join(basicAmmoText.transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.25f, 6, 1f));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoIncreaseColor, 0.1f));
+
+        _ammoSeq.Append(basicAmmoText.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBack));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoDefaultColor, 0.2f));
     }
+
     private void TriggerEmptyAmmoEffect()
     {
         if (basicAmmoText == null) return;
@@ -391,11 +434,13 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         _ammoSeq.Append(basicAmmoText.transform.DOScale(1.5f, 0.15f));
         _ammoSeq.Join(basicAmmoText.transform.DOPunchRotation(new Vector3(0, 0, 15f), 0.35f, 10, 1f));
-        _ammoSeq.Join(basicAmmoText.DOColor(Color.red, 0.15f));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoEmptyColor, 0.15f));
 
         _ammoSeq.Append(basicAmmoText.transform.DOScale(1f, 0.15f));
-        _ammoSeq.Join(basicAmmoText.DOColor(new Color(0.3f, 0.8f, 1f, 1f), 0.15f));
+        _ammoSeq.Join(basicAmmoText.DOColor(ammoDefaultColor, 0.15f));
     }
+
+    // ────────────────────────────────────────────────────────────
 
     private void UpdateNameDisplay(string newName)
     {
@@ -422,10 +467,12 @@ public class PlayerWorldStatusUI : MonoBehaviour
 
         if (_playerShooting != null)
         {
+            _lastTotalAmmo = _playerShooting.BasicAmmo + _playerShooting.ExtraAmmo;
             UpdateAmmoDisplay(_playerShooting.BasicAmmo, _playerShooting.ExtraAmmo, animate: false);
+
             if (_playerShooting.IsOwner)
             {
-                AimFireJoystick.LocalPlayerHasAmmo = (_playerShooting.BasicAmmo + _playerShooting.ExtraAmmo) > 0;
+                AimFireJoystick.LocalPlayerHasAmmo = _lastTotalAmmo > 0;
             }
         }
     }

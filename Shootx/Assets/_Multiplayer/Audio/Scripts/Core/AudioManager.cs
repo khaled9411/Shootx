@@ -273,10 +273,13 @@ namespace Shootx.Audio
             {
                 PlayMusic(MusicTrackId.Lobby, 1.0f);
             }
-            else if (sceneName.IndexOf("Multiplayer", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                     sceneName.IndexOf("Main", StringComparison.OrdinalIgnoreCase) >= 0)
+            else if (sceneName.IndexOf("Multiplayer", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 PlayMusic(MusicTrackId.Gameplay, 1.2f);
+            }
+            else if (sceneName.IndexOf("Main", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                Destroy(gameObject);
             }
         }
 

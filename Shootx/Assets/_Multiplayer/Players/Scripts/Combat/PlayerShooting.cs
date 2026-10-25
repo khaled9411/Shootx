@@ -97,6 +97,10 @@ public class PlayerShooting : NetworkBehaviour
     [SerializeField] private Color previewBeamColor = new Color(0f, 0.9f, 1f, 0.45f);
     [SerializeField] private float previewBeamWidth = 0.04f;
 
+    [Header("Ammo Refund Visuals")]
+    [SerializeField] private AmmoRefundVFX refundVFXPrefab;
+    [SerializeField] private Transform refundVFXTarget;
+
     // ─── Networked Ammunition State ─────────────────────────────
     /// <summary>
     /// Basic ammunition. Starts at 3. Refunded only on confirmed enemy player hit.
@@ -716,6 +720,17 @@ public class PlayerShooting : NetworkBehaviour
             if (wasRefunded)
             {
                 OnBasicAmmoRefunded?.Invoke();
+
+                if (refundVFXPrefab != null && trajectoryPoints != null && trajectoryPoints.Length > 0)
+                {
+                    Vector3 hitPoint = trajectoryPoints[trajectoryPoints.Length - 1];
+
+                    AmmoRefundVFX refundOrb = Instantiate(refundVFXPrefab, hitPoint, Quaternion.identity);
+
+                    Transform targetTransform = refundVFXTarget != null ? refundVFXTarget : transform;
+
+                    refundOrb.Initialize(targetTransform);
+                }
             }
         }
         else
