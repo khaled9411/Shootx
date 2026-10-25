@@ -318,8 +318,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2055400314034808527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,7 +1438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.64252
+      value: -23.067242
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1442,7 +1446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.096773
+      value: -12.0969925
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1504,8 +1508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &9013015531605559397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,8 +1646,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7957087780089054663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2228,8 +2240,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7687606078023432038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2740,7 +2756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.212439
+      value: -21.637
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2748,7 +2764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.153218
+      value: 10.153234
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2810,8 +2826,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2338631414987979093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2944,8 +2964,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3030544510079521301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3234,8 +3258,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7545798485147690006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3972,8 +4000,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7046891364581986397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3986,7 +4018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4264609443
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -4402,8 +4434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &604450890286331218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4856,8 +4892,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4846823839614186763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5364,8 +5404,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8508437118064733201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5498,8 +5542,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3096301326216205537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6212,8 +6260,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3672637484830283276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6654,8 +6706,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6117473804962349980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7216,8 +7272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4192179682141068881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7428,8 +7488,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3000696953425728306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7562,8 +7626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6922480483149052027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7836,8 +7904,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6068212911179708126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8193,8 +8265,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5009841592919516208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8327,8 +8403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3967748420867669654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8835,8 +8915,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3994521477767237143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8969,8 +9053,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4393098751371158068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9028,7 +9116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.855215
+      value: 13.565
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9103,8 +9191,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2569696812705310258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9315,8 +9407,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5013796384670034393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9374,7 +9470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.285215
+      value: 14.995
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9449,8 +9545,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1373604047527503789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10237,8 +10337,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5015716891011971934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11049,8 +11153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8096901350428973505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11708,7 +11816,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.658278
+      value: -23.082838
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11716,7 +11824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.653217
+      value: 8.653233
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11783,8 +11891,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1274765693846187094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12143,8 +12255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5107888581059949928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13037,8 +13153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &1495266889248110717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13171,8 +13291,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3961066337952756093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13387,8 +13511,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3279548040958153251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13676,7 +13804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.642439
+      value: -23.067
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13684,7 +13812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.153223
+      value: 10.153238
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13751,8 +13879,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3740007034245498680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14029,8 +14161,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8982993838600253960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14361,8 +14497,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7636757146472895536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16222,8 +16362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4662382850806976626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16858,8 +17002,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4261900365499955235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17822,7 +17970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.855396
+      value: 13.555998
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17892,8 +18040,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4617442065948470203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18692,7 +18844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.21252
+      value: -21.637241
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18700,7 +18852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.096779
+      value: -12.096998
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18762,8 +18914,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6793298307780917761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19570,8 +19726,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7171198957063577927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19852,8 +20012,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4325544358136742935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19986,8 +20150,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7164231970805917130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21444,8 +21612,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7702338679841554651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21660,7 +21832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.301061
+      value: 15.010845
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21730,8 +21902,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8321105616819332864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21864,8 +22040,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8470552293029503077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22154,8 +22334,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5686258208078212954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22296,7 +22480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.2853985
+      value: 14.986
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22366,8 +22550,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2080042303228142109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22500,8 +22688,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &578035315500626056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23308,8 +23500,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8881179024759973372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24133,8 +24329,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7269294614000924473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24192,7 +24392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.301148
+      value: 15.00175
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -24267,8 +24467,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8930080566166789327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25193,8 +25397,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5446653403791864701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25837,8 +26045,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &9161379417272847040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25896,7 +26108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.65828
+      value: -23.083
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25904,7 +26116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.596781
+      value: -10.597
       objectReference: {fileID: 0}
     - target: {fileID: 8974172131410881255, guid: 3c68cde8afed5344891d667d7e09290e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25971,8 +26183,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7372424609314043729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26105,8 +26321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &2316811581817109508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26465,8 +26685,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &5601613489671066130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26887,8 +27111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &464390777650821258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28805,8 +29033,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &3598155134453059223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31259,8 +31491,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &7168853627112641706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31471,8 +31707,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &8081072914619371570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32821,8 +33061,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &6204168428596777505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33017,8 +33261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8f518c5206474998c4b5f1e044977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleBox
-  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 1
+  destructionParticles: {fileID: 0}
+  visualTransform: {fileID: 0}
+  explosionRadius: 5
+  explosionForce: 300
+  upwardModifier: 1
 --- !u!114 &4900064728069854922
 MonoBehaviour:
   m_ObjectHideFlags: 0
