@@ -10,8 +10,8 @@ namespace Shootx.Audio
     [Serializable]
     public class MusicTrackDefinition
     {
-        public MusicTrackId trackId;
         public string title = string.Empty;
+        public MusicTrackId trackId;
         public AudioClip clip;
         [Range(0f, 1f)] public float volume = 0.75f;
         public bool loop = true;

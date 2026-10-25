@@ -564,9 +564,8 @@ public class PlayerShooting : NetworkBehaviour
         if (animationController == null) animationController = GetComponent<PlayerAnimationController>();
         animationController?.PlayShootClientRpc();
 
-        // 7. Notify the SHOOTER CLIENT ONLY about the result and confirmed laser trajectory
-        // Other clients NEVER see this player's laser visual!
-        RenderConfirmedLaserClientRpc(trajectory.ToArray(), hitEnemyPlayer, wasRefunded);
+        // 7. Notify ALL CLIENTS about the result and confirmed laser trajectory
+        BroadcastShotEffectsClientRpc(trajectory.ToArray(), hitEnemyPlayer, wasRefunded);
     }
 
     /// <summary>
@@ -705,24 +704,31 @@ public class PlayerShooting : NetworkBehaviour
     // ─── Local-Only Laser Visuals ───────────────────────────────
 
     [ClientRpc]
-    private void RenderConfirmedLaserClientRpc(Vector3[] trajectoryPoints, bool hitEnemy, bool wasRefunded)
+    private void BroadcastShotEffectsClientRpc(Vector3[] trajectoryPoints, bool hitEnemy, bool wasRefunded)
     {
-        // Critical: The laser beam must be visible ONLY to the player who fired it!
-        if (!IsOwner) return;
+        if (IsOwner)
+        {
+            if (!predictLaserLocally)
+            {
+                RenderLocalLaser(trajectoryPoints);
+            }
 
-        // If local prediction was off, render on server confirmation
-        if (!predictLaserLocally)
+            if (wasRefunded)
+            {
+                OnBasicAmmoRefunded?.Invoke();
+            }
+        }
+        else
         {
             RenderLocalLaser(trajectoryPoints);
+
+            Vector3 spawnPos = muzzlePoint != null ? muzzlePoint.position : transform.position + Vector3.up * 0.9f + transform.forward * 0.5f;
+            Vector3 direction = trajectoryPoints.Length > 1 ? (trajectoryPoints[1] - trajectoryPoints[0]).normalized : transform.forward;
+            SpawnMuzzleFlash(spawnPos, direction);
+
+            playerAudioController?.PlayGunshotAudio(isLocalOwner: false);
         }
 
-        // Notify HUD about refund
-        if (wasRefunded)
-        {
-            OnBasicAmmoRefunded?.Invoke();
-        }
-
-        // Play confirmed ricochet / wall impacts for shooter
         if (trajectoryPoints != null && trajectoryPoints.Length > 1)
         {
             for (int i = 1; i < trajectoryPoints.Length; i++)
@@ -826,12 +832,5 @@ public class PlayerShooting : NetworkBehaviour
         {
             basicAmmo.Value = BasicCapacity;
         }
-    }
-
-    // ─── Legacy & Utility ───────────────────────────────────────
-
-    public void RequestReload()
-    {
-        // Hitscan weapon does not use reload timer; ammo is refunded via hits or pickups
     }
 }

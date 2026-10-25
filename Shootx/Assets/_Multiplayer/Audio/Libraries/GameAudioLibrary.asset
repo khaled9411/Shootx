@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GameAudioLibrary
   m_EditorClassIdentifier: Assembly-CSharp::Shootx.Audio.AudioLibrary
   sounds:
-  - id: 100
-    displayName: UI Button Click
+  - displayName: UI Button Click
+    id: 100
     category: 10
     clips:
     - {fileID: 8300000, guid: eb3ceee3da22a4368a284a670b2fd99b, type: 3}
@@ -33,8 +33,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 101
-    displayName: UI Button Back
+  - displayName: UI Button Back
+    id: 101
     category: 10
     clips:
     - {fileID: 8300000, guid: 5d4e71df2b6734beb9024a1bf5c9ab42, type: 3}
@@ -52,8 +52,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 102
-    displayName: UI Tab Select
+  - displayName: UI Tab Select
+    id: 102
     category: 10
     clips:
     - {fileID: 8300000, guid: 59eaec4a8378c4c91b1b2c823ab1ea1a, type: 3}
@@ -71,8 +71,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 103
-    displayName: UI Panel Open
+  - displayName: UI Panel Open
+    id: 103
     category: 10
     clips:
     - {fileID: 8300000, guid: 716ed2ce5e78a4a059ee07bae743fe42, type: 3}
@@ -90,8 +90,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 104
-    displayName: UI Panel Close
+  - displayName: UI Panel Close
+    id: 104
     category: 10
     clips:
     - {fileID: 8300000, guid: c6a04d2da9e71479b900f7381b720673, type: 3}
@@ -109,8 +109,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 105
-    displayName: UI Action Success
+  - displayName: UI Action Success
+    id: 105
     category: 10
     clips:
     - {fileID: 8300000, guid: 5a9e9942517d645bda6920579a191931, type: 3}
@@ -128,8 +128,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 106
-    displayName: UI Action Failed / Error
+  - displayName: UI Action Failed / Error
+    id: 106
     category: 10
     clips:
     - {fileID: 8300000, guid: 5240820fcafbe45029fbf26f0b60c653, type: 3}
@@ -147,8 +147,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 107
-    displayName: UI Lobby Ready
+  - displayName: UI Lobby Ready
+    id: 107
     category: 10
     clips:
     - {fileID: 8300000, guid: c53f11efc2e944a4ca8436ff9296c0fa, type: 3}
@@ -166,8 +166,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 108
-    displayName: UI Lobby Unready
+  - displayName: UI Lobby Unready
+    id: 108
     category: 10
     clips:
     - {fileID: 8300000, guid: 22c332b5adc1b4dec94e12169832152e, type: 3}
@@ -185,8 +185,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 109
-    displayName: UI Match Start
+  - displayName: UI Match Start
+    id: 109
     category: 10
     clips:
     - {fileID: 8300000, guid: 26236568147794fdb814b3bb907ae6d1, type: 3}
@@ -204,8 +204,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 110
-    displayName: UI Slider Tick
+  - displayName: UI Slider Tick
+    id: 110
     category: 10
     clips:
     - {fileID: 8300000, guid: 51752b44ccd8744cebf24ca2ac4d8c3d, type: 3}
@@ -223,8 +223,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 111
-    displayName: UI Toggle Switch
+  - displayName: UI Toggle Switch
+    id: 111
     category: 10
     clips:
     - {fileID: 8300000, guid: 2803d4aa897f54a74b9500d9a116c619, type: 3}
@@ -242,8 +242,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 200
-    displayName: Player Footstep
+  - displayName: Player Footstep
+    id: 200
     category: 5
     clips: []
     volume: 0.85
@@ -260,8 +260,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 201
-    displayName: Player Footstep Dirt
+  - displayName: Player Footstep Dirt
+    id: 201
     category: 5
     clips: []
     volume: 0.85
@@ -278,8 +278,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 202
-    displayName: Player Footstep Metal
+  - displayName: Player Footstep Metal
+    id: 202
     category: 5
     clips: []
     volume: 0.85
@@ -296,8 +296,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 300
-    displayName: Player Dash Whoosh
+  - displayName: Player Dash Whoosh
+    id: 300
     category: 6
     clips:
     - {fileID: 8300000, guid: ba726da9b7ce7cf49a3ac9ed747767ef, type: 3}
@@ -315,8 +315,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 301
-    displayName: Player Dash Obstacle Impact
+  - displayName: Player Dash Obstacle Impact
+    id: 301
     category: 6
     clips: []
     volume: 0.9
@@ -333,8 +333,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 400
-    displayName: Revolver Gunshot
+  - displayName: Revolver Gunshot
+    id: 400
     category: 3
     clips:
     - {fileID: 8300000, guid: e8121310a002ab2459bff04a97d90313, type: 3}
@@ -354,8 +354,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 401
-    displayName: Weapon Dry Fire
+  - displayName: Weapon Dry Fire
+    id: 401
     category: 3
     clips:
     - {fileID: 8300000, guid: 0e0969cc6893e400ca298c34c98c302f, type: 3}
@@ -373,8 +373,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 402
-    displayName: Basic Ammo Refunded Ping
+  - displayName: Basic Ammo Refunded Ping
+    id: 402
     category: 3
     clips:
     - {fileID: 8300000, guid: 75be273f1914a4f089cd867ded189bc1, type: 3}
@@ -392,8 +392,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 410
-    displayName: Bullet Wall Impact
+  - displayName: Bullet Wall Impact
+    id: 410
     category: 7
     clips:
     - {fileID: 8300000, guid: 89d665906d62c0345b81077025361dfd, type: 3}
@@ -412,8 +412,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 411
-    displayName: Wall Ricochet Whistle
+  - displayName: Wall Ricochet Whistle
+    id: 411
     category: 7
     clips:
     - {fileID: 8300000, guid: 3c0ff0e6c50414aaa840c9360aa3b3b3, type: 3}
@@ -431,8 +431,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 412
-    displayName: Crate Bullet Hit
+  - displayName: Crate Bullet Hit
+    id: 412
     category: 7
     clips:
     - {fileID: 8300000, guid: 0eb96697cc6f1014f824ba34f8e63ab3, type: 3}
@@ -450,8 +450,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 413
-    displayName: Bullet Hit Player
+  - displayName: Bullet Hit Player
+    id: 413
     category: 7
     clips:
     - {fileID: 8300000, guid: 5ce8d6c3b95b1624f8e73c1306a21ae1, type: 3}
@@ -469,8 +469,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 500
-    displayName: Melee Slash Swing
+  - displayName: Melee Slash Swing
+    id: 500
     category: 4
     clips:
     - {fileID: 8300000, guid: 1aa4c21b174363345ac76e3276e18fa0, type: 3}
@@ -488,8 +488,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 501
-    displayName: Melee Hit Player
+  - displayName: Melee Hit Player
+    id: 501
     category: 4
     clips:
     - {fileID: 8300000, guid: 5ce8d6c3b95b1624f8e73c1306a21ae1, type: 3}
@@ -507,8 +507,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 502
-    displayName: Melee Hit Wall
+  - displayName: Melee Hit Wall
+    id: 502
     category: 4
     clips:
     - {fileID: 8300000, guid: 9941028263cee734cacbfc3397fc42eb, type: 3}
@@ -526,8 +526,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 600
-    displayName: Destructible Box Broken
+  - displayName: Destructible Box Broken
+    id: 600
     category: 9
     clips:
     - {fileID: 8300000, guid: fb300897b0f18be4db2834d1c93652ff, type: 3}
@@ -545,8 +545,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 700
-    displayName: Ammo Pickup World Collect
+  - displayName: Ammo Pickup World Collect
+    id: 700
     category: 8
     clips:
     - {fileID: 8300000, guid: d277e116012604f73833af4d67a01fa0, type: 3}
@@ -564,8 +564,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 701
-    displayName: Ammo Pickup Collector Chime
+  - displayName: Ammo Pickup Collector Chime
+    id: 701
     category: 8
     clips:
     - {fileID: 8300000, guid: f6ce1190d45f74cada489b508b1e02ba, type: 3}
@@ -583,8 +583,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 800
-    displayName: Player Damage Taken
+  - displayName: Player Damage Taken
+    id: 800
     category: 2
     clips:
     - {fileID: 8300000, guid: 17d10cd713035254cad5521c605c4f3b, type: 3}
@@ -602,8 +602,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 801
-    displayName: Player Death
+  - displayName: Player Death
+    id: 801
     category: 2
     clips:
     - {fileID: 8300000, guid: a9d4a085f430e5f428b6a057d28304e6, type: 3}
@@ -621,8 +621,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 802
-    displayName: Player Respawn
+  - displayName: Player Respawn
+    id: 802
     category: 2
     clips:
     - {fileID: 8300000, guid: 5533f461de377ff4fba7d83b296f91a1, type: 3}
@@ -640,8 +640,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 803
-    displayName: Spawn Protection Active
+  - displayName: Spawn Protection Active
+    id: 803
     category: 2
     clips:
     - {fileID: 0}
@@ -659,8 +659,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 804
-    displayName: Spawn Protection Expired
+  - displayName: Spawn Protection Expired
+    id: 804
     category: 2
     clips: []
     volume: 0.8
@@ -677,8 +677,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 900
-    displayName: Pre-Match Countdown Tick
+  - displayName: Pre-Match Countdown Tick
+    id: 900
     category: 11
     clips:
     - {fileID: 8300000, guid: e28292653d24b4f20a211a70f9ffb772, type: 3}
@@ -696,8 +696,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 901
-    displayName: Pre-Match Countdown 1
+  - displayName: Pre-Match Countdown 1
+    id: 901
     category: 11
     clips:
     - {fileID: 8300000, guid: a1dece797edec48e185099ed16e4d7e2, type: 3}
@@ -715,8 +715,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 902
-    displayName: Match Start (GO!)
+  - displayName: Match Start (GO!)
+    id: 902
     category: 11
     clips:
     - {fileID: 8300000, guid: 18e7a977900e54e27a8c431b34ffc659, type: 3}
@@ -734,8 +734,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 903
-    displayName: Match Timer 30s Warning
+  - displayName: Match Timer 30s Warning
+    id: 903
     category: 11
     clips:
     - {fileID: 8300000, guid: deb1ef9c19a154fda8cee90d49b52986, type: 3}
@@ -753,8 +753,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 904
-    displayName: Local Kill Confirmed Chime
+  - displayName: Local Kill Confirmed Chime
+    id: 904
     category: 11
     clips:
     - {fileID: 8300000, guid: e9383f24a1ce64d058ed47fbc895c395, type: 3}
@@ -772,8 +772,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 905
-    displayName: Match Victory Fanfare
+  - displayName: Match Victory Fanfare
+    id: 905
     category: 11
     clips:
     - {fileID: 8300000, guid: 9d12098ed55364e7e80e277242e2c77e, type: 3}
@@ -791,8 +791,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 906
-    displayName: Match Defeat Sting
+  - displayName: Match Defeat Sting
+    id: 906
     category: 11
     clips:
     - {fileID: 8300000, guid: 35e4f1431945c43fc9e5bf6e158e8d1c, type: 3}
@@ -810,8 +810,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 907
-    displayName: Match Draw Sting
+  - displayName: Match Draw Sting
+    id: 907
     category: 11
     clips:
     - {fileID: 8300000, guid: 484dbb9f2f17d4e95b566a7bcef4426f, type: 3}
@@ -829,8 +829,8 @@ MonoBehaviour:
     cooldown: 0.04
     loop: 0
     customMixerGroup: {fileID: 0}
-  - id: 908
-    displayName: Results Screen Open Whoosh
+  - displayName: Results Screen Open Whoosh
+    id: 908
     category: 10
     clips: []
     volume: 0.9
@@ -848,23 +848,23 @@ MonoBehaviour:
     loop: 0
     customMixerGroup: {fileID: 0}
   musicTracks:
-  - trackId: 1
-    title: Main Menu Theme
+  - title: Main Menu Theme
+    trackId: 1
     clip: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
     volume: 0.75
     loop: 1
-  - trackId: 2
-    title: Multiplayer Lobby Theme
+  - title: Multiplayer Lobby Theme
+    trackId: 2
     clip: {fileID: 8300000, guid: 6483d6cea870f1f4e8c7629b6a4ea0fd, type: 3}
     volume: 0.75
     loop: 1
-  - trackId: 3
-    title: Gameplay Arena Ambience
+  - title: Gameplay Arena Ambience
+    trackId: 3
     clip: {fileID: 8300000, guid: 592def5be8ed2de4697eb274c98e787c, type: 3}
     volume: 0.7
     loop: 1
-  - trackId: 4
-    title: Match Results Theme
+  - title: Match Results Theme
+    trackId: 4
     clip: {fileID: 8300000, guid: 12a4e25fbe505b049a5938082125a3d6, type: 3}
     volume: 0.8
     loop: 1

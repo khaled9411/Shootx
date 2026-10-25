@@ -13,11 +13,12 @@ namespace Shootx.Audio
     public class SoundDefinition
     {
         [Header("Sound Identification")]
+        [Tooltip("Descriptive name or notes for the sound designer.")]
+        public string displayName = string.Empty;
+
         [Tooltip("Type-safe identifier used by gameplay code to trigger this sound.")]
         public SoundId id = SoundId.None;
 
-        [Tooltip("Descriptive name or notes for the sound designer.")]
-        public string displayName = string.Empty;
 
         [Tooltip("Routing category determining default AudioMixerGroup routing.")]
         public SoundCategory category = SoundCategory.SFX;
