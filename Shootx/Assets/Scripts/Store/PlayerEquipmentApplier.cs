@@ -72,9 +72,9 @@ public class PlayerEquipmentApplier : MonoBehaviour
 
     private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
     {
-        if (CurrentScene.buildIndex == 2)
+        if (CurrentScene.buildIndex == 3)
         {
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 
