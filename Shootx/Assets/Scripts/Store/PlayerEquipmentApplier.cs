@@ -1,7 +1,8 @@
+using Shootx.Store;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Shootx.Store;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Single-player weapon equipment and character attachment controller.
@@ -66,6 +67,15 @@ public class PlayerEquipmentApplier : MonoBehaviour
     private void Start()
     {
         ApplyCurrentLoadout();
+        SceneManager.activeSceneChanged += OnactiveSceneChanged;
+    }
+
+    private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
+    {
+        if (CurrentScene.buildIndex == 2)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnEnable()

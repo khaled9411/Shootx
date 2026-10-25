@@ -1,11 +1,12 @@
+using Shootx.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using Unity.Services.Core;
-using Shootx.Store;
+using UnityEngine.SceneManagement;
 
 public class IAPManager : MonoBehaviour
 {
@@ -56,6 +57,15 @@ public class IAPManager : MonoBehaviour
     private async void Start()
     {
         await InitializePurchasingAsync();
+        SceneManager.activeSceneChanged += OnactiveSceneChanged;
+    }
+
+    private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
+    {
+        if (CurrentScene.buildIndex == 2)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDestroy()

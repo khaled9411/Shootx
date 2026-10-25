@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameDataManager : MonoBehaviour
 {
@@ -169,6 +170,19 @@ public class GameDataManager : MonoBehaviour
         LoadFromPlayerPrefs();
     }
 
+    private void Start()
+    {
+
+        SceneManager.activeSceneChanged += OnactiveSceneChanged;
+    }
+
+    private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
+    {
+        if (CurrentScene.buildIndex == 2)
+        {
+            Destroy(gameObject);
+        }
+    }
     // ===================================================================
     #endregion
 

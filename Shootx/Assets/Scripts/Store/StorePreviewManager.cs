@@ -1,8 +1,9 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using DG.Tweening;
 
 namespace Shootx.Store
 {
@@ -56,6 +57,19 @@ namespace Shootx.Store
             InitializeStage();
         }
 
+        private void Start()
+        {
+
+            SceneManager.activeSceneChanged += OnactiveSceneChanged;
+        }
+
+        private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
+        {
+            if (CurrentScene.buildIndex == 2)
+            {
+                Destroy(gameObject);
+            }
+        }
         private void InitializeStage()
         {
             if (_stageRoot != null) return;

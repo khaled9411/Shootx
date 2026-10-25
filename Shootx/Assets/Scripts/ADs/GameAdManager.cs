@@ -1,6 +1,7 @@
+using GoogleMobileAds.Api;
 using System;
 using UnityEngine;
-using GoogleMobileAds.Api;
+using UnityEngine.SceneManagement;
 
 public class GameAdManager : MonoBehaviour
 {
@@ -42,6 +43,15 @@ public class GameAdManager : MonoBehaviour
 
         if (startAutoInterstitialOnStart)
             StartAutoInterstitial();
+        SceneManager.activeSceneChanged += OnactiveSceneChanged;
+    }
+
+    private void OnactiveSceneChanged(Scene preScene, Scene CurrentScene)
+    {
+        if (CurrentScene.buildIndex == 2)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
@@ -50,7 +60,8 @@ public class GameAdManager : MonoBehaviour
 
         _interstitialTimer += Time.unscaledDeltaTime;
 
-        if (_interstitialTimer >= autoInterstitialInterval && !UIManager.Instance.isgameactive())
+        if (_interstitialTimer >= autoInterstitialInterval &&
+            !UIManager.Instance.isgameactive())
         {
             _interstitialTimer = 0f;
             ShowInterstitialNow();
