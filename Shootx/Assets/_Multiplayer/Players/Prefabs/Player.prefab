@@ -472,6 +472,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   healthData: {fileID: 11400000, guid: 8ec5c1b1b0dd26a419173b5d8b053227, type: 2}
+  damageFlashObjectName: DamageFlash
+  flashDuration: 0.2
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &33000001
 MonoBehaviour:
   m_ObjectHideFlags: 0

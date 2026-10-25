@@ -97,14 +97,14 @@ namespace Shootx.Store
             _previewCamera.transform.localRotation = Quaternion.Euler(6f, 180f, 0f);
 
             // Create Preview Light
-            var lightGo = new GameObject("PreviewLight", typeof(Light));
-            lightGo.transform.SetParent(_stageRoot.transform, false);
-            _previewLight = lightGo.GetComponent<Light>();
-            _previewLight.type = LightType.Directional;
-            _previewLight.color = new Color(1f, 0.98f, 0.92f);
-            _previewLight.intensity = 1.3f;
-            lightGo.transform.localPosition = new Vector3(1.5f, 3f, 2f);
-            lightGo.transform.LookAt(_stageRoot.transform.position + Vector3.up * 1f);
+            //var lightGo = new GameObject("PreviewLight", typeof(Light));
+            //lightGo.transform.SetParent(_stageRoot.transform, false);
+            //_previewLight = lightGo.GetComponent<Light>();
+            //_previewLight.type = LightType.Directional;
+            //_previewLight.color = new Color(1f, 0.98f, 0.92f);
+            //_previewLight.intensity = 1.3f;
+            //lightGo.transform.localPosition = new Vector3(1.5f, 3f, 2f);
+            //lightGo.transform.LookAt(_stageRoot.transform.position + Vector3.up * 1f);
 
             // Instantiate Preview Character from Resources
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Player");

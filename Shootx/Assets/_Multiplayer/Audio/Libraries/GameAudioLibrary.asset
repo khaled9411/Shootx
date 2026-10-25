@@ -510,7 +510,8 @@ MonoBehaviour:
   - id: 502
     displayName: Melee Hit Wall
     category: 4
-    clips: []
+    clips:
+    - {fileID: 8300000, guid: 9941028263cee734cacbfc3397fc42eb, type: 3}
     volume: 0.9
     randomizePitch: 1
     minPitch: 0.9
@@ -585,7 +586,8 @@ MonoBehaviour:
   - id: 800
     displayName: Player Damage Taken
     category: 2
-    clips: []
+    clips:
+    - {fileID: 8300000, guid: 17d10cd713035254cad5521c605c4f3b, type: 3}
     volume: 0.95
     randomizePitch: 1
     minPitch: 0.95
@@ -603,7 +605,8 @@ MonoBehaviour:
   - id: 801
     displayName: Player Death
     category: 2
-    clips: []
+    clips:
+    - {fileID: 8300000, guid: a9d4a085f430e5f428b6a057d28304e6, type: 3}
     volume: 1
     randomizePitch: 0
     minPitch: 1
@@ -621,7 +624,8 @@ MonoBehaviour:
   - id: 802
     displayName: Player Respawn
     category: 2
-    clips: []
+    clips:
+    - {fileID: 8300000, guid: 5533f461de377ff4fba7d83b296f91a1, type: 3}
     volume: 0.95
     randomizePitch: 0
     minPitch: 1
@@ -639,7 +643,8 @@ MonoBehaviour:
   - id: 803
     displayName: Spawn Protection Active
     category: 2
-    clips: []
+    clips:
+    - {fileID: 0}
     volume: 0.85
     randomizePitch: 0
     minPitch: 1
@@ -845,17 +850,17 @@ MonoBehaviour:
   musicTracks:
   - trackId: 1
     title: Main Menu Theme
-    clip: {fileID: 8300000, guid: 4854e3acd31364b4883875c066cbe1a7, type: 3}
+    clip: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
     volume: 0.75
     loop: 1
   - trackId: 2
     title: Multiplayer Lobby Theme
-    clip: {fileID: 8300000, guid: f646d488337c94084b47e56752970960, type: 3}
+    clip: {fileID: 8300000, guid: 6483d6cea870f1f4e8c7629b6a4ea0fd, type: 3}
     volume: 0.75
     loop: 1
   - trackId: 3
     title: Gameplay Arena Ambience
-    clip: {fileID: 8300000, guid: 53c55b681e1e4024ea84626a419e7876, type: 3}
+    clip: {fileID: 8300000, guid: 592def5be8ed2de4697eb274c98e787c, type: 3}
     volume: 0.7
     loop: 1
   - trackId: 4
