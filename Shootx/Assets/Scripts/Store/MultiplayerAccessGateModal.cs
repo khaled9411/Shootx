@@ -17,50 +17,87 @@ namespace Shootx.Store
                 if (_instance == null)
                 {
                     _instance = UnityEngine.Object.FindFirstObjectByType<MultiplayerAccessGateModal>();
-                    if (_instance == null)
-                    {
-                        var canvas = UnityEngine.Object.FindFirstObjectByType<Canvas>();
-                        if (canvas != null)
-                        {
-                            var go = new GameObject("MultiplayerAccessGateModal");
-                            go.transform.SetParent(canvas.transform, false);
-                            _instance = go.AddComponent<MultiplayerAccessGateModal>();
-                        }
-                    }
                 }
                 return _instance;
             }
             private set => _instance = value;
         }
 
+        // ===================================================================
+        #region Inspector Fields - UI Controls & Roots
+        // ===================================================================
+
         [Header("=== Canvas Group & Roots ===")]
         [SerializeField] private CanvasGroup modalGroup;
         [SerializeField] private RectTransform modalBox;
 
-        [Header("=== UI Texts ===")]
+        [Header("=== Header & Status Banner ===")]
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI statusText;
         [SerializeField] private TextMeshProUGUI timerText;
-
-        [Header("=== Action Buttons ===")]
-        [SerializeField] private Button buyOnlineAccessButton;
-        [SerializeField] private TextMeshProUGUI buyOnlinePriceText;
-
-        [SerializeField] private Button buyRemoveAdsButton;
-        [SerializeField] private TextMeshProUGUI buyRemoveAdsPriceText;
-
-        [SerializeField] private Button watchAdButton;
-        [SerializeField] private Button enterMultiplayerButton;
+        [SerializeField] private Image statusBannerImage;
         [SerializeField] private Button closeButton;
 
-        [Header("=== Feedback Message ===")]
+        [Header("=== Action Option A: Online Access Pass ===")]
+        [SerializeField] private GameObject onlineAccessCard;
+        [SerializeField] private Button buyOnlineAccessButton;
+        [SerializeField] private TextMeshProUGUI buyOnlinePriceText;
+        [SerializeField] private GameObject onlineAccessOwnedBadge;
+
+        [Header("=== Action Option B: Remove Ads + Access ===")]
+        [SerializeField] private GameObject removeAdsCard;
+        [SerializeField] private Button buyRemoveAdsButton;
+        [SerializeField] private TextMeshProUGUI buyRemoveAdsPriceText;
+        [SerializeField] private GameObject removeAdsOwnedBadge;
+
+        [Header("=== Action Option C: Rewarded Video (24H Free) ===")]
+        [SerializeField] private GameObject watchAdCard;
+        [SerializeField] private Button watchAdButton;
+        [SerializeField] private TextMeshProUGUI watchAdButtonText;
+
+        [Header("=== Enter Multiplayer & Restore ===")]
+        [SerializeField] private Button enterMultiplayerButton;
+        [SerializeField] private Button restorePurchasesButton;
+
+        [Header("=== Feedback Message & Loading ===")]
         [SerializeField] private TextMeshProUGUI feedbackText;
+        [SerializeField] private GameObject loadingOverlay;
+        [SerializeField] private TextMeshProUGUI loadingText;
+
+        // Visual assets preserved for Inspector serialization compatibility
+        [Header("=== Visual Style Assets (Leaderboard Style) ===")]
+        [SerializeField] private TMP_FontAsset titleFont;
+        [SerializeField] private TMP_FontAsset bodyFont;
+        [SerializeField] private Sprite windowFrameSprite;
+        [SerializeField] private Sprite cardNormalSprite;
+        [SerializeField] private Sprite cardGoldSprite;
+        [SerializeField] private Sprite buttonGreenSprite;
+        [SerializeField] private Sprite buttonBlueSprite;
+        [SerializeField] private Sprite closeIconSprite;
+        [SerializeField] private Sprite videoIconSprite;
+        [SerializeField] private Sprite onlineIconSprite;
+        [SerializeField] private Sprite checkIconSprite;
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region Runtime State
+        // ===================================================================
 
         [Header("=== Animation Settings ===")]
-        [SerializeField] private float animDuration = 0.3f;
+        [SerializeField] private float animDuration = 0.25f;
 
-        private Sequence _animSeq;
+        private Tween _feedbackTween;
         private float _timerTick = 0f;
+        private bool _isAdLoading = false;
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region Unity Lifecycle
+        // ===================================================================
 
         private void Awake()
         {
@@ -71,23 +108,138 @@ namespace Shootx.Store
             }
             _instance = this;
 
-            if (modalGroup == null) modalGroup = GetComponent<CanvasGroup>();
-            if (modalGroup == null) modalGroup = gameObject.AddComponent<CanvasGroup>();
-            if (modalBox == null) modalBox = GetComponent<RectTransform>();
-
-            if (buyOnlineAccessButton == null || watchAdButton == null)
-            {
-                BuildFallbackUI();
-            }
-
+            AutoBindExistingReferences();
             HideInstant();
         }
 
         private void Start()
         {
             WireButtons();
+
             MultiplayerAccessManager.OnAccessChanged += RefreshUI;
+            IAPManager.OnPurchaseSuccess += HandlePurchaseSuccess;
+            IAPManager.OnPurchaseFailedEvent += HandlePurchaseFailed;
+            IAPManager.OnInitializedEvent += RefreshPrices;
         }
+
+        private void OnDestroy()
+        {
+            MultiplayerAccessManager.OnAccessChanged -= RefreshUI;
+            IAPManager.OnPurchaseSuccess -= HandlePurchaseSuccess;
+            IAPManager.OnPurchaseFailedEvent -= HandlePurchaseFailed;
+            IAPManager.OnInitializedEvent -= RefreshPrices;
+
+            _feedbackTween?.Kill();
+            modalGroup?.DOKill();
+        }
+
+        private void Update()
+        {
+            if (modalGroup == null || modalGroup.alpha < 0.1f) return;
+
+            var accessMgr = MultiplayerAccessManager.Instance;
+            if (accessMgr != null && accessMgr.GetAccessState() == MultiplayerAccessState.TemporaryAccess)
+            {
+                _timerTick += Time.unscaledDeltaTime;
+                if (_timerTick >= 1f)
+                {
+                    _timerTick = 0f;
+                    UpdateTimerDisplay();
+                }
+            }
+        }
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region Non-Destructive Auto-Binding
+        // ===================================================================
+
+        /// <summary>
+        /// Non-destructively finds existing elements if unassigned, without creating or destroying
+        /// any GameObjects or modifying any transforms.
+        /// </summary>
+        private void AutoBindExistingReferences()
+        {
+            if (modalGroup == null)
+                modalGroup = GetComponent<CanvasGroup>();
+
+            if (modalBox == null)
+            {
+                var found = transform.Find("ModalBox");
+                if (found != null) modalBox = found.GetComponent<RectTransform>();
+            }
+
+            if (modalBox != null)
+            {
+                if (closeButton == null)
+                {
+                    var btnT = modalBox.Find("Header/CloseBtn") ?? modalBox.Find("CloseBtn");
+                    if (btnT != null) closeButton = btnT.GetComponent<Button>();
+                }
+
+                if (titleText == null)
+                {
+                    var tT = modalBox.Find("Header/Title");
+                    if (tT != null) titleText = tT.GetComponent<TextMeshProUGUI>();
+                }
+
+                if (statusText == null)
+                {
+                    var sT = modalBox.Find("StatusBanner/Status");
+                    if (sT != null) statusText = sT.GetComponent<TextMeshProUGUI>();
+                }
+
+                if (timerText == null)
+                {
+                    var tmT = modalBox.Find("StatusBanner/Timer");
+                    if (tmT != null) timerText = tmT.GetComponent<TextMeshProUGUI>();
+                }
+
+                if (statusBannerImage == null)
+                {
+                    var sbT = modalBox.Find("StatusBanner");
+                    if (sbT != null) statusBannerImage = sbT.GetComponent<Image>();
+                }
+
+                if (enterMultiplayerButton == null)
+                {
+                    var btnT = modalBox.Find("FooterArea/EnterMultiplayerBtn");
+                    if (btnT != null) enterMultiplayerButton = btnT.GetComponent<Button>();
+                }
+
+                if (restorePurchasesButton == null)
+                {
+                    var btnT = modalBox.Find("FooterArea/RestoreBtn");
+                    if (btnT != null) restorePurchasesButton = btnT.GetComponent<Button>();
+                }
+
+                if (feedbackText == null)
+                {
+                    var fbT = modalBox.Find("FooterArea/Feedback");
+                    if (fbT != null) feedbackText = fbT.GetComponent<TextMeshProUGUI>();
+                }
+
+                if (loadingOverlay == null)
+                {
+                    var ldT = modalBox.Find("LoadingOverlay");
+                    if (ldT != null) loadingOverlay = ldT.gameObject;
+                }
+
+                if (loadingText == null && loadingOverlay != null)
+                {
+                    loadingText = loadingOverlay.GetComponentInChildren<TextMeshProUGUI>();
+                }
+            }
+        }
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region Wireup & Modal Transitions
+        // ===================================================================
 
         private void WireButtons()
         {
@@ -105,66 +257,55 @@ namespace Shootx.Store
 
             closeButton?.onClick.RemoveAllListeners();
             closeButton?.onClick.AddListener(Hide);
+
+            restorePurchasesButton?.onClick.RemoveAllListeners();
+            restorePurchasesButton?.onClick.AddListener(OnRestorePurchasesClicked);
         }
 
-        private void OnDestroy()
+        /// <summary>
+        /// Preserved for API compatibility; does NOT alter user layout in code.
+        /// </summary>
+        public void ApplyResponsiveLayout()
         {
-            MultiplayerAccessManager.OnAccessChanged -= RefreshUI;
-            _animSeq?.Kill();
-        }
-
-        private void Update()
-        {
-            if (modalGroup != null && modalGroup.alpha > 0.05f)
-            {
-                _timerTick += Time.unscaledDeltaTime;
-                if (_timerTick >= 1f)
-                {
-                    _timerTick = 0f;
-                    UpdateTimerDisplay();
-                }
-            }
+            // Intentionally no-op to protect user's manual design
         }
 
         public void Show()
         {
             RefreshUI();
+            RefreshPrices();
             ClearFeedback();
+            ShowLoading(false);
 
-            if (modalGroup == null) return;
-
-            _animSeq?.Kill();
-            modalGroup.blocksRaycasts = true;
-            modalGroup.interactable = true;
-
-            if (modalBox != null)
+            if (modalGroup != null)
             {
-                modalBox.localScale = Vector3.one * 0.75f;
+                modalGroup.blocksRaycasts = true;
+                modalGroup.interactable = true;
+                modalGroup.DOKill();
+                modalGroup.alpha = 0f;
+                modalGroup.DOFade(1f, animDuration).SetUpdate(true);
             }
-
-            _animSeq = DOTween.Sequence().SetUpdate(true);
-            _animSeq.Append(modalGroup.DOFade(1f, animDuration * 0.6f));
-            if (modalBox != null)
+            else
             {
-                _animSeq.Join(modalBox.DOScale(Vector3.one, animDuration).SetEase(Ease.OutBack));
+                gameObject.SetActive(true);
             }
         }
 
         public void Hide()
         {
-            if (modalGroup == null) return;
+            closeButton?.transform.DOPunchScale(new Vector3(-0.08f, -0.08f, 0f), 0.15f);
 
-            modalGroup.blocksRaycasts = false;
-            modalGroup.interactable = false;
-
-            _animSeq?.Kill();
-            _animSeq = DOTween.Sequence().SetUpdate(true);
-            if (modalBox != null)
+            if (modalGroup != null)
             {
-                _animSeq.Append(modalBox.DOScale(Vector3.one * 0.8f, animDuration * 0.7f).SetEase(Ease.InBack));
+                modalGroup.blocksRaycasts = false;
+                modalGroup.interactable = false;
+                modalGroup.DOKill();
+                modalGroup.DOFade(0f, animDuration).SetUpdate(true).OnComplete(HideInstant);
             }
-            _animSeq.Join(modalGroup.DOFade(0f, animDuration * 0.7f));
-            _animSeq.OnComplete(HideInstant);
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         private void HideInstant()
@@ -175,11 +316,18 @@ namespace Shootx.Store
                 modalGroup.blocksRaycasts = false;
                 modalGroup.interactable = false;
             }
-            if (modalBox != null)
+            else
             {
-                modalBox.localScale = Vector3.zero;
+                gameObject.SetActive(false);
             }
         }
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region UI Values Refresh (Text, Price, Entitlements)
+        // ===================================================================
 
         public void RefreshUI()
         {
@@ -188,246 +336,239 @@ namespace Shootx.Store
 
             MultiplayerAccessState state = accessMgr.GetAccessState();
 
+            // 1. Update Status Banner Values
             if (state == MultiplayerAccessState.PermanentAccess)
             {
-                if (statusText) statusText.text = "<color=#00FF88>Permanent Online Access Active</color>";
-                if (timerText) timerText.text = "Unlimited Access";
-                if (enterMultiplayerButton) enterMultiplayerButton.gameObject.SetActive(true);
-                if (watchAdButton) watchAdButton.gameObject.SetActive(false);
+                if (statusText) statusText.text = "<color=#00FF88>PERMANENT ACCESS ACTIVE</color>";
+                if (timerText) timerText.text = "Unlimited Online Multiplayer Unlocked";
+
+                ApplyOwnedState(buyOnlineAccessButton, buyOnlinePriceText, onlineAccessOwnedBadge, true);
+                if (watchAdCard) watchAdCard.SetActive(false);
             }
             else if (state == MultiplayerAccessState.TemporaryAccess)
             {
-                if (statusText) statusText.text = "<color=#FFCC00>Temporary Access Active</color>";
+                if (statusText) statusText.text = "<color=#FFD700>TEMPORARY ACCESS ACTIVE</color>";
                 UpdateTimerDisplay();
-                if (enterMultiplayerButton) enterMultiplayerButton.gameObject.SetActive(true);
-                if (watchAdButton) watchAdButton.gameObject.SetActive(true);
+
+                ApplyOwnedState(buyOnlineAccessButton, buyOnlinePriceText, onlineAccessOwnedBadge, false);
+                if (watchAdCard) watchAdCard.SetActive(true);
+                if (watchAdButtonText) watchAdButtonText.text = "EXTEND PASS (+24H)";
             }
             else
             {
-                if (statusText) statusText.text = "<color=#FF4444>No Online Access</color>";
-                if (timerText) timerText.text = "Watch an ad for 24h or purchase access";
-                if (enterMultiplayerButton) enterMultiplayerButton.gameObject.SetActive(false);
-                if (watchAdButton) watchAdButton.gameObject.SetActive(true);
+                if (statusText) statusText.text = "<color=#00E5FF>MULTIPLAYER ACCESS REQUIRED</color>";
+                if (timerText) timerText.text = "Watch an ad for 24h or unlock permanent access";
+
+                ApplyOwnedState(buyOnlineAccessButton, buyOnlinePriceText, onlineAccessOwnedBadge, false);
+                if (watchAdCard) watchAdCard.SetActive(true);
+                if (watchAdButtonText) watchAdButtonText.text = "WATCH AD (+24H PASS)";
             }
 
-            // Update IAP price labels if IAP is initialized
-            if (IAPManager.Instance != null && IAPManager.Instance.IsInitialized)
-            {
-                string onlinePrice = IAPManager.Instance.GetLocalizedPrice("online_access");
-                if (buyOnlinePriceText && !string.IsNullOrEmpty(onlinePrice))
-                    buyOnlinePriceText.text = onlinePrice;
+            // Check Remove Ads state
+            bool adsRemoved = GameDataManager.Instance != null && GameDataManager.Instance.AdsRemoved;
+            ApplyOwnedState(buyRemoveAdsButton, buyRemoveAdsPriceText, removeAdsOwnedBadge, adsRemoved);
 
-                string removeAdsPrice = IAPManager.Instance.GetLocalizedPrice("remove_ads");
-                if (buyRemoveAdsPriceText && !string.IsNullOrEmpty(removeAdsPrice))
-                    buyRemoveAdsPriceText.text = removeAdsPrice;
+            // 2. Enter Multiplayer Button State
+            bool hasAccess = accessMgr.HasAccess();
+            if (enterMultiplayerButton != null)
+            {
+                enterMultiplayerButton.interactable = hasAccess;
+            }
+
+            RefreshPrices();
+        }
+
+        private void ApplyOwnedState(Button btn, TextMeshProUGUI priceTxt, GameObject badge, bool isOwned)
+        {
+            if (isOwned)
+            {
+                if (btn != null) btn.interactable = false;
+                if (priceTxt != null) priceTxt.text = "OWNED";
+                if (badge != null) badge.SetActive(true);
+            }
+            else
+            {
+                if (btn != null) btn.interactable = true;
+                if (badge != null) badge.SetActive(false);
+            }
+        }
+
+        public void RefreshPrices()
+        {
+            if (IAPManager.Instance == null || !IAPManager.Instance.IsInitialized)
+                return;
+
+            // Online Access price
+            bool onlineOwned = MultiplayerAccessManager.Instance != null &&
+                               MultiplayerAccessManager.Instance.GetAccessState() == MultiplayerAccessState.PermanentAccess;
+            if (!onlineOwned && buyOnlinePriceText != null)
+            {
+                string price = IAPManager.Instance.GetLocalizedPrice("online_access");
+                if (!string.IsNullOrEmpty(price)) buyOnlinePriceText.text = price;
+            }
+
+            // Remove Ads price
+            bool adsOwned = GameDataManager.Instance != null && GameDataManager.Instance.AdsRemoved;
+            if (!adsOwned && buyRemoveAdsPriceText != null)
+            {
+                string price = IAPManager.Instance.GetLocalizedPrice("remove_ads");
+                if (!string.IsNullOrEmpty(price)) buyRemoveAdsPriceText.text = price;
             }
         }
 
         private void UpdateTimerDisplay()
         {
+            if (timerText == null || MultiplayerAccessManager.Instance == null) return;
+            string rem = MultiplayerAccessManager.Instance.GetFormattedRemainingTime();
+            timerText.text = $"Expires in: {rem}";
+        }
+
+        // ===================================================================
+        #endregion
+
+        // ===================================================================
+        #region Actions & Integration Handlers
+        // ===================================================================
+
+        public void OnBuyOnlineAccessClicked()
+        {
+            buyOnlineAccessButton?.transform.DOPunchScale(new Vector3(-0.06f, -0.06f, 0f), 0.15f);
+            InitiatePurchase("online_access");
+        }
+
+        public void OnBuyRemoveAdsClicked()
+        {
+            buyRemoveAdsButton?.transform.DOPunchScale(new Vector3(-0.06f, -0.06f, 0f), 0.15f);
+            InitiatePurchase("remove_ads");
+        }
+
+        private void InitiatePurchase(string productId)
+        {
+            ShowLoading(true, "Connecting to store...");
+            SetFeedback("Initiating secure transaction...");
+
+            if (IAPManager.Instance == null)
+            {
+                ShowLoading(false);
+                SetFeedback("Store unavailable. Please check internet connection.", isError: true);
+                return;
+            }
+
+            IAPManager.Instance.BuyProduct(productId);
+        }
+
+        public void OnWatchAdClicked()
+        {
+            if (_isAdLoading) return;
+
+            watchAdButton?.transform.DOPunchScale(new Vector3(-0.06f, -0.06f, 0f), 0.15f);
+
             var accessMgr = MultiplayerAccessManager.Instance;
-            if (accessMgr == null) return;
-
-            MultiplayerAccessState state = accessMgr.GetAccessState();
-            if (state == MultiplayerAccessState.TemporaryAccess)
-            {
-                if (timerText)
-                    timerText.text = $"Expires in: {accessMgr.GetFormattedRemainingTime()}";
-            }
-        }
-
-        private void OnBuyOnlineAccessClicked()
-        {
-            SetFeedback("Connecting to store...");
-            if (IAPManager.Instance == null)
-            {
-                SetFeedback("Store unavailable.", isError: true);
-                return;
-            }
-            IAPManager.Instance.BuyProduct("online_access");
-        }
-
-        private void OnBuyRemoveAdsClicked()
-        {
-            SetFeedback("Connecting to store...");
-            if (IAPManager.Instance == null)
-            {
-                SetFeedback("Store unavailable.", isError: true);
-                return;
-            }
-            IAPManager.Instance.BuyProduct("remove_ads");
-        }
-
-        private void OnWatchAdClicked()
-        {
-            SetFeedback("Loading Rewarded Video...");
-            if (MultiplayerAccessManager.Instance == null)
+            if (accessMgr == null)
             {
                 SetFeedback("Access manager unavailable.", isError: true);
                 return;
             }
 
-            MultiplayerAccessManager.Instance.RequestRewardedAdAccess((success) =>
+            _isAdLoading = true;
+            ShowLoading(true, "Loading rewarded video ad...");
+            SetFeedback("Preparing ad presentation...");
+
+            accessMgr.RequestRewardedAdAccess(success =>
             {
+                _isAdLoading = false;
+                ShowLoading(false);
                 if (success)
                 {
-                    SetFeedback("<color=#00FF88>Success! 24 Hours Granted.</color>");
+                    SetFeedback("<color=#00FF88>Ad watched! 24 Hours Multiplayer Access Granted!</color>");
                     RefreshUI();
                 }
                 else
                 {
-                    SetFeedback("Ad not completed. Access was not granted.", isError: true);
+                    SetFeedback("Ad was not completed or failed. Access not granted.", isError: true);
                 }
             });
         }
 
-        private void OnEnterMultiplayerClicked()
+        public void OnEnterMultiplayerClicked()
         {
-            var accessMgr = MultiplayerAccessManager.Instance;
-            if (accessMgr != null && accessMgr.HasAccess())
+            enterMultiplayerButton?.transform.DOPunchScale(new Vector3(-0.06f, -0.06f, 0f), 0.15f);
+
+            if (MultiplayerAccessManager.Instance != null && MultiplayerAccessManager.Instance.HasAccess())
             {
                 Hide();
-                Debug.Log("[MultiplayerAccess] Transitioning to MultiplayerMenu scene...");
                 SceneManager.LoadScene("MultiplayerMenu");
             }
             else
             {
-                SetFeedback("Access required to enter multiplayer.", isError: true);
+                SetFeedback("Multiplayer access required.", isError: true);
                 RefreshUI();
             }
         }
 
-        public void SetFeedback(string msg, bool isError = false)
+        private void OnRestorePurchasesClicked()
+        {
+            restorePurchasesButton?.transform.DOPunchScale(new Vector3(-0.08f, -0.08f, 0f), 0.15f);
+
+            ShowLoading(true, "Restoring purchases...");
+            SetFeedback("Checking previous entitlements with store...");
+
+            if (IAPManager.Instance != null)
+            {
+                IAPManager.Instance.RestorePurchases();
+            }
+
+            DOVirtual.DelayedCall(3f, () =>
+            {
+                ShowLoading(false);
+                SetFeedback("<color=#00FF88>Restore completed.</color>");
+                RefreshUI();
+            });
+        }
+
+        private void HandlePurchaseSuccess(string productId)
+        {
+            ShowLoading(false);
+            SetFeedback("<color=#00FF88>Purchase Successful! Access Updated.</color>");
+            RefreshUI();
+        }
+
+        private void HandlePurchaseFailed(string productId, string reason)
+        {
+            ShowLoading(false);
+            SetFeedback($"Purchase failed: {reason}", isError: true);
+            RefreshUI();
+        }
+
+        private void ShowLoading(bool show, string message = "Loading...")
+        {
+            if (loadingOverlay != null)
+            {
+                loadingOverlay.SetActive(show);
+            }
+            if (loadingText != null)
+            {
+                loadingText.text = message;
+            }
+        }
+
+        private void SetFeedback(string msg, bool isError = false)
         {
             if (feedbackText != null)
             {
                 feedbackText.text = isError ? $"<color=#FF4444>{msg}</color>" : msg;
-                feedbackText.DOKill();
-                feedbackText.transform.DOPunchScale(Vector3.one * 0.1f, 0.25f);
+                _feedbackTween?.Kill();
+                feedbackText.transform.localScale = Vector3.one;
+                _feedbackTween = feedbackText.transform.DOPunchScale(Vector3.one * 0.08f, 0.25f).SetUpdate(true);
             }
         }
 
-        public void ClearFeedback()
+        private void ClearFeedback()
         {
-            if (feedbackText != null)
-                feedbackText.text = "";
+            if (feedbackText != null) feedbackText.text = "";
         }
 
-        #region Fallback UI Construction
-        private void BuildFallbackUI()
-        {
-            // Ensure RectTransform on root
-            var rootRect = GetComponent<RectTransform>();
-            if (rootRect == null) rootRect = gameObject.AddComponent<RectTransform>();
-            rootRect.anchorMin = Vector2.zero;
-            rootRect.anchorMax = Vector2.one;
-            rootRect.offsetMin = Vector2.zero;
-            rootRect.offsetMax = Vector2.zero;
-
-            // Fullscreen backdrop
-            var backdrop = new GameObject("Backdrop", typeof(RectTransform), typeof(Image));
-            backdrop.transform.SetParent(transform, false);
-            var bgRect = backdrop.GetComponent<RectTransform>();
-            bgRect.anchorMin = Vector2.zero;
-            bgRect.anchorMax = Vector2.one;
-            bgRect.offsetMin = Vector2.zero;
-            bgRect.offsetMax = Vector2.zero;
-            backdrop.GetComponent<Image>().color = new Color(0.04f, 0.05f, 0.08f, 0.85f);
-
-            // Modal Box
-            var boxGo = new GameObject("ModalBox", typeof(RectTransform), typeof(Image));
-            boxGo.transform.SetParent(transform, false);
-            modalBox = boxGo.GetComponent<RectTransform>();
-            modalBox.sizeDelta = new Vector2(460f, 560f);
-            modalBox.anchoredPosition = Vector2.zero;
-            boxGo.GetComponent<Image>().color = new Color(0.11f, 0.13f, 0.18f, 0.98f);
-
-            // Close button top right
-            var closeGo = CreateButton(boxGo.transform, "CloseBtn", "X", new Vector2(40f, 40f), new Vector2(200f, 250f), new Color(0.3f, 0.35f, 0.45f));
-            closeButton = closeGo.GetComponent<Button>();
-
-            // Title
-            titleText = CreateTMP(boxGo.transform, "Title", "ONLINE ACCESS GATE", 24, true, TextAlignmentOptions.Center, new Vector2(400f, 40f), new Vector2(0f, 230f), new Color(0f, 0.9f, 1f));
-
-            // Status Text
-            statusText = CreateTMP(boxGo.transform, "Status", "Checking access...", 18, true, TextAlignmentOptions.Center, new Vector2(420f, 35f), new Vector2(0f, 185f), Color.white);
-
-            // Timer Text
-            timerText = CreateTMP(boxGo.transform, "Timer", "Expires in: --:--:--", 15, false, TextAlignmentOptions.Center, new Vector2(420f, 30f), new Vector2(0f, 150f), new Color(0.8f, 0.85f, 0.9f));
-
-            // Action 1: Watch Ad (+24h)
-            var adGo = CreateButton(boxGo.transform, "WatchAdBtn", "WATCH AD (+24H PASS)", new Vector2(380f, 54f), new Vector2(0f, 90f), new Color(0.06f, 0.65f, 0.35f));
-            watchAdButton = adGo.GetComponent<Button>();
-
-            // Action 2: Permanent Access
-            var permGo = CreateButton(boxGo.transform, "BuyOnlineBtn", "ONLINE ACCESS PASS", new Vector2(380f, 54f), new Vector2(0f, 25f), new Color(0.12f, 0.45f, 0.85f));
-            buyOnlineAccessButton = permGo.GetComponent<Button>();
-            buyOnlinePriceText = CreateTMP(permGo.transform, "Price", "$1.99", 14, false, TextAlignmentOptions.Right, new Vector2(100f, 30f), new Vector2(130f, 0f), Color.yellow);
-
-            // Action 3: Remove Ads + Access
-            var noAdsGo = CreateButton(boxGo.transform, "BuyRemoveAdsBtn", "REMOVE ADS + ACCESS", new Vector2(380f, 54f), new Vector2(0f, -40f), new Color(0.85f, 0.55f, 0.1f));
-            buyRemoveAdsButton = noAdsGo.GetComponent<Button>();
-            buyRemoveAdsPriceText = CreateTMP(noAdsGo.transform, "Price", "$3.99", 14, false, TextAlignmentOptions.Right, new Vector2(100f, 30f), new Vector2(130f, 0f), Color.yellow);
-
-            // Action 4: Enter Multiplayer (Active when access is valid)
-            var enterGo = CreateButton(boxGo.transform, "EnterMultiplayerBtn", "ENTER MULTIPLAYER ->", new Vector2(380f, 52f), new Vector2(0f, -110f), new Color(0f, 0.75f, 0.9f));
-            enterMultiplayerButton = enterGo.GetComponent<Button>();
-
-            // Feedback Text
-            feedbackText = CreateTMP(boxGo.transform, "Feedback", "", 14, false, TextAlignmentOptions.Center, new Vector2(400f, 35f), new Vector2(0f, -170f), Color.white);
-
-            WireButtons();
-        }
-
-        private GameObject CreateButton(Transform parent, string name, string label, Vector2 size, Vector2 pos, Color btnColor)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
-            go.transform.SetParent(parent, false);
-            var rect = go.GetComponent<RectTransform>();
-            rect.sizeDelta = size;
-            rect.anchoredPosition = pos;
-
-            var img = go.GetComponent<Image>();
-            img.color = btnColor;
-
-            var btn = go.GetComponent<Button>();
-            btn.targetGraphic = img;
-
-            var textGo = new GameObject("Label", typeof(RectTransform), typeof(TextMeshProUGUI));
-            textGo.transform.SetParent(go.transform, false);
-            var textRect = textGo.GetComponent<RectTransform>();
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
-
-            var tmp = textGo.GetComponent<TextMeshProUGUI>();
-            tmp.text = label;
-            tmp.fontSize = 15;
-            tmp.fontStyle = FontStyles.Bold;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.color = Color.white;
-
-            return go;
-        }
-
-        private TextMeshProUGUI CreateTMP(Transform parent, string name, string content, float fontSize, bool isBold, TextAlignmentOptions align, Vector2 size, Vector2 pos, Color color)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(TextMeshProUGUI));
-            go.transform.SetParent(parent, false);
-            var rect = go.GetComponent<RectTransform>();
-            rect.sizeDelta = size;
-            rect.anchoredPosition = pos;
-
-            var tmp = go.GetComponent<TextMeshProUGUI>();
-            tmp.text = content;
-            tmp.fontSize = fontSize;
-            if (isBold) tmp.fontStyle = FontStyles.Bold;
-            tmp.alignment = align;
-            tmp.color = color;
-
-            return tmp;
-        }
+        // ===================================================================
         #endregion
     }
 }
