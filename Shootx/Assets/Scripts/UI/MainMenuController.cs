@@ -55,6 +55,7 @@ public class MainMenuController : MonoBehaviour
     // ===================================================================
 
     private Vector3 logoOriginalPos;
+    private bool logoPosCached = false;
     private Tween logoBobTween;
     private Tween tapPulseTween;
 
@@ -69,7 +70,11 @@ public class MainMenuController : MonoBehaviour
     {
         AssignButtonListeners();
 
-        if (gameLogo != null) logoOriginalPos = gameLogo.anchoredPosition;
+        if (gameLogo != null)
+        {
+            logoOriginalPos = gameLogo.anchoredPosition;
+            logoPosCached = true;
+        }
 
         StartLogoAnimation();
         StartTapToPlayPulse();
@@ -80,15 +85,16 @@ public class MainMenuController : MonoBehaviour
     {
         GameDataManager.OnCurrencyChanged += RefreshCurrency;
         GameDataManager.OnLevelChanged += RefreshLevel;
+        UIManager.OnTapToPlay += OnTapToPlayStarted;
     }
 
     private void OnDisable()
     {
         GameDataManager.OnCurrencyChanged -= RefreshCurrency;
         GameDataManager.OnLevelChanged -= RefreshLevel;
+        UIManager.OnTapToPlay -= OnTapToPlayStarted;
 
-        logoBobTween?.Kill();
-        tapPulseTween?.Kill();
+        StopIdleAnimations();
     }
 
     // ===================================================================
@@ -165,9 +171,53 @@ public class MainMenuController : MonoBehaviour
     #region Idle Animations
     // ===================================================================
 
+    public void RestartIdleAnimations()
+    {
+        StartLogoAnimation();
+        StartTapToPlayPulse();
+    }
+
+    public void StopIdleAnimations()
+    {
+        if (logoBobTween != null && logoBobTween.IsActive())
+        {
+            logoBobTween.Kill();
+            logoBobTween = null;
+        }
+
+        if (tapPulseTween != null && tapPulseTween.IsActive())
+        {
+            tapPulseTween.Kill();
+            tapPulseTween = null;
+        }
+
+        if (gameLogo != null)
+        {
+            gameLogo.DOKill();
+            if (logoPosCached) gameLogo.anchoredPosition = logoOriginalPos;
+        }
+
+        if (tapToPlayText != null)
+        {
+            tapToPlayText.transform.DOKill();
+            tapToPlayText.transform.localScale = Vector3.one;
+        }
+    }
+
+    private void OnTapToPlayStarted()
+    {
+        StopIdleAnimations();
+    }
+
     private void StartLogoAnimation()
     {
         if (gameLogo == null) return;
+
+        if (logoBobTween != null && logoBobTween.IsActive())
+            logoBobTween.Kill();
+
+        if (logoPosCached)
+            gameLogo.anchoredPosition = logoOriginalPos;
 
         logoBobTween = gameLogo
             .DOAnchorPosY(logoOriginalPos.y + logoBobAmplitude, logoBobDuration)
@@ -178,6 +228,11 @@ public class MainMenuController : MonoBehaviour
     private void StartTapToPlayPulse()
     {
         if (tapToPlayText == null) return;
+
+        if (tapPulseTween != null && tapPulseTween.IsActive())
+            tapPulseTween.Kill();
+
+        tapToPlayText.transform.localScale = Vector3.one;
 
         tapPulseTween = tapToPlayText.transform
             .DOScale(tapPulseScale, tapPulseDuration)

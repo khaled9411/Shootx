@@ -13,14 +13,19 @@ MonoBehaviour:
   m_Name: outfit_survivalist
   m_EditorClassIdentifier: Assembly-CSharp::Shootx.Store::StoreItemDefinition
   id: outfit_survivalist
-  numericId: 0
+  numericId: 13
   displayName: Survivalist
   description: 
   itemType: 1
   rarity: 0
   purchaseCurrency: 0
-  softCurrencyPrice: 0
+  softCurrencyPrice: 9000
   hardCurrencyPrice: 0
-  isDefaultOwned: 1
+  isDefaultOwned: 0
   itemPrefab: {fileID: 919132149155446097, guid: 491ed659d90aec047b9724ae9c5acf72, type: 3}
   itemIcon: {fileID: 0}
+  customSocketName: 
+  attachmentPositionOffset: {x: 0, y: 0, z: 0}
+  attachmentRotationOffset: {x: 0, y: 0, z: 0}
+  attachmentScale: {x: 0, y: 0, z: 0}
+  muzzleOffset: {x: 0, y: 0, z: 0}

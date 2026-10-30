@@ -7139,10 +7139,10 @@ RectTransform:
   - {fileID: 1192818270}
   m_Father: {fileID: 1501514476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.3796811}
-  m_AnchorMax: {x: 1, y: 0.62716025}
-  m_AnchoredPosition: {x: 0.0024414062, y: -104.85899}
-  m_SizeDelta: {x: 0.7000122, y: 11.807007}
+  m_AnchorMin: {x: 0, y: 0.32266667}
+  m_AnchorMax: {x: 1, y: 0.57522917}
+  m_AnchoredPosition: {x: 0.0024414062, y: -0.3590088}
+  m_SizeDelta: {x: 0.7000122, y: 2.8070068}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &216654363
 CanvasGroup:
@@ -7153,7 +7153,7 @@ CanvasGroup:
   m_GameObject: {fileID: 216654361}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &217195239
@@ -12951,6 +12951,7 @@ GameObject:
   - component: {fileID: 449384340}
   - component: {fileID: 449384342}
   - component: {fileID: 449384341}
+  - component: {fileID: 449384343}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -13018,6 +13019,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449384339}
   m_CullTransparentMesh: 1
+--- !u!225 &449384343
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449384339}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &452993217
 GameObject:
   m_ObjectHideFlags: 0
@@ -15205,11 +15218,15 @@ MonoBehaviour:
   bottomButtonsGroup: {fileID: 980810355}
   desapperGroup: {fileID: 1824057255}
   playButton: {fileID: 787533480}
-  panelFadeDuration: 0.35
-  popupScaleDuration: 0.3
+  menuBackground: {fileID: 449384343}
+  menuBackgroundObject: {fileID: 449384339}
+  panelFadeDuration: 0.25
+  popupScaleDuration: 0.25
   popupEaseIn: 27
   popupEaseOut: 26
-  elementStaggerDelay: 0.06
+  menuFadeDuration: 0.22
+  elementStaggerDelay: 0.04
+  tapToPlayExitDuration: 0.22
 --- !u!114 &566614603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19546,10 +19563,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1501514476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.3}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.2799988}
+  m_SizeDelta: {x: 0, y: -2.5599976}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &787533478
 MonoBehaviour:
@@ -19564,7 +19581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.015686275}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
