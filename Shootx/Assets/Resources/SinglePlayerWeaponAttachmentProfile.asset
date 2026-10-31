@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shootx.Store::SinglePlayerWeaponAttachmentProfile
   characterSettings:
   - characterName: MainCharacter
-    socketName: Wrist_R
-    positionOffset: {x: 0.05, y: -0.04, z: 0.12}
-    rotationOffset: {x: -90, y: 0, z: 90}
+    socketName: MiddleFinger0_R
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
     scale: {x: 1, y: 1, z: 1}
   - characterName: RangerCharacter
     socketName: handslot.r

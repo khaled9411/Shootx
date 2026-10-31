@@ -138,11 +138,11 @@ public class WinLosePauseUI : MonoBehaviour
     {
         if (nextButton) nextButton.onClick.AddListener(OnNextClicked);
         if (doubleMoneyButton) doubleMoneyButton.onClick.AddListener(OnDoubleClicked);
-        if (retryButton) retryButton.onClick.AddListener(OnRetryClicked);
+        //if (retryButton) retryButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelButton) skipLevelButton.onClick.AddListener(OnSkipLevelClicked);
         if (pauseButton) pauseButton.onClick.AddListener(TogglePause);
         if (resumeButton) resumeButton.onClick.AddListener(OnResumeClicked);
-        if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
+        //if (retryPauseButton) retryPauseButton.onClick.AddListener(OnRetryClicked);
         if (skipLevelPauseButton) skipLevelPauseButton.onClick.AddListener(OnSkipLevelClicked);
 
         _levelLoader = FindFirstObjectByType<LevelLoader>();
@@ -604,13 +604,13 @@ public class WinLosePauseUI : MonoBehaviour
             _doubleButtonRT.DOScale(0f, 0.3f).SetEase(Ease.InBack).SetUpdate(true);
     }
 
-    private void OnRetryClicked()
-    {
-        if (_isPaused)
-            AnimateButtonPress(_retryPauseRT, () => { ResumeGame(); OnRetry?.Invoke(); });
-        else
-            AnimateButtonPress(_retryButtonRT, () => HideLose(() => OnRetry?.Invoke()));
-    }
+    //private void OnRetryClicked()
+    //{
+    //    if (_isPaused)
+    //        AnimateButtonPress(_retryPauseRT, () => { ResumeGame(); OnRetry?.Invoke(); });
+    //    else
+    //        AnimateButtonPress(_retryButtonRT, () => HideLose(() => OnRetry?.Invoke()));
+    //}
 
     private void OnSkipLevelClicked()
     {

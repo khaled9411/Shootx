@@ -26,36 +26,103 @@ public class WinLossManager : MonoBehaviour
 
     #endregion
 
+    // ===================================================================
+    #region Unity Lifecycle
+
+    private void Awake()
+    {
+        EnsureReferences();
+    }
+
+    private void OnEnable()
+    {
+        LevelLoader.OnLevelLoaded += HandleLevelLoaded;
+        UIManager.OnEnterGame += HandleEnterGame;
+    }
+
+    private void OnDisable()
+    {
+        LevelLoader.OnLevelLoaded -= HandleLevelLoaded;
+        UIManager.OnEnterGame -= HandleEnterGame;
+    }
+
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(2f);
+        EnsureReferences();
         InitializeEnemies();
 
-        if (shootingSystem == null)
+        // Safety check after level loading routine completes
+        yield return new WaitForSecondsRealtime(1.2f);
+        if (!_isGameEnded && (_totalEnemies <= 0 || shootingSystem == null))
         {
-            shootingSystem = FindFirstObjectByType<ShootingSystem>();
-            if (shootingSystem == null)
-            {
-                Debug.LogWarning("[WinLossManager] ShootingSystem is missing!");
-            }
+            EnsureReferences();
+            InitializeEnemies();
         }
     }
 
     private void Update()
     {
-        if (_isGameEnded || shootingSystem == null) return;
+        if (_isGameEnded) return;
 
-        if (shootingSystem.GetCurrentAmmo() == 0 && !_isCheckingLoss && _totalEnemies > 0)
+        if (shootingSystem == null)
+        {
+            shootingSystem = FindFirstObjectByType<ShootingSystem>();
+            if (shootingSystem == null) return;
+        }
+
+        // If enemies haven't been indexed yet but now exist in scene, initialize them
+        if (_totalEnemies <= 0 && !_isCheckingWin)
+        {
+            EnemyAI[] enemiesInScene = FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
+            if (enemiesInScene.Length > 0)
+            {
+                InitializeEnemies();
+            }
+        }
+
+        if (shootingSystem.GetCurrentAmmo() <= 0 && !_isCheckingLoss && _totalEnemies > 0)
         {
             StartCoroutine(CheckLossRoutine());
         }
     }
 
+    #endregion
+
     // ===================================================================
     #region Core Logic
 
-    private void InitializeEnemies()
+    private void HandleLevelLoaded()
     {
+        EnsureReferences();
+        InitializeEnemies();
+    }
+
+    private void HandleEnterGame()
+    {
+        EnsureReferences();
+        if (_totalEnemies <= 0 && !_isGameEnded)
+        {
+            InitializeEnemies();
+        }
+    }
+
+    private void EnsureReferences()
+    {
+        if (levelLoader == null)
+        {
+            levelLoader = FindFirstObjectByType<LevelLoader>();
+        }
+
+        if (shootingSystem == null)
+        {
+            shootingSystem = FindFirstObjectByType<ShootingSystem>();
+        }
+    }
+
+    public void InitializeEnemies()
+    {
+        EnsureReferences();
+
         EnemyAI[] enemiesInScene = FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
         _totalEnemies = enemiesInScene.Length;
 
@@ -63,6 +130,7 @@ public class WinLossManager : MonoBehaviour
         {
             if (enemy != null)
             {
+                enemy.OnEnemyDeath.RemoveListener(OnEnemyKilled);
                 enemy.OnEnemyDeath.AddListener(OnEnemyKilled);
             }
         }
@@ -93,6 +161,8 @@ public class WinLossManager : MonoBehaviour
         {
             TriggerWin();
         }
+
+        _isCheckingWin = false;
     }
 
     private IEnumerator CheckLossRoutine()
@@ -101,7 +171,7 @@ public class WinLossManager : MonoBehaviour
 
         yield return new WaitForSeconds(loseCheckDelay);
 
-        if (!_isGameEnded && shootingSystem.GetCurrentAmmo() == 0 && _totalEnemies > 0)
+        if (!_isGameEnded && shootingSystem != null && shootingSystem.GetCurrentAmmo() <= 0 && _totalEnemies > 0)
         {
             TriggerLose();
         }
@@ -111,8 +181,11 @@ public class WinLossManager : MonoBehaviour
 
     private void TriggerWin()
     {
+        if (_isGameEnded) return;
         _isGameEnded = true;
         StopAllCoroutines();
+
+        EnsureReferences();
 
         if (levelLoader != null)
         {
@@ -126,8 +199,11 @@ public class WinLossManager : MonoBehaviour
 
     private void TriggerLose()
     {
+        if (_isGameEnded) return;
         _isGameEnded = true;
         StopAllCoroutines();
+
+        EnsureReferences();
 
         if (levelLoader != null)
         {

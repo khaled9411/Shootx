@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -29,6 +30,8 @@ public class LevelLoader : MonoBehaviour
 
     #region Private State
 
+    public static event Action OnLevelLoaded;
+
     private GameObject _currentLevelInstance;
     private int _currentDisplayLevel;
     private bool _gameActive;
@@ -52,6 +55,7 @@ public class LevelLoader : MonoBehaviour
     private void OnDestroy()
     {
         UIManager.OnEnterGame -= HandleEnterGame;
+        OnLevelLoaded = null;
         DOTween.Kill(this);
     }
 
@@ -126,6 +130,8 @@ public class LevelLoader : MonoBehaviour
         else
             Debug.LogWarning("[LevelLoader] LevelVariantApplier Not present in the scene.");
 
+        OnLevelLoaded?.Invoke();
+
         float elapsed = Time.realtimeSinceStartup - startTime;
         float remaining = minLoadingDuration - elapsed;
         if (remaining > 0f)
@@ -143,18 +149,18 @@ public class LevelLoader : MonoBehaviour
         yield return FadeLoading(0f);
 
         Debug.Log($"[LevelLoader] Level ready — Display:{_currentDisplayLevel} Base:{baseLevelNumber}");
+        OnLevelLoaded?.Invoke();
     }
 
 
     private void HandleEnterGame()
     {
-        if (_gameActive) return;
         _gameActive = true;
     }
 
     public void OnWin()
     {
-        if (!_gameActive) return;
+        if (!_gameActive && (UIManager.Instance == null || !UIManager.Instance.isgameactive())) return;
         _gameActive = false;
         Time.timeScale = 0f;
 
@@ -168,7 +174,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         LevelStateManager.SaveWin(_currentDisplayLevel);
-        LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
+        LeaderboardManager.Instance?.UpdatePlayerLevel(_currentDisplayLevel);
         int earnedReward = 50; if (GameDataManager.Instance != null) { earnedReward = GameDataManager.Instance.CalculateLevelReward(_currentDisplayLevel); } UIManager.Instance?.ShowWinScreen(earnedReward);
 
         Debug.Log($"[LevelLoader] Win! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");
@@ -176,7 +182,7 @@ public class LevelLoader : MonoBehaviour
 
     public void OnLose()
     {
-        if (!_gameActive) return;
+        if (!_gameActive && (UIManager.Instance == null || !UIManager.Instance.isgameactive())) return;
         _gameActive = false;
         Time.timeScale = 0f;
 
@@ -201,7 +207,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         LevelStateManager.SaveWin(_currentDisplayLevel);
-        LeaderboardManager.Instance.UpdatePlayerLevel(_currentDisplayLevel);
+        LeaderboardManager.Instance?.UpdatePlayerLevel(_currentDisplayLevel);
         int earnedReward = 50; if (GameDataManager.Instance != null) { earnedReward = GameDataManager.Instance.CalculateLevelReward(_currentDisplayLevel); } UIManager.Instance?.ShowWinScreen(earnedReward);
 
         Debug.Log($"[LevelLoader] Skip! {_currentDisplayLevel} to {_currentDisplayLevel + 1}");

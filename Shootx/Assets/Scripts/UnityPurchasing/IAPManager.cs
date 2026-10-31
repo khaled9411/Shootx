@@ -22,8 +22,10 @@ public class IAPManager : MonoBehaviour
     private List<IAPProductDefinition> products = new List<IAPProductDefinition>();
 
     private StoreController storeController;
+    private bool _isStoreConnected = false;
+    private bool _areProductsFetched = false;
 
-    public bool IsInitialized => storeController != null;
+    public bool IsInitialized => storeController != null && _isStoreConnected && _areProductsFetched;
 
     // The official 12 products required by specification
     private static readonly (string id, ProductType type)[] DefaultProducts = new (string, ProductType)[]
@@ -70,12 +72,29 @@ public class IAPManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        UnsubscribeEvents();
+        SceneManager.activeSceneChanged -= OnactiveSceneChanged;
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    private void UnsubscribeEvents()
+    {
         if (storeController == null)
             return;
 
-        storeController.OnPurchasePending -= OnPurchasePending;
-        storeController.OnPurchaseFailed -= OnPurchaseFailed;
+        storeController.OnStoreConnected -= OnStoreConnected;
+        storeController.OnStoreDisconnected -= OnStoreDisconnected;
+        storeController.OnProductsFetched -= OnProductsFetched;
+        storeController.OnProductsFetchFailed -= OnProductsFetchFailed;
         storeController.OnPurchasesFetched -= OnPurchasesFetched;
+        storeController.OnPurchasesFetchFailed -= OnPurchasesFetchFailed;
+        storeController.OnPurchasePending -= OnPurchasePending;
+        storeController.OnPurchaseConfirmed -= OnPurchaseConfirmed;
+        storeController.OnPurchaseFailed -= OnPurchaseFailed;
+        storeController.OnPurchaseDeferred -= OnPurchaseDeferred;
     }
 
     // ============================================================
@@ -91,73 +110,37 @@ public class IAPManager : MonoBehaviour
         {
             Debug.Log("[IAP] Initializing Unity Services...");
 
-            await UnityServices.InitializeAsync();
+            if (UnityServices.State != ServicesInitializationState.Initialized)
+            {
+                await UnityServices.InitializeAsync();
+            }
 
             Debug.Log("[IAP] Getting Store Controller...");
 
             storeController = UnityIAPServices.StoreController();
 
             // ----------------------------------------------------
-            // Register events
+            // 1. Subscribe to ALL required events BEFORE Connect
             // ----------------------------------------------------
+            UnsubscribeEvents();
 
-            storeController.OnPurchasePending += OnPurchasePending;
-            storeController.OnPurchaseFailed += OnPurchaseFailed;
+            storeController.OnStoreConnected += OnStoreConnected;
+            storeController.OnStoreDisconnected += OnStoreDisconnected;
+            storeController.OnProductsFetched += OnProductsFetched;
+            storeController.OnProductsFetchFailed += OnProductsFetchFailed;
             storeController.OnPurchasesFetched += OnPurchasesFetched;
+            storeController.OnPurchasesFetchFailed += OnPurchasesFetchFailed;
+            storeController.OnPurchasePending += OnPurchasePending;
+            storeController.OnPurchaseConfirmed += OnPurchaseConfirmed;
+            storeController.OnPurchaseFailed += OnPurchaseFailed;
+            storeController.OnPurchaseDeferred += OnPurchaseDeferred;
 
             // ----------------------------------------------------
-            // Connect
+            // 2. Connect to the Store
             // ----------------------------------------------------
-
             Debug.Log("[IAP] Connecting to Store...");
-
             await storeController.Connect();
-
-            // ----------------------------------------------------
-            // Build product definitions
-            // ----------------------------------------------------
-
-            var productDefs = new List<ProductDefinition>();
-            var registeredIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            // Add inspector products first
-            foreach (var p in products)
-            {
-                if (p != null && !string.IsNullOrEmpty(p.productId) && registeredIds.Add(p.productId))
-                {
-                    productDefs.Add(new ProductDefinition(p.productId, p.productType));
-                }
-            }
-
-            // Ensure all 12 official products are present
-            foreach (var def in DefaultProducts)
-            {
-                if (registeredIds.Add(def.id))
-                {
-                    productDefs.Add(new ProductDefinition(def.id, def.type));
-                }
-            }
-
-            // ----------------------------------------------------
-            // Fetch products
-            // ----------------------------------------------------
-
-            Debug.Log($"[IAP] Fetching {productDefs.Count} Products...");
-
-            storeController.FetchProducts(productDefs);
-
-            Debug.Log("[IAP] Products fetch requested.");
-
-            // ----------------------------------------------------
-            // Restore purchases
-            // ----------------------------------------------------
-
-            Debug.Log("[IAP] Fetching previous purchases...");
-
-            storeController.FetchPurchases();
-
-            Debug.Log("[IAP] Initialization successful.");
-            OnInitializedEvent?.Invoke();
+            Debug.Log("[IAP] Store Connect initiated. Awaiting OnStoreConnected...");
         }
         catch (Exception e)
         {
@@ -166,26 +149,126 @@ public class IAPManager : MonoBehaviour
     }
 
     // ============================================================
+    // STORE LIFECYCLE EVENTS
+    // ============================================================
+
+    private void OnStoreConnected()
+    {
+        Debug.Log("[IAP] Store successfully connected!");
+        _isStoreConnected = true;
+
+        FetchCatalogProducts();
+    }
+
+    private void OnStoreDisconnected(StoreConnectionFailureDescription failure)
+    {
+        _isStoreConnected = false;
+        _areProductsFetched = false;
+        Debug.LogError($"[IAP] Store disconnected: {failure.Message}");
+    }
+
+    private void FetchCatalogProducts()
+    {
+        if (storeController == null) return;
+
+        // Auto-load product definitions from Resources if inspector list is empty
+        if (products == null || products.Count == 0)
+        {
+            var loaded = Resources.LoadAll<IAPProductDefinition>("IAPProducts");
+            if (loaded != null && loaded.Length > 0)
+            {
+                products = new List<IAPProductDefinition>(loaded);
+            }
+        }
+
+        var productDefs = new List<ProductDefinition>();
+        var registeredIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Add inspector products first
+        if (products != null)
+        {
+            foreach (var p in products)
+            {
+                if (p != null && !string.IsNullOrEmpty(p.productId) && registeredIds.Add(p.productId))
+                {
+                    productDefs.Add(new ProductDefinition(p.productId, p.productType));
+                }
+            }
+        }
+
+        // Ensure all 12 official products are present
+        foreach (var def in DefaultProducts)
+        {
+            if (registeredIds.Add(def.id))
+            {
+                productDefs.Add(new ProductDefinition(def.id, def.type));
+            }
+        }
+
+        Debug.Log($"[IAP] Fetching {productDefs.Count} Products from store...");
+        storeController.FetchProducts(productDefs);
+    }
+
+    private void OnProductsFetched(List<Product> fetchedProducts)
+    {
+        int count = fetchedProducts != null ? fetchedProducts.Count : 0;
+        Debug.Log($"[IAP] Products successfully fetched: {count} products available.");
+        _areProductsFetched = true;
+
+        OnInitializedEvent?.Invoke();
+
+        // After products are fetched, fetch existing purchases to restore entitlements
+        Debug.Log("[IAP] Fetching previous purchases...");
+        storeController.FetchPurchases();
+    }
+
+    private void OnProductsFetchFailed(ProductFetchFailed failure)
+    {
+        Debug.LogError($"[IAP] Products fetch failed: {failure.FailureReason}");
+    }
+
+    // ============================================================
     // BUY PRODUCT
     // ============================================================
 
-    public void BuyProduct(string productId)
+    public async void BuyProduct(string productId)
     {
-        if (!IsInitialized)
-        {
-            Debug.LogError("[IAP] Purchase failed: IAP is not initialized.");
-            OnPurchaseFailedEvent?.Invoke(productId, "Store not initialized. Please try again in a moment.");
-            return;
-        }
-
         if (string.IsNullOrEmpty(productId))
         {
             Debug.LogError("[IAP] Purchase failed: Product ID is empty.");
             return;
         }
 
+        if (!IsInitialized)
+        {
+            Debug.Log($"[IAP] Store not fully initialized yet. Waiting for store connection to buy '{productId}'...");
+
+            float timeout = 5f;
+            float elapsed = 0f;
+            while (!IsInitialized && elapsed < timeout)
+            {
+                await Task.Delay(250);
+                elapsed += 0.25f;
+            }
+
+            if (!IsInitialized)
+            {
+                Debug.LogError("[IAP] Purchase failed: IAP is not initialized after waiting.");
+                OnPurchaseFailedEvent?.Invoke(productId, "The store is not yet initialized; please try again in a moment.");
+                return;
+            }
+        }
+
+        Product product = GetProduct(productId);
+        if (product == null)
+        {
+            Debug.LogWarning($"[IAP] Product definition for '{productId}' not cached yet. Attempting direct purchase by ID...");
+            storeController.PurchaseProduct(productId);
+            return;
+        }
+
         Debug.Log($"[IAP] Initiating purchase for: {productId}");
-        storeController.PurchaseProduct(productId);
+        storeController.PurchaseProduct(product);
     }
 
     // ============================================================
@@ -201,7 +284,26 @@ public class IAPManager : MonoBehaviour
         }
 
         Debug.Log("[IAP] Restoring Purchases...");
-        storeController.FetchPurchases();
+
+        if (Application.platform == RuntimePlatform.IPhonePlayer ||
+            Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            storeController.RestoreTransactions((success, error) =>
+            {
+                if (success)
+                {
+                    Debug.Log("[IAP] Apple transactions restore completed successfully.");
+                }
+                else
+                {
+                    Debug.LogError($"[IAP] Apple transactions restore failed: {error}");
+                }
+            });
+        }
+        else
+        {
+            storeController.FetchPurchases();
+        }
     }
 
     // ============================================================
@@ -210,13 +312,13 @@ public class IAPManager : MonoBehaviour
 
     public Product GetProduct(string productId)
     {
-        if (!IsInitialized || storeController == null)
+        if (storeController == null)
             return null;
 
-        var products = storeController.GetProducts();
-        if (products == null) return null;
+        var allProducts = storeController.GetProducts();
+        if (allProducts == null) return null;
 
-        return products.FirstOrDefault(p => p != null && p.definition != null &&
+        return allProducts.FirstOrDefault(p => p != null && p.definition != null &&
             p.definition.id.Equals(productId, StringComparison.OrdinalIgnoreCase));
     }
 
@@ -228,7 +330,6 @@ public class IAPManager : MonoBehaviour
             return product.metadata.localizedPriceString;
         }
 
-        // Return empty or fallback indicator if store metadata is not loaded yet
         return "";
     }
 
@@ -259,7 +360,7 @@ public class IAPManager : MonoBehaviour
             string productId = product.definition.id;
             Debug.Log($"[IAP] Processing purchased product: {productId}");
 
-            ProcessPurchasedProduct(product);
+            ProcessPurchasedProduct(product, order.Info?.TransactionID);
         }
 
         // Authoritatively confirm the pending order after rewards are granted and saved
@@ -267,11 +368,36 @@ public class IAPManager : MonoBehaviour
         Debug.Log("[IAP] Purchase confirmed successfully.");
     }
 
+    private void OnPurchaseConfirmed(Order order)
+    {
+        switch (order)
+        {
+            case ConfirmedOrder confirmedOrder:
+                Debug.Log($"[IAP] Order confirmed: {confirmedOrder.Info?.TransactionID}");
+                break;
+            case FailedOrder failedOrder:
+                Debug.LogError($"[IAP] Order confirmation failed: {failedOrder.FailureReason} - {failedOrder.Details}");
+                break;
+        }
+    }
+
+    private void OnPurchaseFailed(FailedOrder failedOrder)
+    {
+        string reason = failedOrder != null ? $"{failedOrder.FailureReason} - {failedOrder.Details}" : "Unknown purchase error";
+        Debug.LogError($"[IAP] Purchase Failed: {reason}");
+        OnPurchaseFailedEvent?.Invoke("", reason);
+    }
+
+    private void OnPurchaseDeferred(DeferredOrder deferredOrder)
+    {
+        Debug.Log("[IAP] Purchase is deferred (pending parent or bank approval).");
+    }
+
     // ============================================================
     // PROCESS PURCHASE & DEDUPLICATION
     // ============================================================
 
-    private void ProcessPurchasedProduct(Product product)
+    private void ProcessPurchasedProduct(Product product, string orderId)
     {
         if (product == null || product.definition == null) return;
 
@@ -279,7 +405,7 @@ public class IAPManager : MonoBehaviour
 
         // Transaction Deduplication
 #pragma warning disable CS0618
-        string txId = !string.IsNullOrEmpty(product.transactionID) ? product.transactionID : product.receipt;
+        string txId = !string.IsNullOrEmpty(orderId) ? orderId : (!string.IsNullOrEmpty(product.transactionID) ? product.transactionID : product.receipt);
 #pragma warning restore CS0618
 
         if (!string.IsNullOrEmpty(txId) && GameDataManager.Instance != null && GameDataManager.Instance.IsTransactionProcessed(txId))
@@ -433,15 +559,9 @@ public class IAPManager : MonoBehaviour
         Debug.Log("[IAP] Purchases restored successfully.");
     }
 
-    // ============================================================
-    // PURCHASE FAILED
-    // ============================================================
-
-    private void OnPurchaseFailed(FailedOrder failedOrder)
+    private void OnPurchasesFetchFailed(PurchasesFetchFailureDescription failure)
     {
-        string reason = failedOrder != null ? failedOrder.ToString() : "Unknown purchase error";
-        Debug.LogError($"[IAP] Purchase Failed: {reason}");
-        OnPurchaseFailedEvent?.Invoke("", reason);
+        Debug.LogError($"[IAP] Purchases fetch failed: {failure.Message} ({failure.FailureReason})");
     }
 
     // ============================================================
