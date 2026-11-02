@@ -120,6 +120,9 @@ namespace Shootx.Store
             IAPManager.OnPurchaseSuccess += HandlePurchaseSuccess;
             IAPManager.OnPurchaseFailedEvent += HandlePurchaseFailed;
             IAPManager.OnInitializedEvent += RefreshPrices;
+
+            GameAdManager.OnRewardedAdOpened += HandleAdOpened;
+            GameAdManager.OnRewardedAdClosed += HandleAdClosed;
         }
 
         private void OnDestroy()
@@ -129,8 +132,30 @@ namespace Shootx.Store
             IAPManager.OnPurchaseFailedEvent -= HandlePurchaseFailed;
             IAPManager.OnInitializedEvent -= RefreshPrices;
 
+            GameAdManager.OnRewardedAdOpened -= HandleAdOpened;
+            GameAdManager.OnRewardedAdClosed -= HandleAdClosed;
+
             _feedbackTween?.Kill();
             modalGroup?.DOKill();
+        }
+
+        private void OnDisable()
+        {
+            _isAdLoading = false;
+            ShowLoading(false);
+            StopAllCoroutines();
+        }
+
+        private void HandleAdOpened()
+        {
+            // Dismiss loading indicator as soon as the full-screen ad covers the screen
+            ShowLoading(false);
+        }
+
+        private void HandleAdClosed()
+        {
+            _isAdLoading = false;
+            ShowLoading(false);
         }
 
         private void Update()
@@ -442,7 +467,7 @@ namespace Shootx.Store
             InitiatePurchase("remove_ads");
         }
 
-        private void InitiatePurchase(string productId)
+        private async void InitiatePurchase(string productId)
         {
             ShowLoading(true, "Connecting to store...");
             SetFeedback("Initiating secure transaction...");
@@ -454,7 +479,11 @@ namespace Shootx.Store
                 return;
             }
 
-            IAPManager.Instance.BuyProduct(productId);
+            bool initiated = await IAPManager.Instance.BuyProductAsync(productId);
+            if (!initiated)
+            {
+                ShowLoading(false);
+            }
         }
 
         public void OnWatchAdClicked()
@@ -474,6 +503,8 @@ namespace Shootx.Store
             ShowLoading(true, "Loading rewarded video ad...");
             SetFeedback("Preparing ad presentation...");
 
+            StartCoroutine(AdModalWatchdogCoroutine(15f));
+
             accessMgr.RequestRewardedAdAccess(success =>
             {
                 _isAdLoading = false;
@@ -488,6 +519,18 @@ namespace Shootx.Store
                     SetFeedback("Ad was not completed or failed. Access not granted.", isError: true);
                 }
             });
+        }
+
+        private System.Collections.IEnumerator AdModalWatchdogCoroutine(float timeoutSeconds)
+        {
+            yield return new WaitForSecondsRealtime(timeoutSeconds);
+            if (_isAdLoading)
+            {
+                Debug.LogWarning($"[MultiplayerAccessModal] Ad loading watchdog expired after {timeoutSeconds}s. Releasing loading UI.");
+                _isAdLoading = false;
+                ShowLoading(false);
+                SetFeedback("Ad request timed out. Please check your connection and try again.", isError: true);
+            }
         }
 
         public void OnEnterMultiplayerClicked()
@@ -506,7 +549,7 @@ namespace Shootx.Store
             }
         }
 
-        private void OnRestorePurchasesClicked()
+        private async void OnRestorePurchasesClicked()
         {
             restorePurchasesButton?.transform.DOPunchScale(new Vector3(-0.08f, -0.08f, 0f), 0.15f);
 
@@ -515,15 +558,12 @@ namespace Shootx.Store
 
             if (IAPManager.Instance != null)
             {
-                IAPManager.Instance.RestorePurchases();
+                await IAPManager.Instance.RestorePurchasesAsync();
             }
 
-            DOVirtual.DelayedCall(3f, () =>
-            {
-                ShowLoading(false);
-                SetFeedback("<color=#00FF88>Restore completed.</color>");
-                RefreshUI();
-            });
+            ShowLoading(false);
+            SetFeedback("<color=#00FF88>Restore completed.</color>");
+            RefreshUI();
         }
 
         private void HandlePurchaseSuccess(string productId)

@@ -614,7 +614,7 @@ public class ShopPopupController : MonoBehaviour
     #region Purchase Flow & IAP Integration
     // ===================================================================
 
-    public void OnBuyClicked(string productId)
+    public async void OnBuyClicked(string productId)
     {
         if (string.IsNullOrEmpty(productId) || _isPurchasing) return;
 
@@ -630,7 +630,12 @@ public class ShopPopupController : MonoBehaviour
             return;
         }
 
-        IAPManager.Instance.BuyProduct(productId);
+        bool initiated = await IAPManager.Instance.BuyProductAsync(productId);
+        if (!initiated)
+        {
+            _isPurchasing = false;
+            ShowLoading(false);
+        }
     }
 
     private void HandlePurchaseSuccess(string productId)
@@ -652,7 +657,7 @@ public class ShopPopupController : MonoBehaviour
         RefreshUI();
     }
 
-    private void OnRestorePurchasesClicked()
+    private async void OnRestorePurchasesClicked()
     {
         restorePurchasesButton?.transform.DOPunchScale(new Vector3(-0.08f, -0.08f, 0f), 0.15f);
 
@@ -661,15 +666,12 @@ public class ShopPopupController : MonoBehaviour
 
         if (IAPManager.Instance != null)
         {
-            IAPManager.Instance.RestorePurchases();
+            await IAPManager.Instance.RestorePurchasesAsync();
         }
 
-        DOVirtual.DelayedCall(3f, () =>
-        {
-            ShowLoading(false);
-            SetFeedback("<color=#00FF88>Purchase restoration completed.</color>");
-            RefreshUI();
-        });
+        ShowLoading(false);
+        SetFeedback("<color=#00FF88>Purchase restoration completed.</color>");
+        RefreshUI();
     }
 
     private void ShowLoading(bool show, string message = "Processing...")

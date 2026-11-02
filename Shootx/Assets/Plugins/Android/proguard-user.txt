@@ -1,0 +1,5 @@
+-keep class com.android.billingclient.** { *; }
+-keep interface com.android.billingclient.* { *; }
+-keepclassmembers class * implements com.android.billingclient.api.PurchasesUpdatedListener {
+    public *;
+}
