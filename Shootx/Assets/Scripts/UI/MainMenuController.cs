@@ -226,7 +226,7 @@ public class MainMenuController : MonoBehaviour
     {
         if (animationController != null)
         {
-            animationController.StopAllAnimations(restoreTransforms: true);
+            animationController.StopAllAnimations(restoreTransforms: false);
         }
         else
         {

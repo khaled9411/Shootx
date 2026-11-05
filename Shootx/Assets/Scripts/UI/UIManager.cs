@@ -66,6 +66,9 @@ public class UIManager : MonoBehaviour
     public Button PlayButton => playButton;
     public CanvasGroup MenuBackground => menuBackground;
 
+#endregion
+
+
     // ===================================================================
     #region Private State & Events
     // ===================================================================
@@ -373,13 +376,7 @@ public class UIManager : MonoBehaviour
         }
 
         var animCtrl = GetComponent<SoloMainMenuAnimationController>();
-        if (animCtrl != null)
-        {
-            animCtrl.PlayEntranceAnimation();
-            return;
-        }
 
-        // Fallback entrance animation if animation controller is absent
         // Set initial alphas
         if (topBarGroup != null) topBarGroup.alpha = 0f;
         if (progressGroup != null) progressGroup.alpha = 0f;
@@ -387,12 +384,17 @@ public class UIManager : MonoBehaviour
         if (bottomButtonsGroup != null) bottomButtonsGroup.alpha = 0f;
 
         mainMenuSequence = DOTween.Sequence();
+        mainMenuSequence.SetUpdate(true);
         float t = 0f;
 
-        // Top bar fades in
+        // Top bar fades in & subtle logo rise
         if (topBarGroup != null)
         {
             mainMenuSequence.Insert(t, topBarGroup.DOFade(1f, menuFadeDuration).SetEase(Ease.OutQuad));
+        }
+        if (animCtrl != null)
+        {
+            animCtrl.AddLogoEntrance(mainMenuSequence, t, menuFadeDuration);
         }
 
         t += elementStaggerDelay;
@@ -405,24 +407,39 @@ public class UIManager : MonoBehaviour
 
         t += elementStaggerDelay;
 
-        // Tap to play fades in
+        // Tap to play fades in & subtle breathing scale-in
         if (tapToPlayGroup != null)
         {
             mainMenuSequence.Insert(t, tapToPlayGroup.DOFade(1f, menuFadeDuration).SetEase(Ease.OutQuad));
         }
+        if (animCtrl != null)
+        {
+            animCtrl.AddPlayButtonEntrance(mainMenuSequence, t, menuFadeDuration);
+        }
 
         t += elementStaggerDelay;
 
-        // Bottom buttons fade in
+        // Bottom buttons fade in & subtle scale-in
         if (bottomButtonsGroup != null)
         {
             mainMenuSequence.Insert(t, bottomButtonsGroup.DOFade(1f, menuFadeDuration).SetEase(Ease.OutQuad));
+        }
+        if (animCtrl != null)
+        {
+            animCtrl.AddSecondaryButtonsEntrance(mainMenuSequence, t, menuFadeDuration);
         }
 
         mainMenuSequence.OnComplete(() =>
         {
             ResetMainMenuElementsInstant();
-            GetComponent<MainMenuController>()?.RestartIdleAnimations();
+            if (animCtrl != null)
+            {
+                animCtrl.StartIdleAnimations();
+            }
+            else
+            {
+                GetComponent<MainMenuController>()?.RestartIdleAnimations();
+            }
         });
 
         mainMenuSequence.Play();
@@ -522,6 +539,8 @@ public class UIManager : MonoBehaviour
                 menuBackground.alpha = 0f;
                 menuBackground.gameObject.SetActive(false);
             }
+
+            GetComponent<SoloMainMenuAnimationController>()?.ResetToOriginalInstant();
 
             OnEnterGame?.Invoke();
         });
@@ -629,6 +648,11 @@ public class UIManager : MonoBehaviour
         if (currentPanel == null) { onComplete?.Invoke(); return; }
 
         CanvasGroup panelToHide = currentPanel;
+        if (panelToHide == mainMenuPanel)
+        {
+            GetComponent<SoloMainMenuAnimationController>()?.StopAllAnimations(restoreTransforms: false);
+        }
+
         panelToHide.DOKill();
 
         Sequence seq = DOTween.Sequence();
@@ -637,6 +661,10 @@ public class UIManager : MonoBehaviour
         {
             SetCanvasGroupState(panelToHide, false, instant: true);
             panelToHide.gameObject.SetActive(false);
+            if (panelToHide == mainMenuPanel)
+            {
+                GetComponent<SoloMainMenuAnimationController>()?.ResetToOriginalInstant();
+            }
             onComplete?.Invoke();
         });
         seq.Play();
@@ -661,6 +689,8 @@ public class UIManager : MonoBehaviour
     private void ShowPopup(CanvasGroup popup)
     {
         if (popup == null) return;
+
+        GetComponent<SoloMainMenuAnimationController>()?.StopIdleTweens(restoreTransforms: true);
 
         ShowMenuBackground(instant: true);
 
@@ -688,6 +718,11 @@ public class UIManager : MonoBehaviour
         {
             SetCanvasGroupState(popup, false, instant: true);
             popup.gameObject.SetActive(false);
+
+            if (currentPanel == mainMenuPanel)
+            {
+                GetComponent<SoloMainMenuAnimationController>()?.StartIdleAnimations();
+            }
         });
         seq.Play();
     }
