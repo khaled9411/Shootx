@@ -333,7 +333,7 @@ public class GunsPanelController : MonoBehaviour
             GunButtonUI ui = new GunButtonUI
             {
                 button = go.GetComponent<Button>(),
-                gunImage = go.GetComponentInChildren<Image>(),
+                gunImage = go.transform.GetChild(2).GetComponent<Image>(),
                 selectionHighlight = go.transform.Find("Highlight")?.GetComponent<Image>(),
                 statusText = go.GetComponentInChildren<TextMeshProUGUI>(),
                 gunId = weapon.numericId,
