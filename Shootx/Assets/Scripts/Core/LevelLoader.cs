@@ -30,6 +30,9 @@ public class LevelLoader : MonoBehaviour
 
     #region Private State
 
+    public static LevelLoader Instance { get; private set; }
+    public bool IsGameActive => _gameActive;
+
     public static event Action OnLevelLoaded;
 
     private GameObject _currentLevelInstance;
@@ -41,6 +44,9 @@ public class LevelLoader : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+
         Time.timeScale = 0f;
         _gameActive = false;
         InitLoadingScreen();
@@ -54,6 +60,7 @@ public class LevelLoader : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (Instance == this) Instance = null;
         UIManager.OnEnterGame -= HandleEnterGame;
         OnLevelLoaded = null;
         DOTween.Kill(this);

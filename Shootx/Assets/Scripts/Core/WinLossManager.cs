@@ -19,6 +19,9 @@ public class WinLossManager : MonoBehaviour
     // ===================================================================
     #region Private State
 
+    public static WinLossManager Instance { get; private set; }
+    public bool IsGameEnded => _isGameEnded;
+
     private int _totalEnemies;
     private bool _isGameEnded = false;
     private bool _isCheckingLoss = false;
@@ -31,7 +34,15 @@ public class WinLossManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+
         EnsureReferences();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     private void OnEnable()

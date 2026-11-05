@@ -6,6 +6,8 @@ public class HeadHitbox : MonoBehaviour, IDamageable
     [SerializeField] private EnemyAI mainEnemyAI;
     [SerializeField] private float headshotMultiplier = 2f;
 
+    public EnemyAI MainEnemyAI => mainEnemyAI;
+
     public void TakeDamage(float damage, Vector3 hitDirection)
     {
         if (mainEnemyAI == null)

@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class CancelAiming : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public static CancelAiming Instance { get; private set; }
+
     [Header("Visual Settings")]
     [SerializeField] private float hoverScale = 1.2f;
     [SerializeField] private float hoverDuration = 0.2f;
@@ -18,6 +20,18 @@ public class CancelAiming : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private RectTransform rectTransform;
     private Vector3 originalScale;
     private bool isPointerOver = false;
+    public bool IsPointerOver => isPointerOver;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) return;
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 
     IEnumerator Start()
     {
@@ -77,8 +91,7 @@ public class CancelAiming : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (!released) return;
 
-        bool overButton = RectTransformUtility.RectangleContainsScreenPoint(
-            rectTransform, releasePos, null);
+        bool overButton = IsPointOverButton(releasePos);
 
         Debug.Log($"[CancelAiming] Released | overButton: {overButton} | isPointerOver: {isPointerOver}");
 
@@ -88,6 +101,14 @@ public class CancelAiming : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             ResetVisual();
             shootingSystem.CancelShot();
         }
+    }
+
+    public bool IsPointOverButton(Vector2 screenPoint)
+    {
+        if (rectTransform == null) return false;
+        if (canvasGroup != null && canvasGroup.alpha <= 0.01f) return false;
+
+        return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, null);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -108,12 +129,15 @@ public class CancelAiming : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         ResetVisual();
     }
 
-    private void ResetVisual()
+    public void ResetVisual()
     {
         isPointerOver = false;
-        rectTransform.DOKill();
-        rectTransform.DOScale(originalScale, hoverDuration)
-            .SetEase(Ease.OutQuad);
+        if (rectTransform != null)
+        {
+            rectTransform.DOKill();
+            rectTransform.DOScale(originalScale, hoverDuration)
+                .SetEase(Ease.OutQuad);
+        }
 
         if (buttonImage != null)
             buttonImage.DOColor(normalColor, hoverDuration);

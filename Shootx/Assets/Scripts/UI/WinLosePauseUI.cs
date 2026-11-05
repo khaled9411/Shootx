@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +8,12 @@ using DG.Tweening;
 public class WinLosePauseUI : MonoBehaviour
 {
     public static WinLosePauseUI Instance { get; private set; }
+
+    public bool IsPaused => _isPaused;
+    public bool IsWinScreenActive => winPanel != null && winPanel.gameObject.activeInHierarchy && winPanel.blocksRaycasts;
+    public bool IsLoseScreenActive => losePanel != null && losePanel.gameObject.activeInHierarchy && losePanel.blocksRaycasts;
+    public bool IsPauseScreenActive => pausePanel != null && pausePanel.gameObject.activeInHierarchy && pausePanel.blocksRaycasts;
+    public bool IsAnyScreenActive => _isPaused || IsWinScreenActive || IsLoseScreenActive || IsPauseScreenActive;
 
     #region Inspector Fields
 
