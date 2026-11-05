@@ -10,6 +10,9 @@ public class MainMenuController : MonoBehaviour
     #region Inspector Fields
     // ===================================================================
 
+    [Header("=== Animation Controller ===")]
+    [SerializeField] private SoloMainMenuAnimationController animationController;
+
     [Header("=== Currency Bar ===")]
     [SerializeField] private TextMeshProUGUI softCurrencyText;
     [SerializeField] private TextMeshProUGUI hardCurrencyText;
@@ -39,13 +42,30 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Slider missionsProgressBar;
     [SerializeField] private TextMeshProUGUI missionsProgressText;  // "3/5"
 
-    [Header("=== Logo Animation ===")]
-    [SerializeField] private float logoBobAmplitude = 8f;
-    [SerializeField] private float logoBobDuration = 1.8f;
+    [Header("=== Legacy Logo Animation (Fallback) ===")]
+    [SerializeField] private float logoBobAmplitude = 5f;
+    [SerializeField] private float logoBobDuration = 1.6f;
 
-    [Header("=== TapToPlay Pulse ===")]
-    [SerializeField] private float tapPulseScale = 1.08f;
+    [Header("=== Legacy TapToPlay Pulse (Fallback) ===")]
+    [SerializeField] private float tapPulseScale = 1.025f;
     [SerializeField] private float tapPulseDuration = 0.9f;
+
+    // ===================================================================
+    #endregion
+
+    // ===================================================================
+    #region Public Properties for Integration
+    // ===================================================================
+
+    public RectTransform GameLogo => gameLogo;
+    public CanvasGroup TapToPlayGroup => tapToPlayGroup;
+    public TextMeshProUGUI TapToPlayText => tapToPlayText;
+    public Button SettingsButton => settingsButton;
+    public Button GunsButton => gunsButton;
+    public Button OutfitsButton => outfitsButton;
+    public Button MissionsButton => missionsButton;
+    public Button OnlineButton => onlineButton;
+    public SoloMainMenuAnimationController AnimationController => animationController;
 
     // ===================================================================
     #endregion
@@ -66,8 +86,14 @@ public class MainMenuController : MonoBehaviour
     #region Unity Lifecycle
     // ===================================================================
 
+    private void Awake()
+    {
+        EnsureAnimationController();
+    }
+
     private void Start()
     {
+        EnsureAnimationController();
         AssignButtonListeners();
 
         if (gameLogo != null)
@@ -76,8 +102,11 @@ public class MainMenuController : MonoBehaviour
             logoPosCached = true;
         }
 
-        StartLogoAnimation();
-        StartTapToPlayPulse();
+        if (animationController != null)
+        {
+            animationController.CacheOriginalTransforms();
+        }
+
         RefreshUI();
     }
 
@@ -95,6 +124,14 @@ public class MainMenuController : MonoBehaviour
         UIManager.OnTapToPlay -= OnTapToPlayStarted;
 
         StopIdleAnimations();
+    }
+
+    private void EnsureAnimationController()
+    {
+        if (animationController == null)
+            animationController = GetComponent<SoloMainMenuAnimationController>();
+        if (animationController == null)
+            animationController = gameObject.AddComponent<SoloMainMenuAnimationController>();
     }
 
     // ===================================================================
@@ -158,7 +195,7 @@ public class MainMenuController : MonoBehaviour
         int total = GameDataManager.Instance.DailyMissionsTotal;
 
         if (missionsProgressBar != null)
-            missionsProgressBar.DOValue(progress, 0.4f).SetEase(Ease.OutCubic);
+            missionsProgressBar.DOValue(progress, 0.4f).SetEase(Ease.OutCubic).SetUpdate(true);
 
         if (missionsProgressText != null)
             missionsProgressText.text = $"{done}/{total}";
@@ -168,16 +205,74 @@ public class MainMenuController : MonoBehaviour
     #endregion
 
     // ===================================================================
-    #region Idle Animations
+    #region Idle & Entrance Animations Control
     // ===================================================================
 
     public void RestartIdleAnimations()
     {
-        StartLogoAnimation();
-        StartTapToPlayPulse();
+        EnsureAnimationController();
+        if (animationController != null)
+        {
+            animationController.StartIdleAnimations();
+        }
+        else
+        {
+            StartFallbackLogoAnimation();
+            StartFallbackTapToPlayPulse();
+        }
     }
 
     public void StopIdleAnimations()
+    {
+        if (animationController != null)
+        {
+            animationController.StopAllAnimations(restoreTransforms: true);
+        }
+        else
+        {
+            StopFallbackIdleAnimations();
+        }
+    }
+
+    private void OnTapToPlayStarted()
+    {
+        StopIdleAnimations();
+    }
+
+    private void StartFallbackLogoAnimation()
+    {
+        if (gameLogo == null) return;
+
+        if (logoBobTween != null && logoBobTween.IsActive())
+            logoBobTween.Kill();
+
+        if (logoPosCached)
+            gameLogo.anchoredPosition = logoOriginalPos;
+
+        logoBobTween = gameLogo
+            .DOAnchorPosY(logoOriginalPos.y + logoBobAmplitude, logoBobDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetUpdate(true);
+    }
+
+    private void StartFallbackTapToPlayPulse()
+    {
+        if (tapToPlayText == null) return;
+
+        if (tapPulseTween != null && tapPulseTween.IsActive())
+            tapPulseTween.Kill();
+
+        tapToPlayText.transform.localScale = Vector3.one;
+
+        tapPulseTween = tapToPlayText.transform
+            .DOScale(tapPulseScale, tapPulseDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetUpdate(true);
+    }
+
+    private void StopFallbackIdleAnimations()
     {
         if (logoBobTween != null && logoBobTween.IsActive())
         {
@@ -202,42 +297,6 @@ public class MainMenuController : MonoBehaviour
             tapToPlayText.transform.DOKill();
             tapToPlayText.transform.localScale = Vector3.one;
         }
-    }
-
-    private void OnTapToPlayStarted()
-    {
-        StopIdleAnimations();
-    }
-
-    private void StartLogoAnimation()
-    {
-        if (gameLogo == null) return;
-
-        if (logoBobTween != null && logoBobTween.IsActive())
-            logoBobTween.Kill();
-
-        if (logoPosCached)
-            gameLogo.anchoredPosition = logoOriginalPos;
-
-        logoBobTween = gameLogo
-            .DOAnchorPosY(logoOriginalPos.y + logoBobAmplitude, logoBobDuration)
-            .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo);
-    }
-
-    private void StartTapToPlayPulse()
-    {
-        if (tapToPlayText == null) return;
-
-        if (tapPulseTween != null && tapPulseTween.IsActive())
-            tapPulseTween.Kill();
-
-        tapToPlayText.transform.localScale = Vector3.one;
-
-        tapPulseTween = tapToPlayText.transform
-            .DOScale(tapPulseScale, tapPulseDuration)
-            .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo);
     }
 
     // ===================================================================

@@ -15111,6 +15111,7 @@ GameObject:
   - component: {fileID: 566614609}
   - component: {fileID: 566614610}
   - component: {fileID: 566614611}
+  - component: {fileID: 566614612}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -15174,6 +15175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4298fc7e7197047b666988d2945b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
+  animationController: {fileID: 566614612}
   softCurrencyText: {fileID: 1441017453}
   hardCurrencyText: {fileID: 1500586653}
   softCurrencyButton: {fileID: 1253550586}
@@ -15189,10 +15191,64 @@ MonoBehaviour:
   onlineButton: {fileID: 82980002}
   missionsProgressBar: {fileID: 274814489}
   missionsProgressText: {fileID: 646475115}
-  logoBobAmplitude: 8
-  logoBobDuration: 1.8
-  tapPulseScale: 1.08
+  logoBobAmplitude: 5
+  logoBobDuration: 1.6
+  tapPulseScale: 1.025
   tapPulseDuration: 0.9
+--- !u!114 &566614612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566614599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35243d925e8b49118f8beb271247a128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoloMainMenuAnimationController
+  enableEntranceAnimations: 1
+  enableIdleAnimations: 1
+  gameLogo: {fileID: 1330176075}
+  enableLogoBob: 1
+  logoBobDistance: 5
+  logoBobCycleDuration: 3.2
+  logoBobEase: 9
+  tapToPlayGroup: {fileID: 216654363}
+  tapToPlayVisual: {fileID: 1192818270}
+  playButton: {fileID: 787533480}
+  enablePlayPulse: 1
+  playPulseScale: 1.025
+  playPulseCycleDuration: 1.8
+  playPulseEase: 9
+  settingsButton: {fileID: 426465290}
+  gunsButton: {fileID: 1136876463}
+  outfitsButton: {fileID: 2135908128}
+  missionsButton: {fileID: 495220659}
+  onlineButton: {fileID: 82980002}
+  enableSecondaryButtonsIdle: 1
+  secondaryButtonScaleMultiplier: 1.015
+  secondaryButtonBaseCycleDuration: 2.6
+  secondaryButtonEase: 9
+  shineTransform: {fileID: 2137315633}
+  shineImage: {fileID: 2137315634}
+  enableBackgroundShineIdle: 1
+  shineScaleMultiplier: 1.035
+  shineCycleDuration: 4
+  shineEase: 9
+  titleEntranceDuration: 0.45
+  titleEntranceMoveDistance: 25
+  titleEntranceEase: 2
+  playButtonEntranceDuration: 0.38
+  playButtonEntranceStartScale: 0.88
+  playButtonEntranceEase: 27
+  secondaryButtonEntranceDuration: 0.32
+  secondaryButtonEntranceStartScale: 0.88
+  secondaryButtonStaggerDelay: 0.05
+  secondaryButtonEntranceEase: 2
+  topBarGroup: {fileID: 645189081}
+  progressGroup: {fileID: 957032954}
+  bottomButtonsGroup: {fileID: 980810355}
 --- !u!114 &566614602
 MonoBehaviour:
   m_ObjectHideFlags: 0

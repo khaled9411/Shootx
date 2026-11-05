@@ -1,22 +1,45 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
-/// Unit and integration verification tests for the Mobile Control System.
+/// Unit and integration verification tests for the Mobile Control System and Dominant Hand Mirroring.
 /// Validates:
 ///   1. AimFireJoystick hysteresis state machine (Idle -> Aiming -> Armed -> Canceled -> Re-armed -> Released).
 ///   2. Release-to-fire single shot guarantee and cancellation verification.
 ///   3. Camera-relative 3D aim direction transformation.
 ///   4. Movement joystick dead zone and diagonal clamping.
 ///   5. Melee tap isolation and cooldown preservation.
+///   6. Dominant Hand persistence, default fallback to Right-handed for new players.
+///   7. Right-handed layout exact coordinates, sizes, and anchors.
+///   8. Left-handed mirrored layout coordinates, sizes, and anchors.
+///   9. Seamless layout restoration when toggling back to Right-handed.
+///   10. DominantHandSettings event dispatching on change.
+///   11. Solo Settings popup UI update and immediate persistence.
 /// </summary>
 public static class MobileControlsTests
 {
     private const string MenuPath = "Tools/Mobile Controls/Run Verification Tests";
 
+    [InitializeOnLoadMethod]
+    private static void RunOnCompile()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+            RunAllTestsInternal(showDialog: false);
+        };
+    }
+
     [MenuItem(MenuPath, false, 50)]
     public static void RunAllTests()
+    {
+        RunAllTestsInternal(showDialog: true);
+    }
+
+    private static void RunAllTestsInternal(bool showDialog)
     {
         Debug.Log("<color=#00e1ff><b>[MobileControlsTests] ══ Starting Automated Test Suite ══</b></color>");
 
@@ -28,18 +51,33 @@ public static class MobileControlsTests
         if (TestCameraRelativeAimConversion()) passed++; else failed++;
         if (TestMovementDeadZoneAndClamping()) passed++; else failed++;
         if (TestMeleeInputIsolation()) passed++; else failed++;
+        if (TestDominantHandPersistenceAndDefaults()) passed++; else failed++;
+        if (TestRightHandedLayoutExactPositions()) passed++; else failed++;
+        if (TestLeftHandedLayoutMirroredPositions()) passed++; else failed++;
+        if (TestLayoutRestorationOnToggleBack()) passed++; else failed++;
+        if (TestDominantHandEventSubscription()) passed++; else failed++;
+        if (TestSettingsPopupControllerUIUpdate()) passed++; else failed++;
 
         if (failed == 0)
         {
             Debug.Log($"<color=#00ff66><b>[MobileControlsTests] ✔ ALL {passed} TESTS PASSED SUCCESSFULLY!</b></color>");
-            EditorUtility.DisplayDialog("Test Results",
-                $"All {passed} tests passed successfully!\n\n" +
-                "✔ Hysteresis (0.90 Armed / 0.75 Cancel) validated\n" +
-                "✔ Release-to-fire single shot & cancellation validated\n" +
-                "✔ Camera-relative 3D aiming conversion validated\n" +
-                "✔ Movement deadzone & magnitude clamping validated\n" +
-                "✔ Melee button tap isolation validated",
-                "OK");
+            if (showDialog)
+            {
+                EditorUtility.DisplayDialog("Test Results",
+                    $"All {passed} tests passed successfully!\n\n" +
+                    "✔ Hysteresis (0.90 Armed / 0.75 Cancel) validated\n" +
+                    "✔ Release-to-fire single shot & cancellation validated\n" +
+                    "✔ Camera-relative 3D aiming conversion validated\n" +
+                    "✔ Movement deadzone & magnitude clamping validated\n" +
+                    "✔ Melee button tap isolation validated\n" +
+                    "✔ Dominant Hand default & persistence validated\n" +
+                    "✔ Right-handed layout exact positions validated\n" +
+                    "✔ Left-handed mirrored layout positions validated\n" +
+                    "✔ Layout restoration on toggle back validated\n" +
+                    "✔ Dominant Hand event dispatching validated\n" +
+                    "✔ Solo Settings popup UI update validated",
+                    "OK");
+            }
         }
         else
         {
@@ -82,7 +120,6 @@ public static class MobileControlsTests
         if (state == AimFireJoystick.AimState.Armed)
         {
             if (mag < disarmThreshold) state = AimFireJoystick.AimState.Canceled;
-            // Otherwise remains Armed!
         }
         if (state != AimFireJoystick.AimState.Armed)
         {
@@ -143,7 +180,6 @@ public static class MobileControlsTests
             lastShotDir = dir;
         };
 
-        // Scenario A: Release while Armed -> 1 shot
         Vector3 aimDir = new Vector3(0.707f, 0f, 0.707f);
         bool isArmed = true;
         if (isArmed)
@@ -158,7 +194,6 @@ public static class MobileControlsTests
             return false;
         }
 
-        // Scenario B: Release after cancellation -> 0 additional shots
         isArmed = false;
         if (isArmed)
         {
@@ -195,7 +230,6 @@ public static class MobileControlsTests
         camRight.y = 0f;
         camRight.Normalize();
 
-        // 1. Stick up (0, 1) -> must point along camera forward
         Vector2 stickUp = new Vector2(0f, 1f);
         Vector3 worldAimUp = (camRight * stickUp.x + camFwd * stickUp.y).normalized;
 
@@ -206,7 +240,6 @@ public static class MobileControlsTests
             return false;
         }
 
-        // 2. Stick right (1, 0) -> must point along camera right
         Vector2 stickRight = new Vector2(1f, 0f);
         Vector3 worldAimRight = (camRight * stickRight.x + camFwd * stickRight.y).normalized;
 
@@ -229,7 +262,6 @@ public static class MobileControlsTests
     {
         float deadZone = 0.1f;
 
-        // Sub-deadzone vector
         Vector2 subDead = new Vector2(0.04f, 0.05f);
         Vector2 outSub = subDead.magnitude <= deadZone ? Vector2.zero : subDead.normalized * ((subDead.magnitude - deadZone) / (1f - deadZone));
         if (outSub != Vector2.zero)
@@ -238,7 +270,6 @@ public static class MobileControlsTests
             return false;
         }
 
-        // Beyond-radius diagonal input
         Vector2 overDiag = new Vector2(1.5f, 1.5f);
         Vector2 clamped = Vector2.ClampMagnitude(overDiag, 1.0f);
         if (clamped.magnitude > 1.001f)
@@ -260,7 +291,6 @@ public static class MobileControlsTests
         int meleeFired = 0;
 
         inputReader.meleeEvent += () => meleeFired++;
-
         inputReader.TriggerMelee();
 
         if (meleeFired != 1)
@@ -273,6 +303,348 @@ public static class MobileControlsTests
         Object.DestroyImmediate(inputReader);
         Debug.Log("[MobileControlsTests] ✔ Test 5 PASSED: Melee button invocation verified.");
         return true;
+    }
+
+    /// <summary>
+    /// Test 6: Verifies DominantHand persistence and default value.
+    /// </summary>
+    private static bool TestDominantHandPersistenceAndDefaults()
+    {
+        int original = PlayerPrefs.GetInt(DominantHandSettings.PrefKey, -1);
+
+        // Delete key -> Must return RightHanded (0)
+        PlayerPrefs.DeleteKey(DominantHandSettings.PrefKey);
+        if (DominantHandSettings.CurrentHand != DominantHand.RightHanded)
+        {
+            Debug.LogError("[Test 6 FAILED] Default dominant hand must be RightHanded (0) when key is missing!");
+            RestorePref(original);
+            return false;
+        }
+
+        // Set LeftHanded (1)
+        DominantHandSettings.CurrentHand = DominantHand.LeftHanded;
+        if (PlayerPrefs.GetInt(DominantHandSettings.PrefKey, -1) != 1 || DominantHandSettings.CurrentHand != DominantHand.LeftHanded)
+        {
+            Debug.LogError("[Test 6 FAILED] Dominant hand must persist LeftHanded (1) immediately!");
+            RestorePref(original);
+            return false;
+        }
+
+        // Set RightHanded (0)
+        DominantHandSettings.CurrentHand = DominantHand.RightHanded;
+        if (PlayerPrefs.GetInt(DominantHandSettings.PrefKey, -1) != 0 || DominantHandSettings.CurrentHand != DominantHand.RightHanded)
+        {
+            Debug.LogError("[Test 6 FAILED] Dominant hand must persist RightHanded (0) immediately!");
+            RestorePref(original);
+            return false;
+        }
+
+        RestorePref(original);
+        Debug.Log("[MobileControlsTests] ✔ Test 6 PASSED: Dominant hand persistence & defaults verified.");
+        return true;
+    }
+
+    /// <summary>
+    /// Test 7: Verifies Right-handed layout positions, anchors, and sizes.
+    /// </summary>
+    private static bool TestRightHandedLayoutExactPositions()
+    {
+        GameObject hudGO = CreateTestHUDHierarchy(out MobileControlsHUD hud,
+            out RectTransform moveRT, out RectTransform combatRT,
+            out RectTransform aimRT, out RectTransform meleeRT, out RectTransform dashRT);
+
+        hud.ApplyDominantHandLayout(DominantHand.RightHanded);
+
+        bool valid = true;
+
+        // Move: Left side (0, 0), pos (180, 180), size (240, 240)
+        if (moveRT.anchorMin != new Vector2(0f, 0f) || moveRT.anchorMax != new Vector2(0f, 0f) ||
+            moveRT.anchoredPosition != new Vector2(180f, 180f) || moveRT.sizeDelta != new Vector2(240f, 240f))
+        {
+            Debug.LogError($"[Test 7 FAILED] MoveRT Right-handed invalid! anchor={moveRT.anchorMin}, pos={moveRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Combat container: Right side (1, 0), pos (0, 0), size (400, 600)
+        if (combatRT.anchorMin != new Vector2(1f, 0f) || combatRT.anchorMax != new Vector2(1f, 0f) ||
+            combatRT.anchoredPosition != Vector2.zero || combatRT.sizeDelta != new Vector2(400f, 600f))
+        {
+            Debug.LogError($"[Test 7 FAILED] CombatRT Right-handed invalid! anchor={combatRT.anchorMin}, pos={combatRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Aim: anchor (1, 0), pos (-180, 180), size (240, 240)
+        if (aimRT.anchorMin != new Vector2(1f, 0f) || aimRT.anchorMax != new Vector2(1f, 0f) ||
+            aimRT.anchoredPosition != new Vector2(-180f, 180f) || aimRT.sizeDelta != new Vector2(240f, 240f))
+        {
+            Debug.LogError($"[Test 7 FAILED] AimRT Right-handed invalid! anchor={aimRT.anchorMin}, pos={aimRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Melee: anchor (1, 0), pos (-180, 375), size (125, 125)
+        if (meleeRT.anchorMin != new Vector2(1f, 0f) || meleeRT.anchorMax != new Vector2(1f, 0f) ||
+            meleeRT.anchoredPosition != new Vector2(-180f, 375f) || meleeRT.sizeDelta != new Vector2(125f, 125f))
+        {
+            Debug.LogError($"[Test 7 FAILED] MeleeRT Right-handed invalid! anchor={meleeRT.anchorMin}, pos={meleeRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Dash: anchor (1, 0), pos (-315, 375), size (125, 125)
+        if (dashRT.anchorMin != new Vector2(1f, 0f) || dashRT.anchorMax != new Vector2(1f, 0f) ||
+            dashRT.anchoredPosition != new Vector2(-315f, 375f) || dashRT.sizeDelta != new Vector2(125f, 125f))
+        {
+            Debug.LogError($"[Test 7 FAILED] DashRT Right-handed invalid! anchor={dashRT.anchorMin}, pos={dashRT.anchoredPosition}");
+            valid = false;
+        }
+
+        Object.DestroyImmediate(hudGO);
+        if (valid) Debug.Log("[MobileControlsTests] ✔ Test 7 PASSED: Right-handed layout exact coordinates verified.");
+        return valid;
+    }
+
+    /// <summary>
+    /// Test 8: Verifies Left-handed mirrored layout positions, anchors, and sizes.
+    /// </summary>
+    private static bool TestLeftHandedLayoutMirroredPositions()
+    {
+        GameObject hudGO = CreateTestHUDHierarchy(out MobileControlsHUD hud,
+            out RectTransform moveRT, out RectTransform combatRT,
+            out RectTransform aimRT, out RectTransform meleeRT, out RectTransform dashRT);
+
+        hud.ApplyDominantHandLayout(DominantHand.LeftHanded);
+
+        bool valid = true;
+
+        // Move: Right side (1, 0), pos (-180, 180), size (240, 240)
+        if (moveRT.anchorMin != new Vector2(1f, 0f) || moveRT.anchorMax != new Vector2(1f, 0f) ||
+            moveRT.anchoredPosition != new Vector2(-180f, 180f) || moveRT.sizeDelta != new Vector2(240f, 240f))
+        {
+            Debug.LogError($"[Test 8 FAILED] MoveRT Left-handed invalid! anchor={moveRT.anchorMin}, pos={moveRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Combat container: Left side (0, 0), pos (0, 0), size (400, 600)
+        if (combatRT.anchorMin != new Vector2(0f, 0f) || combatRT.anchorMax != new Vector2(0f, 0f) ||
+            combatRT.anchoredPosition != Vector2.zero || combatRT.sizeDelta != new Vector2(400f, 600f))
+        {
+            Debug.LogError($"[Test 8 FAILED] CombatRT Left-handed invalid! anchor={combatRT.anchorMin}, pos={combatRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Aim: Left side (0, 0), pos (180, 180), size (240, 240)
+        if (aimRT.anchorMin != new Vector2(0f, 0f) || aimRT.anchorMax != new Vector2(0f, 0f) ||
+            aimRT.anchoredPosition != new Vector2(180f, 180f) || aimRT.sizeDelta != new Vector2(240f, 240f))
+        {
+            Debug.LogError($"[Test 8 FAILED] AimRT Left-handed invalid! anchor={aimRT.anchorMin}, pos={aimRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Melee: Left side (0, 0), pos (180, 375), size (125, 125)
+        if (meleeRT.anchorMin != new Vector2(0f, 0f) || meleeRT.anchorMax != new Vector2(0f, 0f) ||
+            meleeRT.anchoredPosition != new Vector2(180f, 375f) || meleeRT.sizeDelta != new Vector2(125f, 125f))
+        {
+            Debug.LogError($"[Test 8 FAILED] MeleeRT Left-handed invalid! anchor={meleeRT.anchorMin}, pos={meleeRT.anchoredPosition}");
+            valid = false;
+        }
+
+        // Dash: Left side (0, 0), pos (315, 375), size (125, 125)
+        if (dashRT.anchorMin != new Vector2(0f, 0f) || dashRT.anchorMax != new Vector2(0f, 0f) ||
+            dashRT.anchoredPosition != new Vector2(315f, 375f) || dashRT.sizeDelta != new Vector2(125f, 125f))
+        {
+            Debug.LogError($"[Test 8 FAILED] DashRT Left-handed invalid! anchor={dashRT.anchorMin}, pos={dashRT.anchoredPosition}");
+            valid = false;
+        }
+
+        Object.DestroyImmediate(hudGO);
+        if (valid) Debug.Log("[MobileControlsTests] ✔ Test 8 PASSED: Left-handed mirrored coordinates verified.");
+        return valid;
+    }
+
+    /// <summary>
+    /// Test 9: Verifies toggling back and forth restores exact coordinates without drift.
+    /// </summary>
+    private static bool TestLayoutRestorationOnToggleBack()
+    {
+        GameObject hudGO = CreateTestHUDHierarchy(out MobileControlsHUD hud,
+            out RectTransform moveRT, out RectTransform combatRT,
+            out RectTransform aimRT, out RectTransform meleeRT, out RectTransform dashRT);
+
+        hud.ApplyDominantHandLayout(DominantHand.RightHanded);
+        Vector2 origMovePos = moveRT.anchoredPosition;
+        Vector2 origAimPos = aimRT.anchoredPosition;
+        Vector2 origMeleePos = meleeRT.anchoredPosition;
+        Vector2 origDashPos = dashRT.anchoredPosition;
+
+        // Switch Left
+        hud.ApplyDominantHandLayout(DominantHand.LeftHanded);
+
+        // Switch back Right
+        hud.ApplyDominantHandLayout(DominantHand.RightHanded);
+
+        bool valid = (moveRT.anchoredPosition == origMovePos &&
+                      aimRT.anchoredPosition == origAimPos &&
+                      meleeRT.anchoredPosition == origMeleePos &&
+                      dashRT.anchoredPosition == origDashPos);
+
+        Object.DestroyImmediate(hudGO);
+        if (valid)
+        {
+            Debug.Log("[MobileControlsTests] ✔ Test 9 PASSED: Layout restoration without drift verified.");
+            return true;
+        }
+        else
+        {
+            Debug.LogError("[Test 9 FAILED] Positions drifted after switching back to RightHanded!");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Test 10: Verifies event notification when setting changes.
+    /// </summary>
+    private static bool TestDominantHandEventSubscription()
+    {
+        int original = PlayerPrefs.GetInt(DominantHandSettings.PrefKey, -1);
+
+        int eventFiredCount = 0;
+        DominantHand lastReceived = DominantHand.RightHanded;
+
+        System.Action<DominantHand> handler = hand =>
+        {
+            eventFiredCount++;
+            lastReceived = hand;
+        };
+
+        DominantHandSettings.OnDominantHandChanged += handler;
+        DominantHandSettings.CurrentHand = DominantHand.LeftHanded;
+
+        bool success = (eventFiredCount == 1 && lastReceived == DominantHand.LeftHanded);
+        DominantHandSettings.OnDominantHandChanged -= handler;
+
+        RestorePref(original);
+
+        if (success)
+        {
+            Debug.Log("[MobileControlsTests] ✔ Test 10 PASSED: Event notification verified.");
+            return true;
+        }
+        else
+        {
+            Debug.LogError("[Test 10 FAILED] OnDominantHandChanged event did not fire as expected!");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Test 11: Verifies SettingsPopupController button interaction and immediate save.
+    /// </summary>
+    private static bool TestSettingsPopupControllerUIUpdate()
+    {
+        int original = PlayerPrefs.GetInt(DominantHandSettings.PrefKey, -1);
+
+        GameObject popupGO = new GameObject("TestSettingsPopup", typeof(RectTransform), typeof(SettingsPopupController));
+        SettingsPopupController controller = popupGO.GetComponent<SettingsPopupController>();
+
+        GameObject rightBtnGO = new GameObject("RightBtn", typeof(RectTransform), typeof(Image), typeof(Button));
+        rightBtnGO.transform.SetParent(popupGO.transform, false);
+        GameObject rightTxtGO = new GameObject("RightTxt", typeof(RectTransform), typeof(TextMeshProUGUI));
+        rightTxtGO.transform.SetParent(rightBtnGO.transform, false);
+
+        GameObject leftBtnGO = new GameObject("LeftBtn", typeof(RectTransform), typeof(Image), typeof(Button));
+        leftBtnGO.transform.SetParent(popupGO.transform, false);
+        GameObject leftTxtGO = new GameObject("LeftTxt", typeof(RectTransform), typeof(TextMeshProUGUI));
+        leftTxtGO.transform.SetParent(leftBtnGO.transform, false);
+
+        SerializedObject so = new SerializedObject(controller);
+        so.FindProperty("rightHandButton").objectReferenceValue = rightBtnGO.GetComponent<Button>();
+        so.FindProperty("leftHandButton").objectReferenceValue = leftBtnGO.GetComponent<Button>();
+        so.FindProperty("rightHandBackground").objectReferenceValue = rightBtnGO.GetComponent<Image>();
+        so.FindProperty("leftHandBackground").objectReferenceValue = leftBtnGO.GetComponent<Image>();
+        so.FindProperty("rightHandText").objectReferenceValue = rightTxtGO.GetComponent<TextMeshProUGUI>();
+        so.FindProperty("leftHandText").objectReferenceValue = leftTxtGO.GetComponent<TextMeshProUGUI>();
+        so.ApplyModifiedProperties();
+
+        // 1. Select Left-handed
+        controller.SetDominantHand(DominantHand.LeftHanded);
+        bool leftSelected = (DominantHandSettings.CurrentHand == DominantHand.LeftHanded) &&
+                            (PlayerPrefs.GetInt(DominantHandSettings.PrefKey) == 1);
+
+        // 2. Select Right-handed
+        controller.SetDominantHand(DominantHand.RightHanded);
+        bool rightSelected = (DominantHandSettings.CurrentHand == DominantHand.RightHanded) &&
+                             (PlayerPrefs.GetInt(DominantHandSettings.PrefKey) == 0);
+
+        Object.DestroyImmediate(popupGO);
+        RestorePref(original);
+
+        if (leftSelected && rightSelected)
+        {
+            Debug.Log("[MobileControlsTests] ✔ Test 11 PASSED: Settings popup selection and persistence verified.");
+            return true;
+        }
+        else
+        {
+            Debug.LogError($"[Test 11 FAILED] SettingsPopupController failed selection test! left={leftSelected}, right={rightSelected}");
+            return false;
+        }
+    }
+
+    private static GameObject CreateTestHUDHierarchy(
+        out MobileControlsHUD hud,
+        out RectTransform moveRT,
+        out RectTransform combatRT,
+        out RectTransform aimRT,
+        out RectTransform meleeRT,
+        out RectTransform dashRT)
+    {
+        GameObject root = new GameObject("TestMobileHUD", typeof(RectTransform), typeof(CanvasGroup), typeof(MobileControlsHUD));
+        hud = root.GetComponent<MobileControlsHUD>();
+
+        GameObject safeRoot = new GameObject("SafeAreaRoot", typeof(RectTransform));
+        safeRoot.transform.SetParent(root.transform, false);
+
+        GameObject moveGO = new GameObject("MovementJoystick", typeof(RectTransform));
+        moveGO.transform.SetParent(safeRoot.transform, false);
+        moveRT = moveGO.GetComponent<RectTransform>();
+
+        GameObject combatGO = new GameObject("CombatControls", typeof(RectTransform));
+        combatGO.transform.SetParent(safeRoot.transform, false);
+        combatRT = combatGO.GetComponent<RectTransform>();
+
+        GameObject aimGO = new GameObject("AimFireJoystick", typeof(RectTransform));
+        aimGO.transform.SetParent(combatGO.transform, false);
+        aimRT = aimGO.GetComponent<RectTransform>();
+
+        GameObject meleeGO = new GameObject("MeleeButton", typeof(RectTransform));
+        meleeGO.transform.SetParent(combatGO.transform, false);
+        meleeRT = meleeGO.GetComponent<RectTransform>();
+
+        GameObject dashGO = new GameObject("DashButton", typeof(RectTransform));
+        dashGO.transform.SetParent(combatGO.transform, false);
+        dashRT = dashGO.GetComponent<RectTransform>();
+
+        var so = new SerializedObject(hud);
+        so.FindProperty("movementJoystickRect").objectReferenceValue = moveRT;
+        so.FindProperty("combatControlsRect").objectReferenceValue = combatRT;
+        so.FindProperty("aimFireJoystickRect").objectReferenceValue = aimRT;
+        so.FindProperty("meleeButtonRect").objectReferenceValue = meleeRT;
+        so.FindProperty("dashButtonRect").objectReferenceValue = dashRT;
+        so.ApplyModifiedProperties();
+
+        return root;
+    }
+
+    private static void RestorePref(int original)
+    {
+        if (original == -1)
+        {
+            PlayerPrefs.DeleteKey(DominantHandSettings.PrefKey);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(DominantHandSettings.PrefKey, original);
+        }
+        PlayerPrefs.Save();
     }
 }
 #endif

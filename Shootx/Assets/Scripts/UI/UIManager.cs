@@ -54,6 +54,19 @@ public class UIManager : MonoBehaviour
     #endregion
 
     // ===================================================================
+    #region Public Properties for Integration
+    // ===================================================================
+
+    public CanvasGroup TopBarGroup => topBarGroup;
+    public CanvasGroup ProgressGroup => progressGroup;
+    public CanvasGroup BottomButtonsGroup => bottomButtonsGroup;
+    public CanvasGroup TapToPlayGroup => tapToPlayGroup;
+    public CanvasGroup DesapperGroup => desapperGroup;
+    public CanvasGroup MainMenuPanel => mainMenuPanel;
+    public Button PlayButton => playButton;
+    public CanvasGroup MenuBackground => menuBackground;
+
+    // ===================================================================
     #region Private State & Events
     // ===================================================================
 
@@ -88,7 +101,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        ShowMainMenu(instant: true);
+        ShowMainMenu(instant: false);
 
         if (playButton != null)
         {
@@ -236,6 +249,8 @@ public class UIManager : MonoBehaviour
             mainMenuSequence = null;
         }
 
+        GetComponent<SoloMainMenuAnimationController>()?.StopAllAnimations(restoreTransforms: false);
+
         if (topBarGroup != null) topBarGroup.DOKill();
         if (progressGroup != null) progressGroup.DOKill();
         if (tapToPlayGroup != null) tapToPlayGroup.DOKill();
@@ -264,7 +279,7 @@ public class UIManager : MonoBehaviour
         if (playButton != null)
             playButton.interactable = true;
 
-        GetComponent<MainMenuController>()?.RestartIdleAnimations();
+        var animCtrl = GetComponent<SoloMainMenuAnimationController>();
 
         if (instant)
         {
@@ -272,6 +287,15 @@ public class UIManager : MonoBehaviour
             ResetMainMenuElementsInstant();
             SetCanvasGroupState(mainMenuPanel, true, instant: true);
             currentPanel = mainMenuPanel;
+            if (animCtrl != null)
+            {
+                animCtrl.ResetToOriginalInstant();
+                animCtrl.StartIdleAnimations();
+            }
+            else
+            {
+                GetComponent<MainMenuController>()?.RestartIdleAnimations();
+            }
             return;
         }
 
@@ -348,6 +372,14 @@ public class UIManager : MonoBehaviour
             desapperGroup.blocksRaycasts = true;
         }
 
+        var animCtrl = GetComponent<SoloMainMenuAnimationController>();
+        if (animCtrl != null)
+        {
+            animCtrl.PlayEntranceAnimation();
+            return;
+        }
+
+        // Fallback entrance animation if animation controller is absent
         // Set initial alphas
         if (topBarGroup != null) topBarGroup.alpha = 0f;
         if (progressGroup != null) progressGroup.alpha = 0f;
@@ -390,6 +422,7 @@ public class UIManager : MonoBehaviour
         mainMenuSequence.OnComplete(() =>
         {
             ResetMainMenuElementsInstant();
+            GetComponent<MainMenuController>()?.RestartIdleAnimations();
         });
 
         mainMenuSequence.Play();

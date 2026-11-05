@@ -319,6 +319,11 @@ public static class MobileControlsSetupEditor
         hudSO.FindProperty("meleeButton").objectReferenceValue = meleeBtn;
         hudSO.FindProperty("dashButton").objectReferenceValue = dashBtn;
         hudSO.FindProperty("canvasGroup").objectReferenceValue = canvasGroup;
+        hudSO.FindProperty("movementJoystickRect").objectReferenceValue = moveJoyRT;
+        hudSO.FindProperty("combatControlsRect").objectReferenceValue = combatRT;
+        hudSO.FindProperty("aimFireJoystickRect").objectReferenceValue = aimJoyRT;
+        hudSO.FindProperty("meleeButtonRect").objectReferenceValue = meleeRT;
+        hudSO.FindProperty("dashButtonRect").objectReferenceValue = dashRT;
         hudSO.FindProperty("forceMobileInEditor").boolValue = true;
         hudSO.ApplyModifiedProperties();
 

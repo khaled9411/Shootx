@@ -10,6 +10,21 @@ public class SettingsPopupController : MonoBehaviour
     [SerializeField] private Toggle soundsToggle;
     [SerializeField] private Toggle musicToggle;
 
+    [Header("=== Dominant Hand ===")]
+    [SerializeField] private Button rightHandButton;
+    [SerializeField] private Button leftHandButton;
+    [SerializeField] private Image rightHandBackground;
+    [SerializeField] private Image leftHandBackground;
+    [SerializeField] private TextMeshProUGUI rightHandText;
+    [SerializeField] private TextMeshProUGUI leftHandText;
+    [SerializeField] private Toggle dominantHandToggle;
+
+    [Header("=== Dominant Hand Visual Colors ===")]
+    [SerializeField] private Color dominantHandActiveBgColor = new Color(0.12f, 0.75f, 0.95f, 0.95f);
+    [SerializeField] private Color dominantHandInactiveBgColor = new Color(0.08f, 0.12f, 0.18f, 0.75f);
+    [SerializeField] private Color dominantHandActiveTextColor = Color.white;
+    [SerializeField] private Color dominantHandInactiveTextColor = new Color(0.65f, 0.75f, 0.85f, 0.65f);
+
     [Header("=== Buttons ===")]
     [SerializeField] private Button closeButton;
     [SerializeField] private Button noAdsButton;
@@ -21,6 +36,7 @@ public class SettingsPopupController : MonoBehaviour
     private const string HAPTIC_KEY = "settings_haptic";
     private const string SOUNDS_KEY = "settings_sounds";
     private const string MUSIC_KEY = "settings_music";
+    public const string DOMINANT_HAND_KEY = DominantHandSettings.PrefKey;
 
     private const string REMOVE_ADS_PRODUCT_ID = "remove_ads";
 
@@ -35,13 +51,25 @@ public class SettingsPopupController : MonoBehaviour
         soundsToggle?.onValueChanged.AddListener(OnSoundsChanged);
         musicToggle?.onValueChanged.AddListener(OnMusicChanged);
 
+        rightHandButton?.onClick.AddListener(() => SetDominantHand(DominantHand.RightHanded));
+        leftHandButton?.onClick.AddListener(() => SetDominantHand(DominantHand.LeftHanded));
+
+        if (dominantHandToggle != null)
+        {
+            dominantHandToggle.onValueChanged.AddListener(OnDominantHandToggleChanged);
+        }
+
+        EnsureDominantHandBindings();
+
         if (noAdsText == null && noAdsButton != null)
             noAdsText = noAdsButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void OnEnable()
     {
+        EnsureDominantHandBindings();
         LoadSettings();
+        RefreshDominantHandUI();
         RefreshNoAdsUI();
 
         IAPManager.OnPurchaseSuccess += HandlePurchaseSuccess;
@@ -63,6 +91,8 @@ public class SettingsPopupController : MonoBehaviour
         if (hapticToggle != null) hapticToggle.isOn = PlayerPrefs.GetInt(HAPTIC_KEY, 1) == 1;
         if (soundsToggle != null) soundsToggle.isOn = PlayerPrefs.GetInt(SOUNDS_KEY, 1) == 1;
         if (musicToggle != null) musicToggle.isOn = PlayerPrefs.GetInt(MUSIC_KEY, 1) == 1;
+
+        RefreshDominantHandUI();
     }
 
     private void OnHapticChanged(bool value)
@@ -81,6 +111,126 @@ public class SettingsPopupController : MonoBehaviour
     {
         PlayerPrefs.SetInt(MUSIC_KEY, value ? 1 : 0);
         AudioManager.Instance?.SetMusic(value);
+    }
+
+    // ===================================================================
+    #endregion
+
+    // ===================================================================
+    #region Dominant Hand Management
+    // ===================================================================
+
+    public void SetDominantHand(DominantHand hand)
+    {
+        DominantHandSettings.CurrentHand = hand;
+        RefreshDominantHandUI();
+
+        if (hand == DominantHand.RightHanded)
+            rightHandButton?.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+        else
+            leftHandButton?.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+    }
+
+    private void OnDominantHandToggleChanged(bool isLeft)
+    {
+        DominantHand hand = isLeft ? DominantHand.LeftHanded : DominantHand.RightHanded;
+        if (DominantHandSettings.CurrentHand != hand)
+        {
+            SetDominantHand(hand);
+        }
+    }
+
+    public void RefreshDominantHandUI()
+    {
+        DominantHand current = DominantHandSettings.CurrentHand;
+
+        if (dominantHandToggle != null)
+        {
+            dominantHandToggle.SetIsOnWithoutNotify(current == DominantHand.LeftHanded);
+        }
+
+        bool isRight = (current == DominantHand.RightHanded);
+
+        if (rightHandBackground != null)
+            rightHandBackground.color = isRight ? dominantHandActiveBgColor : dominantHandInactiveBgColor;
+
+        if (leftHandBackground != null)
+            leftHandBackground.color = !isRight ? dominantHandActiveBgColor : dominantHandInactiveBgColor;
+
+        if (rightHandText != null)
+            rightHandText.color = isRight ? dominantHandActiveTextColor : dominantHandInactiveTextColor;
+
+        if (leftHandText != null)
+            leftHandText.color = !isRight ? dominantHandActiveTextColor : dominantHandInactiveTextColor;
+    }
+
+    private void EnsureDominantHandBindings()
+    {
+        if (rightHandButton != null && leftHandButton != null) return;
+
+        Transform row = transform.Find("DominantHandRow");
+        if (row == null)
+        {
+            row = FindDeepChild(transform, "DominantHandRow");
+        }
+
+        if (row != null)
+        {
+            if (rightHandButton == null)
+            {
+                var rBtn = row.Find("SegmentedContainer/RightHandButton") ?? FindDeepChild(row, "RightHandButton");
+                if (rBtn != null)
+                {
+                    rightHandButton = rBtn.GetComponent<Button>();
+                    rightHandButton?.onClick.RemoveAllListeners();
+                    rightHandButton?.onClick.AddListener(() => SetDominantHand(DominantHand.RightHanded));
+                }
+            }
+
+            if (leftHandButton == null)
+            {
+                var lBtn = row.Find("SegmentedContainer/LeftHandButton") ?? FindDeepChild(row, "LeftHandButton");
+                if (lBtn != null)
+                {
+                    leftHandButton = lBtn.GetComponent<Button>();
+                    leftHandButton?.onClick.RemoveAllListeners();
+                    leftHandButton?.onClick.AddListener(() => SetDominantHand(DominantHand.LeftHanded));
+                }
+            }
+
+            if (rightHandBackground == null && rightHandButton != null)
+                rightHandBackground = rightHandButton.GetComponent<Image>();
+
+            if (leftHandBackground == null && leftHandButton != null)
+                leftHandBackground = leftHandButton.GetComponent<Image>();
+
+            if (rightHandText == null && rightHandButton != null)
+                rightHandText = rightHandButton.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (leftHandText == null && leftHandButton != null)
+                leftHandText = leftHandButton.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (dominantHandToggle == null)
+            {
+                dominantHandToggle = row.GetComponentInChildren<Toggle>();
+                if (dominantHandToggle != null)
+                {
+                    dominantHandToggle.onValueChanged.RemoveAllListeners();
+                    dominantHandToggle.onValueChanged.AddListener(OnDominantHandToggleChanged);
+                }
+            }
+        }
+    }
+
+    private Transform FindDeepChild(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name.Equals(name, System.StringComparison.OrdinalIgnoreCase)) return child;
+            Transform found = FindDeepChild(child, name);
+            if (found != null) return found;
+        }
+        return null;
     }
 
     // ===================================================================
